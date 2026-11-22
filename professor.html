@@ -1,0 +1,2577 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="artifact-type" content="dashboard">
+  <meta name="design-style" content="briefing">
+  <title>Painel de Facilitação Docente — Liderança e Negociação em War Room (T35)</title>
+  <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;0,8..60,700;1,8..60,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@1.43.0/dist/umd/lucide.min.js"></script>
+  <style>
+    :root {
+      color-scheme: light;
+
+      /* Page and surfaces: Briefing warm stone-white paper */
+      --background: #faf9f5;
+      --surface-container-low: #ffffff;
+      --surface-container: #f1efe8;
+      --surface-container-high: #e6e2d6;
+
+      /* Ink */
+      --on-surface: #17181a;
+      --on-surface-variant: #56585c;
+
+      /* Rules */
+      --outline: #17181a;
+      --outline-variant: #dedad0;
+
+      /* Accents */
+      --primary: #17181a;
+      --on-primary: #faf9f5;
+      --primary-container: #f2b705;
+      --on-primary-container: #17181a;
+      --secondary: #1f4e5f;
+      --secondary-soft: #e6eff2;
+      --tertiary: #785008;
+      --tertiary-soft: #f5e6c4;
+      --error: #b42318;
+      --error-soft: #fdecea;
+      --on-error: #ffffff;
+
+      /* Semantic */
+      --positive: #1f6b48;
+      --positive-soft: #e6f3ec;
+      --warning: #8f5600;
+      --warning-soft: #fdf2d8;
+      --focus: #1f4e5f;
+
+      /* Data series */
+      --data-1: #1f4e5f;
+      --data-2: #d99000;
+      --data-3: #2b6e52;
+      --data-4: #b84a39;
+      --data-context: #c4bfb2;
+
+      /* Miro Sticky Semantic Tokens */
+      --sticky-green: #2b6e52;
+      --sticky-green-bg: #e7f4ed;
+      --sticky-blue: #1f4e5f;
+      --sticky-blue-bg: #e5eff4;
+      --sticky-pink: #9e2a5b;
+      --sticky-pink-bg: #fbeaf1;
+      --sticky-yellow: #785008;
+      --sticky-yellow-bg: #fbf0cf;
+      --sticky-orange: #a84319;
+      --sticky-orange-bg: #fcece5;
+
+      /* Fonts */
+      --font-headline: 'Source Serif 4', serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+      --font-label: 'Geist Mono', monospace;
+
+      /* Type scale (Dashboard / Tool ratio) */
+      --display-size: clamp(1.75rem, 1.35rem + 1.3vw, 2.35rem);
+      --headline-size: clamp(1.3rem, 1.12rem + 0.55vw, 1.6rem);
+      --subhead-size: clamp(1.0625rem, 1rem + 0.25vw, 1.2rem);
+      --body-size: clamp(0.9375rem, 0.9rem + 0.15vw, 1rem);
+      --label-size: 0.75rem;
+
+      /* Spacing scale */
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2.5rem;
+      --space-2xl: 4rem;
+
+      /* Shape & style effects */
+      --rounded: 0.25rem;
+      --rounded-lg: 0.375rem;
+      --rounded-full: 0.25rem;
+      --badge-radius: 2px;
+      --section-rule: 1.5px solid var(--outline);
+      --card-border: 1px solid var(--outline-variant);
+      --heading-tracking: -0.02em;
+      --label-tracking: 0.08em;
+
+      /* Motion */
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+      --dur-micro: 120ms;
+      --dur-short: 220ms;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      overflow-x: clip;
+      margin: 0;
+      padding: 0;
+      background: var(--background);
+      color: var(--on-surface);
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    header { position: static !important; }
+
+    button, input, select, textarea {
+      font-family: inherit;
+      font-size: inherit;
+      color: inherit;
+    }
+
+    :focus-visible {
+      outline: 2.5px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    /* Layout Shell */
+    .shell {
+      max-width: 1240px;
+      margin: 0 auto;
+      padding: var(--space-lg);
+    }
+
+    .page-grid {
+      display: grid;
+      gap: var(--space-xl);
+      padding: 0;
+      max-width: 1240px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+    .page-grid * { min-width: 0; }
+
+    /* Masthead */
+    .masthead {
+      padding-bottom: var(--space-lg);
+      border-bottom: var(--section-rule);
+      margin-bottom: var(--space-md);
+    }
+    .dossier-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      border-bottom: var(--section-rule);
+      padding-bottom: var(--space-sm);
+      margin-bottom: var(--space-md);
+    }
+    .dossier-left {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-sm);
+    }
+    .dossier-pill {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+      font-family: var(--font-body);
+      font-weight: 700;
+      font-size: 0.6875rem;
+      letter-spacing: var(--label-tracking);
+      text-transform: uppercase;
+      padding: 0.2rem 0.55rem;
+      border-radius: var(--badge-radius);
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+    }
+    .dossier-meta {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .masthead-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+      gap: var(--space-lg);
+      align-items: start;
+    }
+    .title {
+      font-family: var(--font-headline);
+      font-weight: 600;
+      font-size: var(--display-size);
+      letter-spacing: var(--heading-tracking);
+      line-height: 1.08;
+      color: var(--on-surface);
+      margin: 0;
+    }
+    .standfirst {
+      font-family: var(--font-body);
+      font-weight: 600;
+      font-size: var(--subhead-size);
+      color: var(--secondary);
+      margin: var(--space-sm) 0 var(--space-sm) 0;
+      line-height: 1.35;
+    }
+    .masthead-lede {
+      color: var(--on-surface-variant);
+      margin: 0;
+      max-width: 65ch;
+    }
+
+    /* Quick Telemetry Strip in Masthead */
+    .kpi-strip {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-sm);
+    }
+    .kpi-mini {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-sm) var(--space-md);
+    }
+    .kpi-mini-label {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--on-surface-variant);
+      display: block;
+    }
+    .kpi-mini-value {
+      font-family: var(--font-headline);
+      font-weight: 600;
+      font-size: 1.35rem;
+      font-variant-numeric: lining-nums tabular-nums;
+      color: var(--on-surface);
+      line-height: 1.25;
+    }
+    .kpi-mini-note {
+      font-size: 0.78rem;
+      color: var(--secondary);
+      font-weight: 600;
+    }
+
+    /* Sticky Operational Navigation & Live Class Timer HUD */
+    .ops-nav {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: var(--background);
+      border-bottom: var(--section-rule);
+      padding: var(--space-sm) 0;
+      margin-bottom: var(--space-lg);
+    }
+    .ops-nav-inner {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+    }
+    .stage-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-xs);
+    }
+    .stage-btn {
+      background: var(--surface-container-low);
+      border: 1px solid var(--outline-variant);
+      border-radius: var(--rounded);
+      padding: 0.45rem 0.75rem;
+      min-height: 44px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      font-weight: 600;
+      font-size: 0.85rem;
+      color: var(--on-surface);
+      transition: background-color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);
+    }
+    .stage-btn:hover {
+      background: var(--surface-container);
+      border-color: var(--outline);
+    }
+    .stage-btn.is-active {
+      background: var(--primary);
+      color: var(--on-primary);
+      border-color: var(--primary);
+    }
+    .stage-btn .stage-num {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      opacity: 0.85;
+    }
+    .stage-btn.is-active .stage-num {
+      color: var(--primary-container);
+      opacity: 1;
+    }
+
+    .view-mode-group {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+    }
+
+    /* Live Class Timer Console */
+    .timer-hud {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--space-sm);
+      background: var(--surface-container);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-xs) var(--space-sm);
+    }
+    .timer-readout {
+      font-family: var(--font-label);
+      font-weight: 600;
+      font-size: 1.05rem;
+      font-variant-numeric: tabular-nums;
+      color: var(--on-surface);
+      padding: 0 var(--space-xs);
+    }
+    .timer-phase-badge {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      background: var(--secondary-soft);
+      color: var(--secondary);
+      padding: 0.2rem 0.5rem;
+      border-radius: var(--badge-radius);
+      font-weight: 600;
+    }
+    .timer-phase-badge.is-alert {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+    }
+    .btn-hud {
+      background: var(--surface-container-low);
+      border: 1px solid var(--outline-variant);
+      border-radius: var(--rounded);
+      padding: 0.35rem 0.6rem;
+      min-height: 36px;
+      cursor: pointer;
+      font-size: 0.8rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      transition: background-color var(--dur-micro) var(--ease-out);
+    }
+    .btn-hud:hover { background: var(--surface-container-high); }
+    .btn-hud-primary {
+      background: var(--primary);
+      color: var(--on-primary);
+      border-color: var(--primary);
+    }
+    .btn-hud-primary:hover { background: var(--secondary); border-color: var(--secondary); }
+
+    .timer-alert-banner {
+      margin-top: var(--space-sm);
+      background: var(--warning-soft);
+      border-left: 4px solid var(--primary-container);
+      padding: var(--space-xs) var(--space-md);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--on-surface);
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+    }
+    .timer-alert-banner.is-visible { display: flex; }
+
+    /* Section Architecture */
+    .stage-section {
+      padding-top: var(--space-sm);
+      scroll-margin-top: 5.5rem;
+    }
+    .stage-section.is-hidden { display: none; }
+
+    .section-title {
+      font-family: var(--font-headline);
+      font-weight: 600;
+      font-size: var(--headline-size);
+      letter-spacing: var(--heading-tracking);
+      line-height: 1.15;
+      margin: 0;
+    }
+    .section-deck {
+      font-weight: 600;
+      color: var(--secondary);
+      margin: var(--space-xs) 0 var(--space-lg) 0;
+      max-width: 72ch;
+    }
+
+    /* Cards & Grids */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-lg);
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-md);
+    }
+    .grid-asymmetric {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+      gap: var(--space-lg);
+    }
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(270px, 100%), 1fr));
+      gap: var(--space-md);
+    }
+
+    .figure-card {
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md) var(--space-lg);
+    }
+    .aside-box {
+      background: var(--surface-container);
+      border-top: var(--section-rule);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md) var(--space-lg);
+    }
+    .card-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      margin-bottom: var(--space-sm);
+      padding-bottom: var(--space-xs);
+      border-bottom: 1px solid var(--outline-variant);
+    }
+    .card-title {
+      font-family: var(--font-headline);
+      font-weight: 600;
+      font-size: 1.125rem;
+      margin: 0;
+      color: var(--on-surface);
+    }
+    .index-num {
+      font-family: var(--font-label);
+      font-weight: 600;
+      font-size: var(--label-size);
+      color: var(--secondary);
+      background: var(--surface-container);
+      padding: 0.15rem 0.45rem;
+      border-radius: var(--badge-radius);
+    }
+
+    /* Tags & Status Pills */
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 0.18rem 0.5rem;
+      border-radius: var(--badge-radius);
+      background: var(--tertiary-soft);
+      color: var(--tertiary);
+    }
+    .tag-slate {
+      background: var(--secondary-soft);
+      color: var(--secondary);
+    }
+    .tag-positive {
+      background: var(--positive-soft);
+      color: var(--positive);
+    }
+    .tag-error {
+      background: var(--error-soft);
+      color: var(--error);
+    }
+    .tag-gold {
+      background: var(--primary-container);
+      color: var(--on-primary-container);
+    }
+
+    /* Interactive Segmented Toggle */
+    .seg-bar {
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: var(--space-xs);
+      background: var(--surface-container);
+      padding: 0.25rem;
+      border-radius: var(--rounded);
+      border: 1px solid var(--outline-variant);
+      margin-bottom: var(--space-md);
+    }
+    .seg-btn {
+      background: transparent;
+      border: none;
+      border-radius: var(--rounded);
+      padding: 0.45rem 0.85rem;
+      min-height: 44px;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      color: var(--on-surface-variant);
+      transition: background-color var(--dur-micro) var(--ease-out), color var(--dur-micro) var(--ease-out);
+    }
+    .seg-btn:hover { color: var(--on-surface); }
+    .seg-btn.is-active {
+      background: var(--surface-container-low);
+      color: var(--on-surface);
+      box-shadow: 0 1px 2px rgba(23, 24, 26, 0.08);
+    }
+
+    /* Tables */
+    .table-wrap {
+      overflow-x: auto;
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.9rem;
+    }
+    th {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--on-surface);
+      background: var(--surface-container);
+      border-bottom: var(--section-rule);
+      padding: 0.7rem 0.85rem;
+    }
+    td {
+      padding: 0.7rem 0.85rem;
+      border-bottom: 1px solid var(--outline-variant);
+      vertical-align: top;
+    }
+    tr:last-child td { border-bottom: none; }
+    .mono {
+      font-family: var(--font-label);
+      font-size: 0.84rem;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Lists */
+    .clean-list {
+      margin: 0;
+      padding-left: 1.15rem;
+    }
+    .clean-list li + li {
+      margin-top: var(--space-xs);
+    }
+    .step-stack {
+      display: grid;
+      gap: var(--space-sm);
+    }
+    .step-item {
+      display: grid;
+      grid-template-columns: 96px minmax(0, 1fr);
+      gap: var(--space-md);
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md);
+      align-items: start;
+    }
+    .step-time {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      color: var(--secondary);
+      background: var(--secondary-soft);
+      padding: 0.3rem 0.5rem;
+      border-radius: var(--badge-radius);
+      text-align: center;
+    }
+    .step-title {
+      font-weight: 700;
+      margin: 0 0 var(--space-xs) 0;
+      color: var(--on-surface);
+    }
+    .step-desc {
+      margin: 0;
+      color: var(--on-surface-variant);
+      font-size: 0.92rem;
+    }
+
+    /* Miro Sticky Legend */
+    .sticky-legend {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(210px, 100%), 1fr));
+      gap: var(--space-sm);
+    }
+    .sticky-chip {
+      border-radius: var(--rounded-lg);
+      padding: var(--space-sm) var(--space-md);
+      border: 1px solid var(--outline-variant);
+    }
+    .sticky-chip.green { background: var(--sticky-green-bg); border-left: 4px solid var(--sticky-green); }
+    .sticky-chip.blue { background: var(--sticky-blue-bg); border-left: 4px solid var(--sticky-blue); }
+    .sticky-chip.pink { background: var(--sticky-pink-bg); border-left: 4px solid var(--sticky-pink); }
+    .sticky-chip.yellow { background: var(--sticky-yellow-bg); border-left: 4px solid var(--sticky-yellow); }
+    .sticky-chip.orange { background: var(--sticky-orange-bg); border-left: 4px solid var(--sticky-orange); }
+    .sticky-name {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 0.15rem;
+    }
+    .sticky-chip.green .sticky-name { color: var(--sticky-green); }
+    .sticky-chip.blue .sticky-name { color: var(--sticky-blue); }
+    .sticky-chip.pink .sticky-name { color: var(--sticky-pink); }
+    .sticky-chip.yellow .sticky-name { color: var(--sticky-yellow); }
+    .sticky-chip.orange .sticky-name { color: var(--sticky-orange); }
+
+    /* Sector Selector & Crisis Dossier */
+    .sector-selector {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-xs);
+      margin-bottom: var(--space-md);
+    }
+    .sector-btn {
+      background: var(--surface-container-low);
+      border: 1px solid var(--outline-variant);
+      border-radius: var(--rounded);
+      padding: 0.5rem 0.9rem;
+      min-height: 44px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.875rem;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      transition: background-color var(--dur-micro) var(--ease-out), border-color var(--dur-micro) var(--ease-out);
+    }
+    .sector-btn:hover { background: var(--surface-container); border-color: var(--outline); }
+    .sector-btn.is-active {
+      background: var(--secondary);
+      color: var(--on-primary);
+      border-color: var(--secondary);
+    }
+
+    .crisis-banner {
+      background: var(--surface-container);
+      border-left: 4px solid var(--error);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+      margin-bottom: var(--space-md);
+    }
+    .crisis-quote {
+      font-family: var(--font-headline);
+      font-size: 1.08rem;
+      font-style: italic;
+      margin: var(--space-xs) 0 0 0;
+      color: var(--on-surface);
+    }
+
+    /* Secret Posture Shield */
+    .secret-box {
+      background: var(--surface-container);
+      border: 1px dashed var(--outline);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md);
+    }
+    .secret-masked {
+      filter: blur(5px);
+      user-select: none;
+    }
+
+    /* Buttons */
+    .btn {
+      background: var(--primary);
+      color: var(--on-primary);
+      border: 1px solid var(--primary);
+      border-radius: var(--rounded);
+      padding: 0.5rem 1rem;
+      min-height: 44px;
+      font-weight: 600;
+      font-size: 0.875rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      transition: background-color var(--dur-micro) var(--ease-out);
+    }
+    .btn:hover { background: var(--secondary); border-color: var(--secondary); }
+    .btn-secondary {
+      background: var(--surface-container-low);
+      color: var(--on-surface);
+      border: 1px solid var(--outline-variant);
+    }
+    .btn-secondary:hover { background: var(--surface-container); border-color: var(--outline); }
+
+    .copy-feedback {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--positive);
+      font-weight: 600;
+    }
+
+    /* Checklist & Rubric Interactive Controls */
+    .checklist-group {
+      display: grid;
+      gap: var(--space-xs);
+    }
+    .check-row {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-sm);
+      background: var(--surface-container-low);
+      border: var(--card-border);
+      border-radius: var(--rounded);
+      padding: 0.65rem 0.85rem;
+      cursor: pointer;
+      min-height: 44px;
+    }
+    .check-row:hover { background: var(--surface-container); }
+    .check-row input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      margin-top: 0.15rem;
+      accent-color: var(--secondary);
+      flex-shrink: 0;
+      cursor: pointer;
+    }
+    .check-row.is-done span {
+      text-decoration: line-through;
+      color: var(--on-surface-variant);
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 8px;
+      background: var(--surface-container-high);
+      border-radius: var(--badge-radius);
+      overflow: hidden;
+      margin: var(--space-xs) 0 var(--space-md) 0;
+    }
+    .progress-fill {
+      height: 100%;
+      background: var(--secondary);
+      width: 0%;
+      transition: width var(--dur-short) var(--ease-out);
+    }
+
+    /* Rubric Score Buttons */
+    .score-pill-group {
+      display: inline-flex;
+      gap: 0.25rem;
+    }
+    .score-btn {
+      min-width: 36px;
+      min-height: 36px;
+      border-radius: var(--rounded);
+      border: 1px solid var(--outline-variant);
+      background: var(--surface-container-low);
+      font-family: var(--font-label);
+      font-weight: 600;
+      cursor: pointer;
+    }
+    .score-btn:hover { background: var(--surface-container); }
+    .score-btn.is-selected {
+      background: var(--secondary);
+      color: var(--on-primary);
+      border-color: var(--secondary);
+    }
+
+    /* Form labels above controls */
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+    .field-label {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--on-surface-variant);
+      font-weight: 600;
+    }
+    .select-control {
+      background: var(--surface-container-low);
+      border: 1px solid var(--outline-variant);
+      border-radius: var(--rounded);
+      padding: 0.5rem 2rem 0.5rem 0.75rem;
+      min-height: 44px;
+      font-weight: 600;
+    }
+
+    /* Footer */
+    .dossier-footer {
+      border-top: var(--section-rule);
+      padding-top: var(--space-md);
+      margin-top: var(--space-xl);
+      color: var(--on-surface-variant);
+      font-size: 0.85rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: var(--space-sm);
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .masthead-grid,
+      .grid-2,
+      .grid-3,
+      .grid-asymmetric {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (max-width: 640px) {
+      .shell { padding: var(--space-md); }
+      .page-grid { grid-template-columns: 1fr; gap: var(--space-lg); }
+      .step-item { grid-template-columns: 1fr; gap: var(--space-xs); }
+      .kpi-strip { grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="masthead">
+      <div class="dossier-bar">
+        <div class="dossier-left">
+          <span class="dossier-pill">PAINEL DO PROFESSOR · TURMA T35</span>
+          <span class="dossier-meta">Liderança, Negociação e Governança em War Room · Engenharia de Software (Módulo 12)</span>
+        </div>
+        <span class="dossier-meta">Duração Total: 90 min · Board Miro + Quiz/Terminal</span>
+      </div>
+
+      <div class="masthead-grid">
+        <div>
+          <h1 class="title">Guia de Facilitação e Operação: War Room Setorial (Nível 2)</h1>
+          <p class="standfirst">Da crise do e-commerce (Aurora Cyber Monday) à arquitetura, negociação e dilemas éticos em infraestruturas críticas via metodologia Jigsaw.</p>
+          <p class="masthead-lede">
+            Painel exclusivo de condução docente para operar os 90 minutos da nova aula: conecta os pontos cegos da atividade anterior aos novos protocolos setoriais, controla o disparo surpresa da crise aos 50 minutos, orienta os cartões secretos de transparência versus ocultação e consolida a avaliação formativa dos artefatos A0, W1, W2 e W3.
+          </p>
+        </div>
+
+        <div class="kpi-strip">
+          <div class="kpi-mini">
+            <span class="kpi-mini-label">Estrutura da Aula</span>
+            <span class="kpi-mini-value">4 Etapas</span>
+            <span class="kpi-mini-note">Conceito · Din. 1 · Din. 2 · Fecho</span>
+          </div>
+          <div class="kpi-mini">
+            <span class="kpi-mini-label">Mesas Jigsaw</span>
+            <span class="kpi-mini-value">MC1 – MC5</span>
+            <span class="kpi-mini-note">5 papéis multidisciplinares/mesa</span>
+          </div>
+          <div class="kpi-mini">
+            <span class="kpi-mini-label">Gatilho de Crise</span>
+            <span class="kpi-mini-value">50:00 min</span>
+            <span class="kpi-mini-note">Injeção surpresa no frame Miro</span>
+          </div>
+          <div class="kpi-mini">
+            <span class="kpi-mini-label">Cadeia de Entrega</span>
+            <span class="kpi-mini-value">A0 → W3</span>
+            <span class="kpi-mini-note">4 artefatos + exportação PDF</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <nav class="ops-nav" aria-label="Navegação das etapas e cronômetro de aula">
+      <div class="ops-nav-inner">
+        <div class="stage-tabs" role="tablist" aria-label="Etapas centrais da aula">
+          <button type="button" class="stage-btn is-active" data-stage="all" onclick="setStageFilter('all')">
+            <span class="stage-num">VISÃO GERAL</span>
+            <span>Todas as Etapas</span>
+          </button>
+          <button type="button" class="stage-btn" data-stage="conceito" onclick="setStageFilter('conceito')">
+            <span class="stage-num">01</span>
+            <span>Conceito</span>
+          </button>
+          <button type="button" class="stage-btn" data-stage="dinamica1" onclick="setStageFilter('dinamica1')">
+            <span class="stage-num">02</span>
+            <span>Dinâmica 1</span>
+          </button>
+          <button type="button" class="stage-btn" data-stage="dinamica2" onclick="setStageFilter('dinamica2')">
+            <span class="stage-num">03</span>
+            <span>Dinâmica 2</span>
+          </button>
+          <button type="button" class="stage-btn" data-stage="consolidacao" onclick="setStageFilter('consolidacao')">
+            <span class="stage-num">04</span>
+            <span>Consolidação</span>
+          </button>
+        </div>
+
+        <div class="timer-hud" aria-label="Cronômetro operacional de 90 minutos">
+          <span class="timer-readout" id="timer-display">00:00 / 90:00</span>
+          <span class="timer-phase-badge" id="timer-phase-badge">Parte 1 · Debriefing</span>
+          <button type="button" class="btn-hud btn-hud-primary" id="timer-toggle-btn" onclick="toggleTimer()">Iniciar</button>
+          <button type="button" class="btn-hud" onclick="jumpTimer(50)" title="Avançar para o marco de 50 minutos (Injeção)">Ir 50m</button>
+          <button type="button" class="btn-hud" onclick="jumpTimer(70)" title="Avançar para o marco de 70 minutos (Auditoria)">Ir 70m</button>
+          <button type="button" class="btn-hud" id="timer-reset-btn" onclick="resetTimer(this)">Zerar</button>
+        </div>
+      </div>
+
+      <div class="timer-alert-banner" id="timer-alert-banner" role="status" aria-live="polite">
+        <span id="timer-alert-text">Marco operacional atingido.</span>
+        <button type="button" class="btn-hud" onclick="dismissTimerAlert()">Dispensar</button>
+      </div>
+    </nav>
+
+    <main class="page-grid">
+
+      <!-- =========================================================
+           ETAPA 1: CONCEITO
+           ========================================================= -->
+      <section id="etapa-1-conceito" class="stage-section" data-section="conceito">
+        <div class="dossier-bar">
+          <div class="dossier-left">
+            <span class="dossier-pill">ETAPA 01 · CONCEITO</span>
+            <span class="dossier-meta">00 a 20 min · Ponte Pedagógica Nível 1 → Nível 2</span>
+          </div>
+          <span class="dossier-meta">Base Conceitual: Arakaki &amp; Gonçalves</span>
+        </div>
+
+        <h2 class="section-title">Da Crise da Aurora Cyber Monday (Nível 1) à Governança de War Rooms Setoriais (Nível 2)</h2>
+        <p class="section-deck">
+          Como transformar o diagnóstico reativo de código e os conflitos funcionais do caso anterior em arquitetura preventiva, matriz de autoridade e negociação regulatória em infraestruturas críticas.
+        </p>
+
+        <div class="grid-asymmetric">
+          <div class="figure-card">
+            <div class="card-head">
+              <h3 class="card-title">Evolução Pedagógica: O Salto do Nível 1 para o Nível 2</h3>
+              <span class="index-num">PBL · JIGSAW</span>
+            </div>
+
+            <div class="seg-bar" role="group" aria-label="Comparar Nível 1 e Nível 2">
+              <button type="button" class="seg-btn is-active" id="btn-lvl-compare" onclick="setConceptView('compare')">Comparativo Lado a Lado</button>
+              <button type="button" class="seg-btn" id="btn-lvl-tech" onclick="setConceptView('tech')">Lições Técnicas (Cyber Monday)</button>
+              <button type="button" class="seg-btn" id="btn-lvl-pillars" onclick="setConceptView('pillars')">3 Pilares da Transição</button>
+            </div>
+
+            <div id="concept-panel-compare">
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Dimensão</th>
+                      <th>Nível 1 · Aurora Cyber Monday (Anterior)</th>
+                      <th>Nível 2 · War Room Setorial (Nova Aula)</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><strong>Foco da Crise</strong></td>
+                      <td>E-commerce genérico (2h); diagnóstico reativo de código e risco financeiro/reputacional.</td>
+                      <td>Projeto sistêmico e operação de War Room em setores críticos (Banking, Saúde, Logística, Educação, Energia).</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Organização dos Alunos</strong></td>
+                      <td>Grupos funcionais isolados (G1 Negócio, G2 Cloud/Infra, G3 Compliance, G4 Auditoria, G5 Consultor Cyber).</td>
+                      <td>Técnica Jigsaw: 5 Mesas Multidisciplinares (MC1–MC5) reunindo um especialista de cada área na mesma diretoria.</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Falhas Recorrentes Observadas</strong></td>
+                      <td>Aplicar <code>solution.py</code> sem preservar logs; regulador como pensamento tardio; impasse sobre parar o checkout.</td>
+                      <td>Playbook pré-configurado (W1) antes do evento; SLAs coercitivos definidos; evidência forense obrigatória.</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Natureza do Risco</strong></td>
+                      <td>Erro de arredondamento, validação de entrada e perda de vendas no varejo digital.</td>
+                      <td>Risco à vida humana (UTIs), apagão elétrico, desabastecimento urbano, colapso de pagamentos e sanções legais.</td>
+                    </tr>
+                    <tr>
+                      <td><strong>Tensão Comportamental</strong></td>
+                      <td>Conflito comercial vs. técnico sem protocolo formal de decisão.</td>
+                      <td>Dilema ético estruturado: Transparência Radical (NHS) vs. Ocultação (Caso Uber 2016) sob pressão de Fakes.</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div id="concept-panel-tech" style="display: none;">
+              <p>Na aula anterior (Aurora Cyber Monday), o incidente envolveu falhas clássicas de engenharia segura que devem ser relembradas brevemente no debriefing como base para controles preventivos no W3:</p>
+              <ul class="clean-list">
+                <li><strong>OWASP C5 (Validate All Inputs):</strong> Toda entrada vinda do cliente exige validação rigorosa no servidor por tipo, tamanho, faixa e listas de permissão (allowlists).</li>
+                <li><strong>CWE-20 (Improper Input Validation):</strong> Falha ao confirmar propriedades de segurança dos dados antes do processamento, abrindo brechas para manipulação de transações.</li>
+                <li><strong>Aritmética Financeira vs. Ponto Flutuante:</strong> Uso de tipo binário <code>float</code> para representar moeda gera dízimas e erros de arredondamento exploráveis por atacantes; sistemas financeiros exigem tipo <code>decimal</code> ou representação inteira em centavos.</li>
+                <li><strong>Preservação Forense Antes do Patch:</strong> Subir correção direta (como <code>solution.py</code>) antes de extrair logs e extratos destrói a cadeia de custódia e inviabiliza auditoria.</li>
+              </ul>
+            </div>
+
+            <div id="concept-panel-pillars" style="display: none;">
+              <div class="step-stack">
+                <div class="step-item">
+                  <span class="step-time">PILAR 01</span>
+                  <div>
+                    <p class="step-title">Regulação e Gravidade Real</p>
+                    <p class="step-desc">No varejo eletrônico, o dano é financeiro e reputacional. Em saúde, energia ou sistema financeiro, envolve vida humana, estabilidade sistêmica e multas regulatórias diretas.</p>
+                  </div>
+                </div>
+                <div class="step-item">
+                  <span class="step-time">PILAR 02</span>
+                  <div>
+                    <p class="step-title">Janela Operacional e SLA Coercitivo</p>
+                    <p class="step-desc">Prazos de contenção e notificação não são arbitrários: são impostos por órgãos como BACEN, ANVISA, ANEEL, ANTT, CGU e ANPD.</p>
+                  </div>
+                </div>
+                <div class="step-item">
+                  <span class="step-time">PILAR 03</span>
+                  <div>
+                    <p class="step-title">War Room Pré-Configurada</p>
+                    <p class="step-desc">A sala de guerra precisa de livro de regras (playbook), canais out-of-band e matriz RACI definidos antes de a crise estourar, nunca improvisados durante o caos.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <aside class="aside-box">
+            <div class="card-head">
+              <h3 class="card-title">Conceito Base: O que é War Room &amp; As 3 Fases</h3>
+              <span class="index-num">SÍNTESE</span>
+            </div>
+            <p>
+              <strong>War Room</strong> é um centro de comando e controle (físico ou virtual) onde células multidisciplinares — Negócio, Infraestrutura/Cloud, Compliance/Legal, Auditoria e Segurança — monitoram incidentes em tempo real, decidem sob alta incerteza e coordenam respostas apoiadas por telemetria out-of-band e matriz RACI.
+            </p>
+
+            <div class="seg-bar" role="group" aria-label="Selecionar fase da negociação cibernética">
+              <button type="button" class="seg-btn is-active" data-phase="pre" onclick="setNegotiationPhase('pre')">1. Pré-Ataque</button>
+              <button type="button" class="seg-btn" data-phase="during" onclick="setNegotiationPhase('during')">2. Durante</button>
+              <button type="button" class="seg-btn" data-phase="post" onclick="setNegotiationPhase('post')">3. Pós-Ataque</button>
+            </div>
+
+            <div class="figure-card" id="negotiation-phase-detail">
+              <!-- Populated by JS -->
+            </div>
+          </aside>
+        </div>
+
+        <div class="figure-card" style="margin-top: var(--space-lg);">
+          <div class="card-head">
+            <h3 class="card-title">Os 6 Objetivos Observáveis de Aprendizagem (Turma T35)</h3>
+            <span class="index-num">CURRÍCULO</span>
+          </div>
+          <div class="card-grid">
+            <div class="aside-box">
+              <span class="index-num">OBJ 01</span>
+              <p><strong>Diagnosticar Pontos Cegos:</strong> Identificar falhas de gestão do caso Aurora (omissão de logs, ausência de SLAs explícitos e atraso na notificação regulatória).</p>
+            </div>
+            <div class="aside-box">
+              <span class="index-num">OBJ 02</span>
+              <p><strong>Projetar Arquitetura da War Room:</strong> Desenhar estrutura organizacional, canais emergenciais e papéis sob medida para um setor crítico específico.</p>
+            </div>
+            <div class="aside-box">
+              <span class="index-num">OBJ 03</span>
+              <p><strong>Mapear Stakeholders &amp; Reguladores:</strong> Identificar autoridades competentes e marcos legais (BACEN, ANVISA, ANS, ANEEL, ONS, ANTT, MEC, CGU, ANPD).</p>
+            </div>
+            <div class="aside-box">
+              <span class="index-num">OBJ 04</span>
+              <p><strong>Definir Alçadas e SLAs:</strong> Estabelecer matrizes RACI, autoridade máxima de parada e tempos de contenção proporcionais ao risco de serviços essenciais.</p>
+            </div>
+            <div class="aside-box">
+              <span class="index-num">OBJ 05</span>
+              <p><strong>Operar Sob Estresse e Dilema Ético:</strong> Conduzir resposta à crise injetada filtrando fatos vs. fakes e sustentando decisões frente à pressão de ocultação.</p>
+            </div>
+            <div class="aside-box">
+              <span class="index-num">OBJ 06</span>
+              <p><strong>Formular Governança Preventiva:</strong> Elaborar plano de continuidade assinado com dono único, critérios de aceite, evidências e controles contra reincidência.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           ETAPA 2: DINÂMICA 1 (PROBLEMATIZAÇÃO)
+           ========================================================= -->
+      <section id="etapa-2-dinamica1" class="stage-section" data-section="dinamica1">
+        <div class="dossier-bar">
+          <div class="dossier-left">
+            <span class="dossier-pill">ETAPA 02 · DINÂMICA 1 (PROBLEMATIZAÇÃO)</span>
+            <span class="dossier-meta">00 a 50 min · Debriefing A0 + Montagem Jigsaw + Arquitetura W1</span>
+          </div>
+          <span class="dossier-meta">Preparação Pré-Crise</span>
+        </div>
+
+        <h2 class="section-title">Problematização, Reorganização Jigsaw e Arquitetura da War Room Setorial</h2>
+        <p class="section-deck">
+          Os alunos revisitam os erros da Cyber Monday (A0), reorganizam-se em diretorias multidisciplinares (MC1 a MC5) e projetam sua War Room setorial (W1) antes de receberem a injeção surpresa aos 50 minutos.
+        </p>
+
+        <!-- Jigsaw Architecture + Context -->
+        <div class="grid-asymmetric">
+          <div class="figure-card">
+            <div class="card-head">
+              <h3 class="card-title">Contexto da Dinâmica 1 &amp; Reorganização Jigsaw (G1–G5 → MC1–MC5)</h3>
+              <span class="index-num">ESTRUTURA DE SALA</span>
+            </div>
+            <p>
+              Em vez de permanecerem em silos por área como na aula anterior, cada grupo funcional original envia um integrante para compor as <strong>5 Mesas de Caso Setoriais (MC1 a MC5)</strong>. Cada mesa opera como uma diretoria de crise completa de 5 membros:
+            </p>
+            <div class="table-wrap" style="margin-top: var(--space-sm);">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Papel Jigsaw na Mesa</th>
+                    <th>Origem (Nível 1)</th>
+                    <th>Responsabilidade Crítica na War Room Setorial</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Executivo de Negócio (CEO/COO)</strong></td>
+                    <td class="mono">G1</td>
+                    <td>Lidera a mesa, arbitra impacto comercial/reputacional e recebe o cartão secreto de postura ética.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Especialista Cloud / Infraestrutura</strong></td>
+                    <td class="mono">G2</td>
+                    <td>Define topologia, isolamento de rede, contingência tecnológica (CDN/scrubbing, failover) e SLA técnico.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Poder Público &amp; Compliance</strong></td>
+                    <td class="mono">G3</td>
+                    <td>Mapeia órgãos reguladores, exige notificações nos prazos legais (LGPD, BACEN, ANVISA, ANEEL) e evita sanções.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Auditor Independente</strong></td>
+                    <td class="mono">G4</td>
+                    <td>Exige cadeia de custódia, preservação de logs forenses e distinção estrita entre Fatos, Hipóteses e Lacunas.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Consultor Técnico Especialista (Cyber)</strong></td>
+                    <td class="mono">G5</td>
+                    <td>Investiga causa raiz técnica, contém o vetor do ataque e orienta patches sem destruir evidências.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <aside class="aside-box">
+            <div class="card-head">
+              <h3 class="card-title">Ações Explícitas do Professor &amp; Dicas</h3>
+              <span class="index-num">FACILITAÇÃO</span>
+            </div>
+            <ul class="clean-list">
+              <li><strong>Provocação Inicial (00–10 min):</strong> Projete os erros da Aurora e pergunte: <em>"Quantos tentaram subir <code>solution.py</code> antes de preservar logs?"</em>, <em>"Quando o regulador virou pensamento tardio?"</em> e <em>"Quem tinha autoridade para parar o checkout?"</em></li>
+              <li><strong>Sigilo da Crise:</strong> <strong>Não antecipe</strong> o cenário específico das fichas durante a Dinâmica 1. A War Room (W1) deve ser projetada para ameaças genéricas do setor; a injeção aos 50 min é um teste de estresse surpresa.</li>
+              <li><strong>Entrega Discreta de Posturas:</strong> Ao formar as mesas (15–20 min), entregue discretamente ao Executivo de Negócio o cartão secreto de postura ética (Transparência vs. Ocultação).</li>
+              <li><strong>Controle do Pitch (40–50 min):</strong> Limite a apresentação do W1 a <strong>1,5 minuto por mesa</strong> cobrando 3 itens: maior risco setorial, autoridade máxima de parada e regulador mais exigente.</li>
+            </ul>
+          </aside>
+        </div>
+
+        <!-- Step-by-step operational sequence -->
+        <div class="figure-card" style="margin-top: var(--space-lg);">
+          <div class="card-head">
+            <h3 class="card-title">Passo a Passo Operacional da Dinâmica 1 (00 a 50 min)</h3>
+            <span class="index-num">ROTEIRO DE OPERAÇÃO</span>
+          </div>
+          <div class="step-stack">
+            <div class="step-item">
+              <span class="step-time">00 – 10 min</span>
+              <div>
+                <p class="step-title">1. Debriefing Coletivo da Crise Aurora Cyber Monday</p>
+                <p class="step-desc"><strong>Professor:</strong> Conduz reflexão com as 3 perguntas provocativas e apresenta o contraste Caso Uber 2016 vs. Caso NHS 2017. <strong>Alunos:</strong> Identificam erros de preservação forense e alçada cometidos na aula anterior.</p>
+              </div>
+            </div>
+            <div class="step-item">
+              <span class="step-time">10 – 20 min</span>
+              <div>
+                <p class="step-title">2. Mapeamento de Pontos Cegos (Artefato A0) &amp; Síntese Setorial</p>
+                <p class="step-desc"><strong>Alunos:</strong> Afixam stickies rosa no frame A0 do Miro ("O que fizemos bem" e "Nosso Ponto Cego"). <strong>Professor:</strong> Sintetiza os 3 pilares setoriais e orienta a migração Jigsaw para as 5 Mesas (MC1–MC5).</p>
+              </div>
+            </div>
+            <div class="step-item">
+              <span class="step-time">20 – 40 min</span>
+              <div>
+                <p class="step-title">3. Desenho da Carta de Arquitetura da War Room (Artefato W1)</p>
+                <p class="step-desc"><strong>Alunos:</strong> Em suas mesas setoriais, dividem as frentes (Regulação/Compliance, Operações/Infra, Riscos/SLA/RACI, Comunicação) e preenchem o frame W1 no Miro. <strong>Professor:</strong> Circula validando se existe um único responsável com poder de parada.</p>
+              </div>
+            </div>
+            <div class="step-item">
+              <span class="step-time">40 – 50 min</span>
+              <div>
+                <p class="step-title">4. Entregas Parciais (Pitch de 1,5 min/grupo) &amp; Gatilho da Injeção</p>
+                <p class="step-desc"><strong>Alunos:</strong> Cada mesa apresenta seu protocolo W1 ao plenário. <strong>Professor:</strong> À marca exata de <strong>50 minutos</strong>, libera a Ficha de Injeção de Crise Setorial correspondente no frame Miro de cada mesa.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Registros Exigidos & Entregas Parciais -->
+        <div class="grid-2" style="margin-top: var(--space-lg);">
+          <div class="figure-card">
+            <div class="card-head">
+              <h3 class="card-title">Código Obrigatório de Cores no Miro (Linguagem de War Room)</h3>
+              <span class="index-num">REGISTRO VISUAL</span>
+            </div>
+            <p style="margin-top: 0;">O docente deve cobrar rigor linguístico durante toda a operação no Miro: <strong>nunca aceitar hipóteses tratadas como fatos</strong>.</p>
+            <div class="sticky-legend">
+              <div class="sticky-chip green">
+                <span class="sticky-name">Verde · Fato / Evidência</span>
+                <span>Informação testada, log de sistema ou dado confirmado por telemetria.</span>
+              </div>
+              <div class="sticky-chip blue">
+                <span class="sticky-name">Azul · Hipótese / Suposição</span>
+                <span>Diagnóstico inicial pendente de verificação técnica ou forense.</span>
+              </div>
+              <div class="sticky-chip pink">
+                <span class="sticky-name">Rosa · Ponto Cego / Lacuna</span>
+                <span>O que a equipe desconhece (ex.: extensão da exfiltração) ou falhou no Nível 1.</span>
+              </div>
+              <div class="sticky-chip yellow">
+                <span class="sticky-name">Amarelo · Decisão / Ação / SLA</span>
+                <span>Medida de contenção aprovada com dono único, prazo e evidência.</span>
+              </div>
+              <div class="sticky-chip orange">
+                <span class="sticky-name">Laranja · Concessão / Trade-off</span>
+                <span>Compromisso negociado com órgão regulador ou alta diretoria.</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="figure-card">
+            <div class="card-head">
+              <h3 class="card-title">Entrega Parcial Exigida: Modelo do Artefato W1 (Miro)</h3>
+              <span class="index-num">ENTREGÁVEL W1</span>
+            </div>
+            <p style="margin-top: 0;">Antes dos 50 minutos, cada mesa deve concluir no Miro a Carta de Arquitetura W1 junto ao frame A0:</p>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Campo Obrigatório do W1</th>
+                    <th>Critério de Validação pelo Docente</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Setor de Atuação</strong></td>
+                    <td>MC1 Banking, MC2 Saúde, MC3 Logística, MC4 Educação ou MC5 Energia.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Reguladores Críticos</strong></td>
+                    <td>Órgãos oficiais mapeados com marcos legais (ex.: Res. BCB 85/2021, LGPD Art. 48).</td>
+                  </tr>
+                  <tr>
+                    <td><strong>SLA de Notificação &amp; Contenção</strong></td>
+                    <td>Prazos explícitos em minutos/horas proporcionais ao risco setorial.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Autoridade de Parada</strong></td>
+                    <td>Cargo/nome único autorizado a desligar serviço crítico sem impasse.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Canal Emergencial &amp; RACI</strong></td>
+                    <td>Comunicação out-of-band criptografada e matriz de decisão assinada.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- Interactive Sectoral Crisis Injection Console (Synced across Dinâmica 1 & 2) -->
+        <div class="figure-card" style="margin-top: var(--space-lg);">
+          <div class="card-head">
+            <h3 class="card-title">Console das 5 Fichas de Injeção de Crise Setorial (Disparo aos 50 min)</h3>
+            <span class="index-num">FICHAS MC1–MC5</span>
+          </div>
+          <p style="margin-top: 0;">Selecione uma Mesa abaixo para inspecionar a ficha completa de crise, impacto na Tríade CIA, SLAs coercitivos e copiar o enunciado para colar no frame do Miro. A seleção sincroniza automaticamente os dilemas e o roteiro de auditoria na Dinâmica 2.</p>
+
+          <div class="sector-selector" role="tablist" aria-label="Selecionar setor da Mesa Jigsaw">
+            <button type="button" class="sector-btn is-active" data-sector="MC1" onclick="selectSector('MC1')">MC1 · Banking (Pix)</button>
+            <button type="button" class="sector-btn" data-sector="MC2" onclick="selectSector('MC2')">MC2 · Saúde (PEP)</button>
+            <button type="button" class="sector-btn" data-sector="MC3" onclick="selectSector('MC3')">MC3 · Logística (Frota)</button>
+            <button type="button" class="sector-btn" data-sector="MC4" onclick="selectSector('MC4')">MC4 · Educação (DDoS)</button>
+            <button type="button" class="sector-btn" data-sector="MC5" onclick="selectSector('MC5')">MC5 · Energia (SCADA)</button>
+          </div>
+
+          <div id="sector-injection-view">
+            <!-- Populated dynamically by JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           ETAPA 3: DINÂMICA 2 (SOLUÇÃO E ATUAÇÃO)
+           ========================================================= -->
+      <section id="etapa-3-dinamica2" class="stage-section" data-section="dinamica2">
+        <div class="dossier-bar">
+          <div class="dossier-left">
+            <span class="dossier-pill">ETAPA 03 · DINÂMICA 2 (SOLUÇÃO E ATUAÇÃO)</span>
+            <span class="dossier-meta">50 a 82 min · Estresse, Dilemas Éticos, Fatos/Fakes &amp; Auditoria</span>
+          </div>
+          <span class="dossier-meta">Artefatos W2 &amp; W3</span>
+        </div>
+
+        <h2 class="section-title">Resposta Reativa e Corretiva, Dilemas Éticos e Fiscalização Simulada</h2>
+        <p class="section-deck">
+          Sob pressão da crise injetada, as mesas ativam o protocolo W1, enfrentam a tensão entre transparência e ocultação, filtram boatos da imprensa e defendem evidências perante o regulador.
+        </p>
+
+        <!-- Ethical Dilemma + Case Studies -->
+        <div class="grid-asymmetric">
+          <div class="figure-card">
+            <div class="card-head">
+              <h3 class="card-title">Condução dos Dilemas Éticos: Transparência vs. Ocultação</h3>
+              <span class="index-num">CASOS REAIS</span>
+            </div>
+            <p style="margin-top: 0;">
+              Inspirado nos casos contrastantes da disciplina, o Executivo de Negócio (CEO/COO) atua sob uma diretriz secreta para testar a resiliência moral de Compliance, Auditoria e Engenharia.
+            </p>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Critério</th>
+                    <th>Caso Uber (2016) · Armadilha da Ocultação</th>
+                    <th>Caso NHS / WannaCry (2017) · Transparência Radical</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>O Incidente</strong></td>
+                    <td>Exfiltração de dados de 57 milhões de pessoas.</td>
+                    <td>Ransomware paralisa dezenas de hospitais no Reino Unido.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Decisão da Liderança</strong></td>
+                    <td>Pagamento secreto de US$ 100 mil disfarçado de "bug bounty" e tentativa de abafar o vazamento.</td>
+                    <td>Recusa firme em pagar resgate e comunicação aberta à população sobre impactos no atendimento.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Consequência</strong></td>
+                    <td>Demissão do CISO, condenação criminal, multas milionárias e perda severa de reputação global.</td>
+                    <td>Apoio público, investimento massivo em infraestrutura e aplicação de patches sistêmicos.</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Regra de Ouro</strong></td>
+                    <td colspan="2"><strong>Ocultar um incidente é sempre pior do que o ataque original:</strong> encobrir falhas gera responsabilidade criminal direta para administradores.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <aside class="aside-box">
+            <div class="card-head">
+              <h3 class="card-title">Cartões Secretos das Mesas (Uso do Professor)</h3>
+              <span class="index-num">SIGILOSO</span>
+            </div>
+            <p style="margin-top: 0; font-size: 0.9rem;">
+              Se estiver projetando este painel em sala, mantenha os cartões mascarados. Clique abaixo para revelar quando necessário.
+            </p>
+            <button type="button" class="btn btn-secondary" id="toggle-secrets-btn" onclick="toggleSecretPostures()" style="margin-bottom: var(--space-md);">
+              Revelar Posturas Secretas
+            </button>
+            <div id="secret-postures-box" class="secret-box secret-masked">
+              <ul class="clean-list" style="font-size: 0.9rem;">
+                <li><strong>MC1 (Banking) &amp; MC3 (Logística) — Transparência Radical (NHS):</strong> Compromisso total com governança, notificação imediata ao regulador/clientes e transparência pós-incidente.</li>
+                <li><strong>MC2 (Saúde), MC4 (Educação) &amp; MC5 (Energia) — Ocultação / Síndrome de Uber 2016:</strong> O Executivo pressiona a mesa para abafar o incidente, pagar resgate em segredo, subir patch silencioso e evitar notificar regulador.</li>
+              </ul>
+            </div>
+            <div class="aside-box" style="margin-top: var(--space-md); background: var(--surface-container-low); border: var(--card-border);">
+              <span class="tag tag-error">Consequência de Ocultação</span>
+              <p style="margin: var(--space-xs) 0 0 0; font-size: 0.88rem;">
+                Se a mesa ceder à postura de Ocultação e um Fake News viralizar no check-point, acione imediatamente uma <strong>Auditoria Regulatória de Emergência</strong> e aplique perda de pontos no critério de Dilemas Éticos.
+              </p>
+            </div>
+          </aside>
+        </div>
+
+        <!-- Interactive Terminal: Fatos vs. Fakes + Simulação de Auditoria (Synced with selected sector) -->
+        <div class="figure-card" style="margin-top: var(--space-lg);">
+          <div class="card-head">
+            <h3 class="card-title">Terminal de Crise &amp; Roteiro do Auditor Regulador (<span id="d2-sector-label">MC1 · Banking</span>)</h3>
+            <div style="display: flex; gap: var(--space-xs); flex-wrap: wrap;">
+              <button type="button" class="btn-hud" onclick="selectSector('MC1')">MC1</button>
+              <button type="button" class="btn-hud" onclick="selectSector('MC2')">MC2</button>
+              <button type="button" class="btn-hud" onclick="selectSector('MC3')">MC3</button>
+              <button type="button" class="btn-hud" onclick="selectSector('MC4')">MC4</button>
+              <button type="button" class="btn-hud" onclick="selectSector('MC5')">MC5</button>
+            </div>
+          </div>
+
+          <div class="grid-2" id="d2-interactive-console">
+            <!-- Populated dynamically by JS -->
+          </div>
+        </div>
+
+        <!-- Operational steps + Teacher Actions + Tips -->
+        <div class="grid-asymmetric" style="margin-top: var(--space-lg);">
+          <div class="figure-card">
+            <div class="card-head">
+              <h3 class="card-title">Passo a Passo Operacional da Dinâmica 2 (50 a 82 min)</h3>
+              <span class="index-num">EXECUÇÃO</span>
+            </div>
+            <div class="step-stack">
+              <div class="step-item">
+                <span class="step-time">50 – 52 min</span>
+                <div>
+                  <p class="step-title">1. Liberação das Fichas de Injeção Setorial</p>
+                  <p class="step-desc">O professor libera a ficha surpresa no frame Miro de cada mesa (horário simulado 10h15) e inicia a contagem dos SLAs coercitivos.</p>
+                </div>
+              </div>
+              <div class="step-item">
+                <span class="step-time">52 – 65 min</span>
+                <div>
+                  <p class="step-title">2. Ativação do Protocolo W1, Contenção e Negociação Tensa (W2)</p>
+                  <p class="step-desc">A mesa classifica os primeiros dados em Fatos (verde), Hipóteses (azul) e Lacunas (rosa). O Executivo tenta impor sua postura secreta; Compliance e Auditoria confrontam pedidos ilegais exigindo evidências e SLAs.</p>
+                </div>
+              </div>
+              <div class="step-item">
+                <span class="step-time">65 – 70 min</span>
+                <div>
+                  <p class="step-title">3. Check-point no Quiz/Terminal: Injeção de Fatos vs. Fakes e Imprensa</p>
+                  <p class="step-desc">Professor dispara manchetes/boatos via Quiz/Miro. As mesas devem filtrar boatos não verificados e emitir nota oficial baseada em evidências confirmadas.</p>
+                </div>
+              </div>
+              <div class="step-item">
+                <span class="step-time">70 – 78 min</span>
+                <div>
+                  <p class="step-title">4. Rodada de Fiscalização Regulatória Simulada</p>
+                  <p class="step-desc">O professor (ou aluno fiscal designado) entra nos frames como Auditor do BACEN, ANVISA, ANTT, CGU/ANPD ou ANEEL/ONS aplicando as perguntas de tensão e exigindo provas no W2.</p>
+                </div>
+              </div>
+              <div class="step-item">
+                <span class="step-time">78 – 82 min</span>
+                <div>
+                  <p class="step-title">5. Pactuação e Assinatura do Plano Integrado (Artefato W3)</p>
+                  <p class="step-desc">Todos os 5 integrantes assinam o W3 aceitando o risco residual e registrando as 4 ações imediatas + 2 controles preventivos.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <aside class="aside-box">
+            <div class="card-head">
+              <h3 class="card-title">Ações do Professor &amp; Dicas Práticas</h3>
+              <span class="index-num">CONDUÇÃO</span>
+            </div>
+            <ul class="clean-list">
+              <li><strong>Auditoria de Linguagem:</strong> Ao circular pelos frames no Miro, bloqueie qualquer sticky verde (Fato) que não cite um log ou fonte verificada. Mova suposições para azul (Hipótese).</li>
+              <li><strong>Tensão nos Cartões Secretos:</strong> Estimule discretamente os Executivos de MC2, MC4 e MC5 a pressionarem por "sigilo total" ou "pagamento discreto" para testar se Compliance e Auditoria sustentam a lei.</li>
+              <li><strong>Check-points a cada ~10 min:</strong> Use o Quiz/Terminal para injetar Fakes de redes sociais (ex.: Telegram/X) e verificar se a mesa entra em pânico ou exige validação técnica.</li>
+              <li><strong>Exigência de Completude no W3:</strong> Não aceite ações vagas ("melhorar segurança"). Cobre os 4 requisitos de toda ação W3: <strong>Responsável Único, Prazo Explícito (SLA), Critério de Aceite Observável e Evidência Comprovável</strong>.</li>
+            </ul>
+          </aside>
+        </div>
+
+        <!-- Registros e Entregas Parciais W2 e W3 -->
+        <div class="grid-2" style="margin-top: var(--space-lg);">
+          <div class="figure-card">
+            <div class="card-head">
+              <h3 class="card-title">Entrega Exigida: Artefato W2 (Registro Único de Resposta)</h3>
+              <span class="index-num">TABELA MIRO W2</span>
+            </div>
+            <p style="margin-top: 0;">Tabela cronológica mantida em tempo real pela mesa durante a crise:</p>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Hora</th>
+                    <th>Evento / Decisão</th>
+                    <th>Decisor (RACI)</th>
+                    <th>Status (SLA)</th>
+                    <th>Evidência Exigida</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="mono">10h25</td>
+                    <td>Exemplo: Isolar segmento de rede do sistema SCADA / PEP</td>
+                    <td>Líder Técnico (Aprovado por CISO / COO)</td>
+                    <td><span class="tag tag-positive">Dentro do SLA (10 min)</span></td>
+                    <td>Logs de firewall e confirmação de isolamento de rede</td>
+                  </tr>
+                  <tr>
+                    <td class="mono">10h35</td>
+                    <td>Exemplo: Emitir notificação preliminar ao regulador</td>
+                    <td>Compliance / Poder Público</td>
+                    <td><span class="tag tag-slate">No Prazo Legal</span></td>
+                    <td>Protocolo oficial de envio e minuta arquivada</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="figure-card">
+            <div class="card-head">
+              <h3 class="card-title">Entrega Exigida: Artefato W3 (Plano Integrado Assinado)</h3>
+              <span class="index-num">ENTREGÁVEL W3</span>
+            </div>
+            <p style="margin-top: 0;">Consolidado entre 78 e 82 min no Miro com assinatura de todos os membros aceitando o risco residual:</p>
+            <ul class="clean-list">
+              <li><strong>4 Ações Imediatas de Recuperação:</strong> Cada ação deve conter obrigatoriamente: <em>Responsável Único</em>, <em>Prazo Explícito (SLA)</em>, <em>Critério de Aceite Observável</em> e <em>Evidência Comprovável</em>.</li>
+              <li><strong>2 Controles de Governança Preventiva:</strong> Controles auditáveis para impedir reincidência (ex.: validação OWASP C5 / CWE-20 no servidor, aritmética decimal/centavos em sistemas financeiros, segmentação SCADA/PEP, simulados periódicos e playbooks pré-acordados).</li>
+              <li><strong>Assinaturas da Diretoria Jigsaw:</strong> Registro nominal dos 5 papéis validando a aceitação do risco residual e as concessões feitas ao regulador (stickies laranja).</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           ETAPA 4: CONSOLIDAÇÃO
+           ========================================================= -->
+      <section id="etapa-4-consolidacao" class="stage-section" data-section="consolidacao">
+        <div class="dossier-bar">
+          <div class="dossier-left">
+            <span class="dossier-pill">ETAPA 04 · CONSOLIDAÇÃO</span>
+            <span class="dossier-meta">82 a 90 min · Fechamento, Avaliação Formativa, Checklist &amp; Referências</span>
+          </div>
+          <span class="dossier-meta">Encerramento &amp; Exportação PDF</span>
+        </div>
+
+        <h2 class="section-title">Fechamento Metodológico, Avaliação Formativa e Referências do Curso</h2>
+        <p class="section-deck">
+          Revelação pública das posturas secretas, síntese das lições executivas, aplicação do barema de avaliação por mesa, conferência do checklist docente e referências técnicas e regulatórias.
+        </p>
+
+        <!-- Closing Synthesis -->
+        <div class="grid-asymmetric">
+          <div class="figure-card">
+            <div class="card-head">
+              <h3 class="card-title">Fechamento Metodológico (75–90 min): Revelação, Síntese e Exit Ticket</h3>
+              <span class="index-num">ENCERRAMENTO</span>
+            </div>
+            <div class="step-stack">
+              <div class="step-item">
+                <span class="step-time">75 – 83 min</span>
+                <div>
+                  <p class="step-title">Revelação das Posturas Secretas (Efeito Uber vs. NHS)</p>
+                  <p class="step-desc">Peça aos Executivos de Negócio que revelem suas cartas secretas. Analise com a turma como a tentativa de ocultação em MC2, MC4 e MC5 corroeu a confiança da mesa ou gerou sanções regulatórias, em contraste com a transparência de MC1 e MC3.</p>
+                </div>
+              </div>
+              <div class="step-item">
+                <span class="step-time">82 – 86 min</span>
+                <div>
+                  <p class="step-title">Mapa de Síntese do Professor (3 Lições Inegociáveis)</p>
+                  <p class="step-desc">
+                    <strong>1)</strong> War Room não é improviso; é protocolo pré-configurado de liderança e governança.
+                    <strong>2)</strong> Em infraestruturas críticas, decisões equacionam dimensões técnicas, legais, regulatórias e humanas simultaneamente.
+                    <strong>3)</strong> Evidência e rastreabilidade são as únicas defesas contra responsabilização civil, criminal e administrativa pós-crise.
+                  </p>
+                </div>
+              </div>
+              <div class="step-item">
+                <span class="step-time">86 – 90 min</span>
+                <div>
+                  <p class="step-title">Bilhete de Saída (Exit Ticket) &amp; Exportação PDF no Miro</p>
+                  <p class="step-desc">Cada estudante fixa um sticky no frame de fechamento respondendo: <em>"Um protocolo da War Room do seu setor que você não conhecia antes desta aula + o motivo de ele ser crítico para a proteção da organização."</em> Em seguida, o relator exporta o frame completo (A0, W1, W2, W3) em PDF e submete na plataforma.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Interactive Teacher Checklist -->
+          <aside class="aside-box">
+            <div class="card-head">
+              <h3 class="card-title">Checklist Operacional do Docente</h3>
+              <span class="index-num" id="checklist-counter">0 / 10</span>
+            </div>
+            <div class="progress-track" aria-hidden="true">
+              <div class="progress-fill" id="checklist-progress-bar"></div>
+            </div>
+            <div class="checklist-group" id="teacher-checklist">
+              <!-- Populated by JS with persistent state -->
+            </div>
+            <div style="margin-top: var(--space-md); display: flex; justify-content: space-between; align-items: center; gap: var(--space-sm); flex-wrap: wrap;">
+              <span style="font-size: 0.8rem; color: var(--on-surface-variant);">Progresso salvo automaticamente.</span>
+              <button type="button" class="btn-hud" id="reset-checklist-btn" onclick="resetChecklist(this)">Limpar Checklist</button>
+            </div>
+          </aside>
+        </div>
+
+        <!-- Formative Assessment Rubric & Live Scorer -->
+        <div class="figure-card" style="margin-top: var(--space-lg);">
+          <div class="card-head">
+            <h3 class="card-title">Critérios de Avaliação Formativa (Barema Oficial 0–2 por Mesa)</h3>
+            <span class="index-num">AVALIAÇÃO</span>
+          </div>
+
+          <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: var(--space-md); margin-bottom: var(--space-md);">
+            <div class="seg-bar" style="margin-bottom: 0;" role="group" aria-label="Alternar visão do barema">
+              <button type="button" class="seg-btn is-active" id="rubric-mode-integrated" onclick="setRubricMode('integrated')">Barema Integrado (Artefatos + Jigsaw)</button>
+              <button type="button" class="seg-btn" id="rubric-mode-v3" onclick="setRubricMode('v3')">Foco Artefatos (A0–W3)</button>
+              <button type="button" class="seg-btn" id="rubric-mode-v4" onclick="setRubricMode('v4')">Foco Dilemas &amp; Jigsaw</button>
+            </div>
+
+            <div style="display: flex; flex-wrap: wrap; gap: var(--space-sm); align-items: flex-end;">
+              <div class="field-group">
+                <label class="field-label" for="eval-mesa-select">Mesa em Avaliação</label>
+                <select id="eval-mesa-select" class="select-control" onchange="changeEvalMesa(this.value)">
+                  <option value="MC1">MC1 · Banking &amp; Financeiro</option>
+                  <option value="MC2">MC2 · Hospital &amp; Saúde</option>
+                  <option value="MC3">MC3 · Logística &amp; Mantimentos</option>
+                  <option value="MC4">MC4 · Poder Público (Educação)</option>
+                  <option value="MC5">MC5 · Poder Público (Energia)</option>
+                </select>
+              </div>
+              <button type="button" class="btn btn-secondary" onclick="exportRubricReport()">Exportar Parecer (.txt)</button>
+            </div>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Critério Observado</th>
+                  <th>0 — Insuficiente</th>
+                  <th>1 — Em Desenvolvimento</th>
+                  <th>2 — Plenamente Atendido</th>
+                  <th>Artefato</th>
+                  <th>Nota da Mesa</th>
+                </tr>
+              </thead>
+              <tbody id="rubric-tbody">
+                <!-- Populated by JS -->
+              </tbody>
+            </table>
+          </div>
+
+          <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--space-md); margin-top: var(--space-md); padding-top: var(--space-sm); border-top: 1px solid var(--outline-variant);">
+            <div id="rubric-summary-line" style="font-weight: 600; color: var(--secondary);">
+              Pontuação Total da Mesa: 0 / 16 pontos
+            </div>
+            <div id="mesa-scoreboard-pills" style="display: flex; flex-wrap: wrap; gap: var(--space-xs);">
+              <!-- Summary badges across all 5 tables -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Bibliographical & Conceptual References -->
+        <div class="figure-card" style="margin-top: var(--space-lg);">
+          <div class="card-head">
+            <h3 class="card-title">Referências Bibliográficas, Conceituais e Marcos Regulatórios do Curso</h3>
+            <span class="index-num">FONTES &amp; NORMAS</span>
+          </div>
+          <div class="grid-3">
+            <div class="aside-box">
+              <span class="tag tag-slate">Acadêmico &amp; Metodológico</span>
+              <h4 style="margin: var(--space-sm) 0 var(--space-xs) 0;">Liderança, PBL &amp; Jigsaw</h4>
+              <ul class="clean-list" style="font-size: 0.88rem;">
+                <li>Prof. Reginaldo Arakaki — Roteiro de War Room Setorial v3, Roteiro Jigsaw &amp; Dilemas Éticos v4 e Fichas de Injeção de Crise Setorial (Turma T35 Cyber / ESW).</li>
+                <li>Prof. Marcelo Gonçalves — Guia de Conceitos: Liderança, Negociação e Dilemas Éticos em War Room (Engenharia de Software, Módulo 12).</li>
+                <li>Estrutura das 3 Fases da Negociação Cibernética (Pré-Ataque, Durante o Ataque e Pós-Ataque) e Gestão de Sala de Guerra (Artefatos A0, W1, W2 e W3).</li>
+              </ul>
+            </div>
+
+            <div class="aside-box">
+              <span class="tag">Engenharia &amp; Segurança</span>
+              <h4 style="margin: var(--space-sm) 0 var(--space-xs) 0;">Controles &amp; Casos Históricos</h4>
+              <ul class="clean-list" style="font-size: 0.88rem;">
+                <li>OWASP Proactive Controls C5 (Validate All Inputs) e MITRE CWE-20 (Improper Input Validation).</li>
+                <li>Aritmética Financeira Segura: uso de tipos decimais ou inteiros em centavos em vez de ponto flutuante binário.</li>
+                <li>Tríade CIA (Confidencialidade, Integridade e Disponibilidade) aplicada a infraestruturas críticas.</li>
+                <li>Estudos de Caso: Vazamento Uber (2016 — Ocultação e responsabilidade executiva) e Ataque WannaCry ao NHS (2017 — Transparência e não pagamento de resgate).</li>
+              </ul>
+            </div>
+
+            <div class="aside-box">
+              <span class="tag tag-positive">Marcos Regulatórios</span>
+              <h4 style="margin: var(--space-sm) 0 var(--space-xs) 0;">Órgãos &amp; Legislação Setorial</h4>
+              <ul class="clean-list" style="font-size: 0.88rem;">
+                <li><strong>Geral / Dados:</strong> LGPD (Art. 5º II — Dados Sensíveis; Art. 48 — Comunicação à ANPD) e LAI / CF88.</li>
+                <li><strong>Banking (MC1):</strong> BACEN (Resolução BCB nº 85/2021) e CVM.</li>
+                <li><strong>Saúde (MC2):</strong> ANVISA (dispositivos médicos), ANS e CFM (Código de Ética Médica).</li>
+                <li><strong>Logística (MC3):</strong> ANTT, ANTAQ e Defesa Civil.</li>
+                <li><strong>Educação &amp; Energia (MC4/MC5):</strong> MEC, CGU, ANEEL (continuidade) e ONS (Operador Nacional do Sistema Elétrico).</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <footer class="dossier-footer">
+      <span>Painel de Operação Docente · War Room Setorial &amp; Jigsaw (Turma T35) · Conteúdo estruturado a partir dos roteiros e fichas da disciplina.</span>
+      <span class="mono">Artefatos: A0 · W1 · W2 · W3</span>
+    </footer>
+  </div>
+
+  <api-shim></api-shim>
+
+  <script>
+    const SECTORS = {
+      MC1: {
+        code: `MC1`,
+        name: `Banking & Serviços Financeiros`,
+        short: `MC1 · Banking`,
+        org: `Banco Digital & Processador de Pagamentos de Grande Porte`,
+        time: `10h15 (Pico de transações bancárias e liquidação comercial)`,
+        posture: `Transparência Radical (Estilo NHS)`,
+        postureType: `positive`,
+        regulators: [`BACEN (Res. BCB nº 85/2021)`, `CVM`, `ANPD (LGPD Art. 48)`],
+        cia: [
+          { dim: `Integridade`, level: `CRÍTICA`, tone: `error`, note: `Corrupção de saldos e conciliação bancária.` },
+          { dim: `Disponibilidade`, level: `ALTA`, tone: `warning`, note: `Risco de paralisia preventiva do autorizador Pix.` },
+          { dim: `Confidencialidade`, level: `MODERADA`, tone: `slate`, note: `Investigação de possível vazamento de chaves.` }
+        ],
+        slas: [
+          { label: `SLA Contenção`, time: `15 min`, detail: `Decisão de isolamento de módulos.` },
+          { label: `SLA Comunicação`, time: `1 hora`, detail: `Nota oficial ao mercado.` },
+          { label: `SLA BACEN`, time: `2 horas`, detail: `Notificação preliminar obrigatória após confirmação.` }
+        ],
+        injection: `O sistema de monitoramento de fraude detecta uma injeção massiva de transações atípicas no autorizador do Pix. A anomalia gera estornos duplicados automáticos e inconsistência contábil severa em contas correntes corporativas. Rumores de falência e bug de dinheiro infinito começam a viralizar no X/Twitter.`,
+        challenges: [
+          `Decidir se desliga o autorizador Pix (estancando prejuízo financeiro, mas gerando indisponibilidade sistêmica e pânico bancário).`,
+          `Isolar o defeito de lógica no código sem interromper a liquidação de pagamentos legítimos.`,
+          `Garantir preservação forense dos registros de auditoria e extratos antes de subir qualquer patch.`
+        ],
+        factExample: `Logs de auditoria do autorizador Pix confirmam 1.420 estornos duplicados em 18 contas corporativas desde as 10h08, com saldo isolado em conta transitória.`,
+        fakeExample: `Perfil viral no X/Twitter e canais do Telegram afirmam que o banco quebrou, todas as contas correntes foram zeradas e há saque ilimitado ativo no Pix.`,
+        auditorQuestions: `Qual a extensão exata dos estornos indevidos? O BACEN já foi formalmente notificado dentro do prazo da Resolução 85/2021? Quem autorizou a manutenção ou suspensão do serviço e com qual evidência registrada no W2?`
+      },
+      MC2: {
+        code: `MC2`,
+        name: `Hospital & Saúde Integrada`,
+        short: `MC2 · Saúde`,
+        org: `Operadora Hospitalar & Rede de Saúde de Alta Complexidade`,
+        time: `10h15 (Troca de plantão médico e cirurgias eletivas/emergenciais)`,
+        posture: `Ocultação / Síndrome de Uber 2016 (Cartão Secreto)`,
+        postureType: `error`,
+        regulators: [`ANVISA`, `ANS`, `CFM (Ética Médica)`, `ANPD (LGPD Art. 5º II)`],
+        cia: [
+          { dim: `Disponibilidade`, level: `CRÍTICA`, tone: `error`, note: `Risco iminente à vida por falta de histórico médico e bombas de infusão.` },
+          { dim: `Confidencialidade`, level: `ALTA`, tone: `warning`, note: `Risco de exfiltração de dados sensíveis de saúde (LGPD).` },
+          { dim: `Integridade`, level: `ALTA`, tone: `warning`, note: `Incerteza sobre a integridade das prescrições.` }
+        ],
+        slas: [
+          { label: `SLA Contingência Médica`, time: `5 min`, detail: `Transição total para protocolo analógico/papel.` },
+          { label: `SLA Técnico`, time: `10 min`, detail: `Isolamento da rede hospitalar infectada.` },
+          { label: `SLA Regulatório`, time: `4 horas`, detail: `Comunicação formal à ANVISA, ANS e ANPD.` }
+        ],
+        injection: `Ataque de Ransomware atinge os servidores centrais do Prontuário Eletrônico do Paciente (PEP). Os arquivos de histórico médico, medicação prescrevida, alergias e exames são criptografados em 3 hospitais de grande porte. UTIs conectadas e sistemas de dispensação de medicamentos perdem comunicação.`,
+        challenges: [
+          `Acionar o Plano de Contingência de Papel sem paralisar atendimentos de emergência e cirurgias em andamento.`,
+          `Lidar com a extorsão cibernética mantendo a diretriz ética e legal de não pagamento de resgate (resistindo à pressão de ocultação).`,
+          `Garantir triagem manual segura de medicação para evitar erros fatais de dosagem.`
+        ],
+        factExample: `Telemetria confirma criptografia apenas nos servidores do PEP das unidades Sul e Centro; bombas de infusão operando em modo local isolado.`,
+        fakeExample: `Boato em grupos de imprensa local alega que todas as UTIs desligaram equipamentos de suporte à vida e que a diretoria já pagou o resgate em criptomoedas.`,
+        auditorQuestions: `Houve risco direto à vida de algum paciente? A contingência analógica em papel foi ativada em quantos minutos? Como estão garantindo que dados sensíveis de saúde não foram exfiltrados antes do bloqueio?`
+      },
+      MC3: {
+        code: `MC3`,
+        name: `Logística & Cadeia de Mantimentos`,
+        short: `MC3 · Logística`,
+        org: `Concessionária de Logística & Rastreamento de Frotas de Abastecimento`,
+        time: `10h15 (Janela crítica de distribuição e descarregamento urbano)`,
+        posture: `Transparência Radical (Estilo NHS)`,
+        postureType: `positive`,
+        regulators: [`ANTT`, `ANTAQ`, `Defesa Civil`, `ANPD (Telemetria)`],
+        cia: [
+          { dim: `Disponibilidade`, level: `CRÍTICA`, tone: `error`, note: `Paralisia da frota e risco de desabastecimento urbano de mantimentos.` },
+          { dim: `Integridade`, level: `ALTA`, tone: `warning`, note: `Alteração não autorizada de rotas e comandos remotos de trava.` },
+          { dim: `Confidencialidade`, level: `MODERADA`, tone: `slate`, note: `Exposição de rotas e cargas valiosas.` }
+        ],
+        slas: [
+          { label: `SLA Liberação Manual`, time: `20 min`, detail: `Desbloqueio emergencial de trava.` },
+          { label: `SLA Roteamento`, time: `30 min`, detail: `Ativação de plano contingencial de rotas.` },
+          { label: `SLA Defesa Civil`, time: `1 hora`, detail: `Notificação de Risco de Desabastecimento.` }
+        ],
+        injection: `Sequestro de credenciais administrativas no sistema SaaS de roteamento e telemetria paralisa a trava eletrônica e o rastreamento de 1.200 caminhões de distribuição de alimentos perecíveis e combustível em uma região metropolitana. Centrais de abastecimento registram filas e bloqueio de saídas.`,
+        challenges: [
+          `Decidir sobre a liberação manual do bloqueio remoto (assumindo risco de roubo de carga ou acidente sem telemetria).`,
+          `Reorganizar rotas de mantimentos perecíveis antes da perda das cargas refrigeradas.`,
+          `Coordenar comunicação com gerenciadoras de risco e autoridades de segurança pública.`
+        ],
+        factExample: `Logs do provedor SaaS apontam comprometimento de duas contas administrativas sem MFA às 10h04; 340 caminhões refrigerados estão parados no pátio principal.`,
+        fakeExample: `Mensagens virais anunciam desabastecimento total de combustíveis e fechamento de todos os supermercados da metrópole por tempo indeterminado.`,
+        auditorQuestions: `Qual o risco real de perda de cargas perecíveis? A ANTT e a Defesa Civil foram formalmente alertadas dentro do prazo de 1 hora? Qual o protocolo seguro para liberar a frota presa nas garagens?`
+      },
+      MC4: {
+        code: `MC4`,
+        name: `Poder Público — Educação & Serviços`,
+        short: `MC4 · Educação`,
+        org: `Órgão Governamental responsável por Exames Nacionais & Portais do Cidadão`,
+        time: `10h15 (Último dia de inscrições para o exame nacional unificado)`,
+        posture: `Ocultação / Síndrome de Uber 2016 (Cartão Secreto)`,
+        postureType: `error`,
+        regulators: [`MEC`, `CGU`, `ANPD (Sanções LGPD)`, `LAI & CF/88`],
+        cia: [
+          { dim: `Confidencialidade`, level: `CRÍTICA`, tone: `error`, note: `Vazamento em larga escala de dados pessoais e socioeconômicos.` },
+          { dim: `Disponibilidade`, level: `ALTA`, tone: `warning`, note: `Indisponibilidade do serviço público em dia de prazo fatal.` },
+          { dim: `Integridade`, level: `MODERADA`, tone: `slate`, note: `Risco de alteração nos registros de inscrição.` }
+        ],
+        slas: [
+          { label: `SLA Mitigação DDoS`, time: `30 min`, detail: `Ativação de scrubbing center ou CDN.` },
+          { label: `SLA Prorrogação`, time: `1 hora`, detail: `Pronunciamento oficial de prorrogação de prazo.` },
+          { label: `SLA ANPD / CGU`, time: `24 horas`, detail: `Notificação formal de incidente com dados.` }
+        ],
+        injection: `Exfiltração massiva de dados pessoais do Portal de Inscrições. Hackers vazam amostra com dados de 500 mil estudantes (CPF, endereço, renda) em fórum cibernético e desferem ataque de Negação de Serviço (DDoS), tirando o portal do ar a 8 horas do encerramento oficial do prazo.`,
+        challenges: [
+          `Publicar nota oficial e edital de prorrogação de prazo para evitar judicialização em massa de candidatos prejudicados.`,
+          `Conter a exfiltração contínua e mitigar o ataque DDoS sem derrubar o acesso aos servidores internos.`,
+          `Gerenciar crise reputacional sob cobertura ostensiva da imprensa nacional e órgãos de controle.`
+        ],
+        factExample: `Equipe forense confirma exfiltração via endpoint de consulta sem validação de entrada; amostra validada corresponde a registros reais de 2026.`,
+        fakeExample: `Postagens em redes sociais afirmam que o exame nacional foi cancelado em definitivo e que todas as inscrições já pagas foram apagadas do banco de dados.`,
+        auditorQuestions: `Quantos cidadãos foram efetivamente afetados pelo vazamento? O edital de prorrogação do prazo já foi publicado oficialmente em até 1 hora? Quais medidas de proteção e orientação foram oferecidas aos titulares?`
+      },
+      MC5: {
+        code: `MC5`,
+        name: `Poder Público — Distribuição de Energia`,
+        short: `MC5 · Energia`,
+        org: `Concessionária de Distribuição Elétrica Urbana & Smart Grid Metropolitano`,
+        time: `10h15 (Pico de demanda de energia comercial e hospitalar)`,
+        posture: `Ocultação / Síndrome de Uber 2016 (Cartão Secreto)`,
+        postureType: `error`,
+        regulators: [`ANEEL`, `ONS`, `Defesa Civil`, `ANPD`],
+        cia: [
+          { dim: `Disponibilidade`, level: `CRÍTICA`, tone: `error`, note: `Interrupção de serviço essencial de energia e infraestrutura crítica.` },
+          { dim: `Integridade`, level: `CRÍTICA`, tone: `error`, note: `Comandos falsos ou anômalos injetados na rede SCADA.` },
+          { dim: `Confidencialidade`, level: `BAIXA`, tone: `slate`, note: `Sem evidência primária de exfiltração de dados.` }
+        ],
+        slas: [
+          { label: `SLA ONS / ANEEL`, time: `15 min`, detail: `Alerta de incidente crítico.` },
+          { label: `SLA Hospitais`, time: `20 min`, detail: `Garantia de geradores para alimentação prioritária.` },
+          { label: `SLA Chaveamento`, time: `45 min`, detail: `Recomposição física isolada manual em campo.` }
+        ],
+        injection: `Instabilidade cibernética e injeção de comandos anômalos no sistema SCADA de automação das subestações centrais provocam a abertura preventiva de disjuntores de alta tensão. O apagão atinge 4 bairros centrais, afetando hospitais, semáforos, metrô e serviços essenciais.`,
+        challenges: [
+          `Decidir entre religação remota via SCADA (com risco de dano físico aos transformadores se o ataque persistir) ou operação manual em campo.`,
+          `Coordenar prioridade absoluta para alimentação elétrica de hospitais e bombeiros.`,
+          `Lidar com o ONS para evitar efeito dominó de desligamento em outras subestações da rede básica.`
+        ],
+        factExample: `Telemetria das subestações confirma origem dos comandos de abertura a partir de salto lateral vindo da rede corporativa; equipamentos de alta tensão intactos.`,
+        fakeExample: `Vídeos antigos circulam como se fossem explosões atuais em subestações e notícias falsas preveem blecaute nacional por 72 horas.`,
+        auditorQuestions: `O ONS e a ANEEL foram informados no prazo máximo de 15 minutos? A rede SCADA já foi isolada fisicamente da rede corporativa? Qual a previsão confirmada e segura de religação?`
+      }
+    };
+
+    const NEGOTIATION_PHASES = {
+      pre: {
+        title: `Fase 1 · Pré-Ataque (Preparação e Resiliência)`,
+        items: [
+          `Construção prévia do plano de resposta a incidentes (Playbook W1) e realização de simulados periódicos.`,
+          `Mapeamento antecipado dos órgãos reguladores do setor (BACEN, ANVISA, ANEEL, ANTT, ANPD) e seus prazos legais.`,
+          `Definição clara de matriz RACI e alçadas de parada antes da crise, além de defesas técnicas (OWASP C5, CWE-20).`
+        ]
+      },
+      during: {
+        title: `Fase 2 · Durante o Ataque (Resposta Coordenada & Contenção)`,
+        items: [
+          `Ativação imediata da War Room e avaliação contínua de impacto na Tríade CIA (Confidencialidade, Integridade, Disponibilidade).`,
+          `Separação rigorosa de Fatos (logs confirmados), Hipóteses e Lacunas no registro único (W2).`,
+          `Enfrentamento do Dilema do Resgate: pagar ransomware não garante devolução de dados, financia o crime e pode violar sanções legais.`
+        ]
+      },
+      post: {
+        title: `Fase 3 · Pós-Ataque (Rastreabilidade & Transparência)`,
+        items: [
+          `Análise de causa raiz e preservação da cadeia de custódia forense para auditorias e órgãos de controle.`,
+          `Notificação oficial e prestação de contas transparente a reguladores, clientes e sociedade civil.`,
+          `Implantação de controles de governança preventiva (W3) para eliminar a recorrência da vulnerabilidade.`
+        ]
+      }
+    };
+
+    const CHECKLIST_ITEMS = [
+      { id: `chk1`, group: `Pré-Aula`, text: `Board Miro preparado com frames A0, W1, W2, W3 para as 5 mesas (MC1–MC5).` },
+      { id: `chk2`, group: `Pré-Aula`, text: `Cartões secretos de postura ética preparados (MC1/MC3 Transparência; MC2/MC4/MC5 Ocultação).` },
+      { id: `chk3`, group: `Pré-Aula`, text: `Quiz / Terminal de Check-points (Fatos vs. Fakes) testado e pronto para disparo.` },
+      { id: `chk4`, group: `Dinâmica 1`, text: `Debriefing Aurora realizado com as 3 perguntas provocativas e contraste Uber vs. NHS.` },
+      { id: `chk5`, group: `Dinâmica 1`, text: `Reorganização Jigsaw concluída e stickies rosa de Pontos Cegos registrados no A0.` },
+      { id: `chk6`, group: `Dinâmica 1`, text: `Pitch de 1,5 min do Artefato W1 validado antes dos 50 minutos (sem revelar a crise).` },
+      { id: `chk7`, group: `Dinâmica 2`, text: `Fichas de Injeção Setorial liberadas exatamente aos 50 min no frame de cada mesa.` },
+      { id: `chk8`, group: `Dinâmica 2`, text: `Injeção de Fakes no Quiz disparada e Auditoria Regulatória Simulada aplicada (70–78 min).` },
+      { id: `chk9`, group: `Consolidação`, text: `Posturas secretas reveladas no fechamento com análise comparativa do Efeito Uber.` },
+      { id: `chk10`, group: `Consolidação`, text: `Exit Ticket coletado no frame final e PDF completo (A0–W3) exportado pelas mesas.` }
+    ];
+
+    const RUBRIC_CRITERIA = [
+      {
+        id: `c_a0`,
+        mode: `v3`,
+        name: `Análise de Pontos Cegos`,
+        s0: `Não identifica falhas do exercício anterior (Aurora).`,
+        s1: `Identifica falhas de forma genérica.`,
+        s2: `Aponta lacunas precisas em processos, regulação ou preservação de evidências.`,
+        artifact: `Artefato A0`
+      },
+      {
+        id: `c_w1`,
+        mode: `v3`,
+        name: `Arquitetura da War Room`,
+        s0: `Estrutura vaga sem papéis ou SLAs.`,
+        s1: `Define papéis, mas sem alçadas de parada ou SLAs claros.`,
+        s2: `Define topologia, matriz RACI, reguladores e SLAs específicos do setor.`,
+        artifact: `Artefato W1`
+      },
+      {
+        id: `c_w2`,
+        mode: `v3`,
+        name: `Resposta à Crise Setorial`,
+        s0: `Ações desconectadas do cenário do setor.`,
+        s1: `Contenção genérica sem considerar regulador.`,
+        s2: `Contenção proporcional com SLA mantido e evidências forenses preservadas.`,
+        artifact: `Artefato W2`
+      },
+      {
+        id: `c_w3`,
+        mode: `v3`,
+        name: `Governança Preventiva (W3)`,
+        s0: `Não propõe melhorias institucionais.`,
+        s1: `Propõe controles vagos sem responsável.`,
+        s2: `Define 4 ações + 2 controles auditáveis com dono, prazo, critério e indicador.`,
+        artifact: `Artefato W3`
+      },
+      {
+        id: `c_aud`,
+        mode: `v3`,
+        name: `Atuação na Auditoria Simulada`,
+        s0: `Não apresenta justificativa ou evidência.`,
+        s1: `Responde parcialmente às cobranças regulatórias.`,
+        s2: `Demonstra conformidade, exibe evidências do W2 e justifica decisões pelo W1.`,
+        artifact: `Arguição Miro`
+      },
+      {
+        id: `c_jig`,
+        mode: `v4`,
+        name: `Integração Jigsaw`,
+        s0: `Atua de forma isolada no seu papel original.`,
+        s1: `Dialoga com a mesa, mas não integra o papel ao setor.`,
+        s2: `Colabora ativamente trazendo a perspectiva especialista para o case setorial.`,
+        artifact: `Operação Mesa`
+      },
+      {
+        id: `c_eth`,
+        mode: `v4`,
+        name: `Gestão de Dilemas Éticos`,
+        s0: `Cede à pressão de ocultação sem questionar legalidade/risco.`,
+        s1: `Defende sua posição, mas aceita acordos vagos.`,
+        s2: `Sustenta a governança com base em evidências verdes e cumpre SLAs legais.`,
+        artifact: `Negociação`
+      },
+      {
+        id: `c_fak`,
+        mode: `v4`,
+        name: `Tratamento de Fatos vs. Fakes`,
+        s0: `Reage a boatos sem checar evidências.`,
+        s1: `Identifica o fake, mas demora a posicionar a comunicação.`,
+        s2: `Filtra fakes, fundamenta decisões em logs testados e notifica órgãos no prazo.`,
+        artifact: `Quiz / Nota`
+      }
+    ];
+
+    const appState = {
+      stageFilter: `all`,
+      selectedSector: `MC1`,
+      secretsRevealed: false,
+      rubricMode: `integrated`,
+      evalMesa: `MC1`,
+      checklist: {},
+      scores: {
+        MC1: {},
+        MC2: {},
+        MC3: {},
+        MC4: {},
+        MC5: {}
+      },
+      timerSeconds: 0,
+      timerRunning: false,
+      dismissedMilestones: {}
+    };
+
+    let timerInterval = null;
+
+    function refreshIcons() {
+      if (window.lucide && typeof window.lucide.createIcons === `function`) {
+        try { window.lucide.createIcons(); } catch (e) { /* safe fallback */ }
+      }
+    }
+
+    async function persistState() {
+      if (window.notebookAppApi && typeof window.notebookAppApi.setAppState === `function`) {
+        try {
+          await window.notebookAppApi.setAppState({
+            stageFilter: appState.stageFilter,
+            selectedSector: appState.selectedSector,
+            secretsRevealed: appState.secretsRevealed,
+            rubricMode: appState.rubricMode,
+            evalMesa: appState.evalMesa,
+            checklist: appState.checklist,
+            scores: appState.scores,
+            timerSeconds: appState.timerSeconds
+          });
+        } catch (e) { /* ignore persistence errors */ }
+      }
+    }
+
+    function setStageFilter(stage) {
+      appState.stageFilter = stage;
+      const buttons = document.querySelectorAll(`.stage-btn`);
+      buttons.forEach(function (btn) {
+        if (btn.dataset.stage === stage) btn.classList.add(`is-active`);
+        else btn.classList.remove(`is-active`);
+      });
+
+      const sections = document.querySelectorAll(`.stage-section`);
+      sections.forEach(function (sec) {
+        if (stage === `all` || sec.dataset.section === stage) {
+          sec.classList.remove(`is-hidden`);
+        } else {
+          sec.classList.add(`is-hidden`);
+        }
+      });
+      persistState();
+    }
+
+    function setConceptView(view) {
+      const panels = {
+        compare: document.getElementById(`concept-panel-compare`),
+        tech: document.getElementById(`concept-panel-tech`),
+        pillars: document.getElementById(`concept-panel-pillars`)
+      };
+      const btns = {
+        compare: document.getElementById(`btn-lvl-compare`),
+        tech: document.getElementById(`btn-lvl-tech`),
+        pillars: document.getElementById(`btn-lvl-pillars`)
+      };
+      Object.keys(panels).forEach(function (key) {
+        if (panels[key]) panels[key].style.display = key === view ? `block` : `none`;
+        if (btns[key]) {
+          if (key === view) btns[key].classList.add(`is-active`);
+          else btns[key].classList.remove(`is-active`);
+        }
+      });
+    }
+
+    function setNegotiationPhase(phaseKey) {
+      const data = NEGOTIATION_PHASES[phaseKey];
+      if (!data) return;
+      const btns = document.querySelectorAll(`[data-phase]`);
+      btns.forEach(function (b) {
+        if (b.dataset.phase === phaseKey) b.classList.add(`is-active`);
+        else b.classList.remove(`is-active`);
+      });
+      const container = document.getElementById(`negotiation-phase-detail`);
+      if (!container) return;
+      const itemsHtml = data.items.map(function (it) {
+        return `<li>${it}</li>`;
+      }).join(``);
+      container.innerHTML = `
+        <h4 style="margin: 0 0 var(--space-xs) 0; font-family: var(--font-headline);">${data.title}</h4>
+        <ul class="clean-list" style="font-size: 0.9rem;">${itemsHtml}</ul>
+      `;
+    }
+
+    function selectSector(sectorCode) {
+      if (!SECTORS[sectorCode]) return;
+      appState.selectedSector = sectorCode;
+      const btns = document.querySelectorAll(`.sector-btn`);
+      btns.forEach(function (b) {
+        if (b.dataset.sector === sectorCode) b.classList.add(`is-active`);
+        else b.classList.remove(`is-active`);
+      });
+      renderSectorViews();
+      persistState();
+    }
+
+    function renderSectorViews() {
+      const s = SECTORS[appState.selectedSector];
+      if (!s) return;
+
+      const injContainer = document.getElementById(`sector-injection-view`);
+      if (injContainer) {
+        const regTags = s.regulators.map(function (r) {
+          return `<span class="tag tag-slate">${r}</span>`;
+        }).join(` `);
+
+        const ciaRows = s.cia.map(function (c) {
+          const badgeClass = c.tone === `error` ? `tag-error` : (c.tone === `warning` ? `tag` : `tag-slate`);
+          return `
+            <div class="aside-box" style="padding: var(--space-sm) var(--space-md);">
+              <div style="display: flex; justify-content: space-between; align-items: center; gap: var(--space-xs);">
+                <strong>${c.dim}</strong>
+                <span class="tag ${badgeClass}">${c.level}</span>
+              </div>
+              <p style="margin: var(--space-xs) 0 0 0; font-size: 0.85rem; color: var(--on-surface-variant);">${c.note}</p>
+            </div>
+          `;
+        }).join(``);
+
+        const slaRows = s.slas.map(function (sl) {
+          return `
+            <div class="kpi-mini">
+              <span class="kpi-mini-label">${sl.label}</span>
+              <span class="kpi-mini-value">${sl.time}</span>
+              <span class="kpi-mini-note">${sl.detail}</span>
+            </div>
+          `;
+        }).join(``);
+
+        const challengeList = s.challenges.map(function (ch) {
+          return `<li>${ch}</li>`;
+        }).join(``);
+
+        injContainer.innerHTML = `
+          <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--space-sm); margin-bottom: var(--space-sm);">
+            <div>
+              <span class="dossier-meta">Organização Alvo · ${s.time}</span>
+              <h4 style="margin: 0.15rem 0 0 0; font-family: var(--font-headline); font-size: 1.25rem;">${s.code}: ${s.name} — ${s.org}</h4>
+            </div>
+            <div style="display: flex; flex-wrap: wrap; gap: var(--space-xs);">${regTags}</div>
+          </div>
+
+          <div class="crisis-banner">
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: var(--space-sm);">
+              <span class="tag tag-error">EVENTO DE CRISE INJETADO (LIBERAR AOS 50 MIN)</span>
+              <div style="display: flex; align-items: center; gap: var(--space-sm);">
+                <span class="copy-feedback" id="copy-inj-feedback"></span>
+                <button type="button" class="btn-hud" onclick="copyTextField('injection', 'copy-inj-feedback')">Copiar Enunciado</button>
+              </div>
+            </div>
+            <p class="crisis-quote">"${s.injection}"</p>
+          </div>
+
+          <div class="grid-3" style="margin-bottom: var(--space-md);">
+            ${ciaRows}
+          </div>
+
+          <div class="grid-asymmetric">
+            <div class="aside-box">
+              <span class="index-num">DESAFIOS PARA A WAR ROOM</span>
+              <ol class="clean-list" style="margin-top: var(--space-sm); font-size: 0.92rem;">
+                ${challengeList}
+              </ol>
+            </div>
+            <div>
+              <span class="index-num" style="display: inline-block; margin-bottom: var(--space-xs);">SLAs &amp; PRAZOS COERCITIVOS</span>
+              <div class="step-stack" style="gap: var(--space-xs);">
+                ${slaRows}
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      const d2Label = document.getElementById(`d2-sector-label`);
+      if (d2Label) d2Label.textContent = `${s.code} · ${s.name}`;
+
+      const d2Console = document.getElementById(`d2-interactive-console`);
+      if (d2Console) {
+        const postureBadge = s.postureType === `error` ? `tag-error` : `tag-positive`;
+        const maskedClass = appState.secretsRevealed ? `` : `secret-masked`;
+
+        d2Console.innerHTML = `
+          <div class="aside-box">
+            <div style="display: flex; justify-content: space-between; align-items: center; gap: var(--space-xs); flex-wrap: wrap;">
+              <span class="tag tag-gold">Injeção Quiz / Terminal (65 min)</span>
+              <span class="tag ${postureBadge} ${maskedClass}">Postura: ${s.posture}</span>
+            </div>
+            <div style="margin-top: var(--space-sm);">
+              <div class="sticky-chip green" style="margin-bottom: var(--space-sm);">
+                <span class="sticky-name">Injeção de Fato Confirmado</span>
+                <span style="font-size: 0.88rem;">${s.factExample}</span>
+              </div>
+              <div class="sticky-chip pink">
+                <span class="sticky-name">Injeção de Fake News / Imprensa</span>
+                <span style="font-size: 0.88rem;">${s.fakeExample}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="aside-box">
+            <div style="display: flex; justify-content: space-between; align-items: center; gap: var(--space-xs); flex-wrap: wrap;">
+              <span class="tag tag-slate">Fiscalização Simulada (70–78 min)</span>
+              <div style="display: flex; align-items: center; gap: var(--space-xs);">
+                <span class="copy-feedback" id="copy-aud-feedback"></span>
+                <button type="button" class="btn-hud" onclick="copyTextField('auditor', 'copy-aud-feedback')">Copiar Pergunta</button>
+              </div>
+            </div>
+            <p style="margin: var(--space-sm) 0 var(--space-xs) 0; font-size: 0.85rem; color: var(--on-surface-variant);">
+              Entre no frame da mesa <strong>${s.code}</strong> atuando como Fiscal de <strong>${s.regulators.join(` / `)}</strong> e questione:
+            </p>
+            <blockquote style="margin: 0; padding: var(--space-sm) var(--space-md); background: var(--surface-container-low); border-left: 3px solid var(--secondary); font-family: var(--font-headline); font-style: italic;">
+              "${s.auditorQuestions}"
+            </blockquote>
+          </div>
+        `;
+      }
+    }
+
+    function toggleSecretPostures() {
+      appState.secretsRevealed = !appState.secretsRevealed;
+      updateSecretPostureUI();
+      renderSectorViews();
+      persistState();
+    }
+
+    function updateSecretPostureUI() {
+      const box = document.getElementById(`secret-postures-box`);
+      const btn = document.getElementById(`toggle-secrets-btn`);
+      if (box) {
+        if (appState.secretsRevealed) box.classList.remove(`secret-masked`);
+        else box.classList.add(`secret-masked`);
+      }
+      if (btn) {
+        btn.textContent = appState.secretsRevealed ? `Ocultar Posturas Secretas` : `Revelar Posturas Secretas`;
+      }
+    }
+
+    function copyTextField(fieldType, feedbackId) {
+      const s = SECTORS[appState.selectedSector];
+      if (!s) return;
+      const text = fieldType === `injection`
+        ? `[${s.code} · ${s.name} — ${s.time}] ${s.injection}`
+        : `[FISCALIZAÇÃO ${s.code}] ${s.auditorQuestions}`;
+
+      const feedbackEl = document.getElementById(feedbackId);
+      if (navigator.clipboard && typeof navigator.clipboard.writeText === `function`) {
+        navigator.clipboard.writeText(text).then(function () {
+          if (feedbackEl) feedbackEl.textContent = `Copiado!`;
+          setTimeout(function () { if (feedbackEl) feedbackEl.textContent = ``; }, 2200);
+        }).catch(function () {
+          if (feedbackEl) feedbackEl.textContent = `Use Ctrl+C no texto abaixo.`;
+        });
+      } else {
+        if (feedbackEl) feedbackEl.textContent = `Selecione e copie o texto abaixo.`;
+      }
+    }
+
+    /* Checklist */
+    function renderChecklist() {
+      const container = document.getElementById(`teacher-checklist`);
+      if (!container) return;
+      let doneCount = 0;
+      const html = CHECKLIST_ITEMS.map(function (item) {
+        const checked = Boolean(appState.checklist[item.id]);
+        if (checked) doneCount += 1;
+        return `
+          <label class="check-row ${checked ? `is-done` : ``}">
+            <input type="checkbox" ${checked ? `checked` : ``} onchange="toggleChecklistItem('${item.id}', this.checked)">
+            <div>
+              <span class="mono" style="color: var(--secondary); font-weight: 600; margin-right: 0.35rem;">[${item.group}]</span>
+              <span>${item.text}</span>
+            </div>
+          </label>
+        `;
+      }).join(``);
+      container.innerHTML = html;
+
+      const counter = document.getElementById(`checklist-counter`);
+      if (counter) counter.textContent = `${doneCount} / ${CHECKLIST_ITEMS.length}`;
+      const bar = document.getElementById(`checklist-progress-bar`);
+      if (bar) bar.style.width = `${Math.round((doneCount / CHECKLIST_ITEMS.length) * 100)}%`;
+    }
+
+    function toggleChecklistItem(id, isChecked) {
+      appState.checklist[id] = isChecked;
+      renderChecklist();
+      persistState();
+    }
+
+    function resetChecklist(btn) {
+      if (btn.dataset.armed !== `true`) {
+        btn.dataset.armed = `true`;
+        btn.textContent = `Confirmar limpeza?`;
+        setTimeout(function () {
+          if (btn.dataset.armed === `true`) {
+            btn.dataset.armed = `false`;
+            btn.textContent = `Limpar Checklist`;
+          }
+        }, 3000);
+        return;
+      }
+      btn.dataset.armed = `false`;
+      btn.textContent = `Limpar Checklist`;
+      appState.checklist = {};
+      renderChecklist();
+      persistState();
+    }
+
+    /* Rubric */
+    function setRubricMode(mode) {
+      appState.rubricMode = mode;
+      const btns = {
+        integrated: document.getElementById(`rubric-mode-integrated`),
+        v3: document.getElementById(`rubric-mode-v3`),
+        v4: document.getElementById(`rubric-mode-v4`)
+      };
+      Object.keys(btns).forEach(function (k) {
+        if (btns[k]) {
+          if (k === mode) btns[k].classList.add(`is-active`);
+          else btns[k].classList.remove(`is-active`);
+        }
+      });
+      renderRubric();
+      persistState();
+    }
+
+    function changeEvalMesa(mesaCode) {
+      appState.evalMesa = mesaCode;
+      renderRubric();
+      persistState();
+    }
+
+    function setCriterionScore(criterionId, val) {
+      if (!appState.scores[appState.evalMesa]) appState.scores[appState.evalMesa] = {};
+      appState.scores[appState.evalMesa][criterionId] = val;
+      renderRubric();
+      persistState();
+    }
+
+    function renderRubric() {
+      const tbody = document.getElementById(`rubric-tbody`);
+      if (!tbody) return;
+
+      const filtered = RUBRIC_CRITERIA.filter(function (c) {
+        return appState.rubricMode === `integrated` || c.mode === appState.rubricMode;
+      });
+      const mesaScores = appState.scores[appState.evalMesa] || {};
+
+      tbody.innerHTML = filtered.map(function (c) {
+        const current = mesaScores[c.id];
+        return `
+          <tr>
+            <td><strong>${c.name}</strong></td>
+            <td style="font-size: 0.85rem; color: var(--on-surface-variant);">${c.s0}</td>
+            <td style="font-size: 0.85rem;">${c.s1}</td>
+            <td style="font-size: 0.85rem;">${c.s2}</td>
+            <td class="mono">${c.artifact}</td>
+            <td>
+              <div class="score-pill-group" role="group" aria-label="Pontuação para ${c.name}">
+                <button type="button" class="score-btn ${current === 0 ? `is-selected` : ``}" onclick="setCriterionScore('${c.id}', 0)">0</button>
+                <button type="button" class="score-btn ${current === 1 ? `is-selected` : ``}" onclick="setCriterionScore('${c.id}', 1)">1</button>
+                <button type="button" class="score-btn ${current === 2 ? `is-selected` : ``}" onclick="setCriterionScore('${c.id}', 2)">2</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join(``);
+
+      let total = 0;
+      const maxPts = filtered.length * 2;
+      filtered.forEach(function (c) {
+        if (typeof mesaScores[c.id] === `number`) total += mesaScores[c.id];
+      });
+
+      const summary = document.getElementById(`rubric-summary-line`);
+      if (summary) {
+        summary.textContent = `Mesa ${appState.evalMesa} (${SECTORS[appState.evalMesa].name}): ${total} / ${maxPts} pontos neste recorte`;
+      }
+
+      const pillsEl = document.getElementById(`mesa-scoreboard-pills`);
+      if (pillsEl) {
+        pillsEl.innerHTML = Object.keys(SECTORS).map(function (m) {
+          const ms = appState.scores[m] || {};
+          let mTotal = 0;
+          RUBRIC_CRITERIA.forEach(function (c) {
+            if (typeof ms[c.id] === `number`) mTotal += ms[c.id];
+          });
+          const activeClass = m === appState.evalMesa ? `tag-gold` : `tag-slate`;
+          return `<span class="tag ${activeClass}">${m}: ${mTotal}/16</span>`;
+        }).join(``);
+      }
+    }
+
+    function exportRubricReport() {
+      const lines = [
+        `PARECER DE AVALIAÇÃO FORMATIVA — WAR ROOM SETORIAL (TURMA T35)`,
+        `Mesa Avaliada: ${appState.evalMesa} (${SECTORS[appState.evalMesa].name})`,
+        `--------------------------------------------------------------`
+      ];
+      const ms = appState.scores[appState.evalMesa] || {};
+      let sum = 0;
+      RUBRIC_CRITERIA.forEach(function (c) {
+        const val = typeof ms[c.id] === `number` ? ms[c.id] : `Não avaliado`;
+        if (typeof ms[c.id] === `number`) sum += ms[c.id];
+        lines.push(`${c.name} (${c.artifact}): ${val} / 2`);
+      });
+      lines.push(`--------------------------------------------------------------`);
+      lines.push(`TOTAL GERAL: ${sum} / ${RUBRIC_CRITERIA.length * 2} pontos`);
+
+      const content = lines.join(`\n`);
+      if (window.notebookAppApi && typeof window.notebookAppApi.triggerFileDownload === `function`) {
+        window.notebookAppApi.triggerFileDownload({
+          content: content,
+          contentType: `text/plain`,
+          encoding: `UTF-8`,
+          filename: `parecer-war-room-${appState.evalMesa}-t35.txt`
+        });
+      }
+    }
+
+    /* Live 90-Minute Timer */
+    function formatTimer(sec) {
+      const mins = Math.floor(sec / 60);
+      const rem = sec % 60;
+      const mm = mins < 10 ? `0` + mins : `` + mins;
+      const ss = rem < 10 ? `0` + rem : `` + rem;
+      return `${mm}:${ss} / 90:00`;
+    }
+
+    function updateTimerUI() {
+      const disp = document.getElementById(`timer-display`);
+      const badge = document.getElementById(`timer-phase-badge`);
+      const toggleBtn = document.getElementById(`timer-toggle-btn`);
+      const mins = Math.floor(appState.timerSeconds / 60);
+
+      if (disp) disp.textContent = formatTimer(appState.timerSeconds);
+      if (toggleBtn) toggleBtn.textContent = appState.timerRunning ? `Pausar` : `Iniciar`;
+
+      if (badge) {
+        badge.classList.remove(`is-alert`);
+        if (mins < 20) {
+          badge.textContent = `Etapa 1 · Conceito & A0`;
+        } else if (mins < 50) {
+          badge.textContent = `Etapa 2 · Dinâmica 1 (W1)`;
+        } else if (mins < 70) {
+          badge.textContent = `Etapa 3 · Crise Injetada (W2)`;
+          badge.classList.add(`is-alert`);
+        } else if (mins < 82) {
+          badge.textContent = `Etapa 3 · Auditoria & W3`;
+          badge.classList.add(`is-alert`);
+        } else {
+          badge.textContent = `Etapa 4 · Consolidação`;
+        }
+      }
+
+      if (mins === 50 && !appState.dismissedMilestones[`m50`]) {
+        showTimerAlert(`MARCO 50:00 MIN — Hora de liberar as Fichas de Injeção de Crise Setorial no Miro!`);
+      } else if (mins === 70 && !appState.dismissedMilestones[`m70`]) {
+        showTimerAlert(`MARCO 70:00 MIN — Inicie a Rodada de Auditoria / Fiscalização Simulada nas mesas!`);
+      }
+    }
+
+    function showTimerAlert(msg) {
+      const banner = document.getElementById(`timer-alert-banner`);
+      const text = document.getElementById(`timer-alert-text`);
+      if (text) text.textContent = msg;
+      if (banner) banner.classList.add(`is-visible`);
+    }
+
+    function dismissTimerAlert() {
+      const mins = Math.floor(appState.timerSeconds / 60);
+      if (mins >= 70) appState.dismissedMilestones[`m70`] = true;
+      if (mins >= 50) appState.dismissedMilestones[`m50`] = true;
+      const banner = document.getElementById(`timer-alert-banner`);
+      if (banner) banner.classList.remove(`is-visible`);
+    }
+
+    function toggleTimer() {
+      if (appState.timerRunning) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+        appState.timerRunning = false;
+      } else {
+        appState.timerRunning = true;
+        timerInterval = setInterval(function () {
+          if (appState.timerSeconds < 5400) {
+            appState.timerSeconds += 1;
+            updateTimerUI();
+            if (appState.timerSeconds % 15 === 0) persistState();
+          } else {
+            clearInterval(timerInterval);
+            appState.timerRunning = false;
+            updateTimerUI();
+          }
+        }, 1000);
+      }
+      updateTimerUI();
+      persistState();
+    }
+
+    function jumpTimer(minutes) {
+      appState.timerSeconds = minutes * 60;
+      if (minutes === 50) appState.dismissedMilestones[`m50`] = false;
+      if (minutes === 70) appState.dismissedMilestones[`m70`] = false;
+      updateTimerUI();
+      persistState();
+    }
+
+    function resetTimer(btn) {
+      if (btn.dataset.armed !== `true`) {
+        btn.dataset.armed = `true`;
+        btn.textContent = `Confirmar?`;
+        setTimeout(function () {
+          if (btn.dataset.armed === `true`) {
+            btn.dataset.armed = `false`;
+            btn.textContent = `Zerar`;
+          }
+        }, 3000);
+        return;
+      }
+      btn.dataset.armed = `false`;
+      btn.textContent = `Zerar`;
+      clearInterval(timerInterval);
+      timerInterval = null;
+      appState.timerRunning = false;
+      appState.timerSeconds = 0;
+      appState.dismissedMilestones = {};
+      const banner = document.getElementById(`timer-alert-banner`);
+      if (banner) banner.classList.remove(`is-visible`);
+      updateTimerUI();
+      persistState();
+    }
+
+    function restoreFromState(saved) {
+      if (!saved || typeof saved !== `object`) return;
+      if (saved.stageFilter) appState.stageFilter = saved.stageFilter;
+      if (saved.selectedSector && SECTORS[saved.selectedSector]) appState.selectedSector = saved.selectedSector;
+      if (typeof saved.secretsRevealed === `boolean`) appState.secretsRevealed = saved.secretsRevealed;
+      if (saved.rubricMode) appState.rubricMode = saved.rubricMode;
+      if (saved.evalMesa && SECTORS[saved.evalMesa]) appState.evalMesa = saved.evalMesa;
+      if (saved.checklist && typeof saved.checklist === `object`) appState.checklist = saved.checklist;
+      if (saved.scores && typeof saved.scores === `object`) appState.scores = saved.scores;
+      if (typeof saved.timerSeconds === `number`) appState.timerSeconds = saved.timerSeconds;
+    }
+
+    async function initApp() {
+      if (window.notebookAppApi && typeof window.notebookAppApi.getAppState === `function`) {
+        try {
+          const saved = await window.notebookAppApi.getAppState();
+          if (saved) restoreFromState(saved);
+        } catch (e) { /* start fresh */ }
+      }
+
+      setNegotiationPhase(`pre`);
+      setStageFilter(appState.stageFilter);
+      selectSector(appState.selectedSector);
+      updateSecretPostureUI();
+      renderChecklist();
+      setRubricMode(appState.rubricMode);
+
+      const evalSelect = document.getElementById(`eval-mesa-select`);
+      if (evalSelect) evalSelect.value = appState.evalMesa;
+      renderRubric();
+      updateTimerUI();
+      refreshIcons();
+
+      if (window.notebookAppApi && typeof window.notebookAppApi.notifyAppReady === `function`) {
+        window.notebookAppApi.notifyAppReady();
+      }
+    }
+
+    document.addEventListener(`DOMContentLoaded`, initApp);
+  </script>
+</body>
+</html>
