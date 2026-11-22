@@ -1,68 +1,62 @@
-# Simulação War Room Setorial — Liderança, Negociação e Governança (Turma T35)
+# T35 · Liderança e Negociação em War Room
 
-Suíte completa de materiais instrucionais, interfaces interativas e guias operacionais para a condução da simulação síncrona de 90 minutos de **Liderança, Negociação e Governança em War Room Setorial (Nível 2)** para a Turma T35.
+Material da aula de 24/11/2026 (Inteli · Engenharia de Software, módulo 12). São 90 min em 3 partes (Conceito, Dinâmica 1, Dinâmica 2), com 5 mesas Jigsaw (MC1–MC5) e uma crise diferente por setor. Todos os cenários são fictícios.
 
----
+## Estrutura
 
-## 📌 Visão Geral do Projeto
-
-A experiência pedagógica evolui o aprendizado técnico reativo da crise e-commerce (*Aurora Cyber Monday*) para a gestão sistêmica de **infraestruturas críticas da sociedade**, distribuindo os estudantes em **5 Mesas Multidisciplinares Jigsaw**:
-
-* **MC1 — Banking & Serviços Financeiros:** Foco no autorizador Pix, estornos duplicados e regulamentação BACEN / CVM.
-* **MC2 — Hospital & Saúde Integrada:** Foco no Prontuário Eletrônico do Paciente (PEP), risco à vida e regulamentação ANVISA / ANS.
-* **MC3 — Logística & Cadeia de Mantimentos:** Foco no SaaS de roteamento, travamento de caminhões e ANTT / Defesa Civil.
-* **MC4 — Poder Público (Educação & Serviços):** Foco em exfiltração de PII de 500 mil inscritos, DDoS e regulamentação MEC / CGU / ANPD.
-* **MC5 — Poder Público (Distribuição de Energia):** Foco em redes SCADA/OT, apagão em 4 bairros e regulamentação ANEEL / ONS.
-
----
-
-## 🗂️ Estrutura Recomendada do Repositório
-
-```text
+```
 .
-├── index.html                 # Landing Page principal (Hub de seleção de perfil)
-├── style.css                  # Sistema de design CSS unificado (Dark/Cyber War Room)
-├── README.md                  # Documentação principal do repositório
-│
-├── professor/                 # Portal Exclusivo do Docente
-│   └── index.html             # Roteiro síncrono, Fichas de Injeção e Matriz Formativa
-│
-├── alunos/                    # Hub Interativo das Mesas de Trabalho (MC1 a MC5)
-│   └── index.html             # Seletor de setores, papéis Jigsaw e guias A0, W1, W2, W3
-│
-└── docs/                      # Documentação Pedagógica Consolidada (.md)
-    ├── master-roteiro.md      # Roteiro Master de Instrução (Turma T35)
-    ├── fluxo-paralelo.md      # Mapeamento minuto a minuto (Facilitador vs. Alunos)
-    └── deploy-github.md       # Guia passo a passo de implantação no GitHub Pages
+├── README.md
+├── docs/                      ← site dos alunos (GitHub Pages)
+│   ├── index.html             página de entrada
+│   ├── alunos.html            página da mesa: papéis, A0, W1, ficha, triagem, W2, W3, exportação
+│   └── style.css
+├── professor/                 ← NÃO publicar
+│   ├── painel-professor.html  roteiro, fichas, códigos, sorteio de posturas, checklist, rubrica, cronômetro
+│   └── cartoes-ceo.md         envelopes para imprimir + códigos + rotação dos fiscais
+└── material/
+    ├── master-roteiro.md      roteiro consolidado
+    └── fluxo-paralelo.md      professor × estudantes, minuto a minuto
 ```
 
----
+## Linha do tempo
 
-## 🚀 Publicação no GitHub Pages
+| Min | Parte | Atividade |
+| :--- | :--- | :--- |
+| 00–20 | Conceito | Abertura, A0 da Aurora, Uber 2016 × NHS 2017 |
+| 20–50 | Dinâmica 1 | Mesas, envelopes, W1, pitch de 1,5 min |
+| 50–82 | Dinâmica 2 | Códigos (50), W2 e boatos (58 e 66), fiscalização cruzada (70–76), W3 (76–82) |
+| 82–90 | Fechamento | Revelação, síntese, exit ticket e exportação |
 
-1. **Subir os arquivos para o repositório Git:**
-   - Execute `git init`, `git add .`, `git commit -m "feat: Adiciona suite interativa da War Room T35"`.
-   - Conecte ao seu repositório remoto: `git remote add origin https://github.com/SEU-USUARIO/NOME-DO-REPOSITORIO.git`.
-   - Envie as alterações: `git push -u origin main`.
+## Uso em sala
 
-2. **Ativar o GitHub Pages:**
-   - Acesse no GitHub: **Settings** -> **Pages**.
-   - Em **Source**, selecione a branch `main` e a pasta `/ (root)`.
-   - Clique em **Save**. O site estará disponível em `https://SEU-USUARIO.github.io/NOME-DO-REPOSITORIO/`.
+1. Antes da aula, abra `professor/painel-professor.html` no seu computador. O painel sorteia as posturas (3 Ocultação, 2 Transparência) e guarda tudo neste navegador.
+2. Imprima os envelopes de `professor/cartoes-ceo.md`.
+3. Os alunos abrem `docs/alunos.html` (pelo link do GitHub Pages ou o arquivo). Aos 50 min, anuncie o código de cada mesa.
+4. Ao final, cada mesa exporta o dossiê `.txt` e o W2 `.csv` e envia ao professor.
 
----
+As páginas funcionam offline. Os ícones vêm de uma CDN; sem internet, aparecem só os textos.
 
-## 🎨 Legenda de Cores dos Post-its no Miro
+## Publicação no GitHub Pages
 
-- 🟢 **Verde (Fato / Evidência):** Logs auditados, hashes e confirmações forenses.
-- 🔵 **Azul (Hipótese / Suposição):** Diagnósticos em investigação e vetores prováveis.
-- 🌸 **Rosa (Ponto Cego / Lacuna):** Falhas históricas (A0) ou dados não confirmados.
-- 🟡 **Amarelo (Decisão / SLA):** Ações de contenção com responsável RACI e prazos fatais.
-- 🟧 **Laranja (Concessão / Trade-off):** Acordos e riscos aceitos na negociação regulatória.
+Em **Settings → Pages**, escolha *Deploy from a branch*, branch `main`, pasta `/docs`.
 
----
+**Privacidade.** Em repositório privado, o Pages exige plano pago ou GitHub Education, e o site publicado continua **público**. Por isso o material do professor fica fora de `docs/`. Se o repositório for público, a pasta `professor/` também fica visível no GitHub: nesse caso, mantenha `professor/` fora do repositório (ou num repositório privado separado). Os códigos de liberação estão em `alunos.html` só como hash, o que basta para evitar espiada casual, não para proteger de quem lê o código.
 
-## ⚖️ Dilemas Éticos Executivos
+## Comandos git
 
-- 🔴 **Postura Ocultação (Modelo Uber 2016):** Abafar o incidente e ocultar dados de reguladores.
-- 🟢 **Postura Transparência Radical (Modelo NHS 2017):** Notificação tempestiva e comunicação aberta.
+```bash
+git init -b main
+git add .
+git commit -m "Material T35 War Room: 5 mesas, painel do professor e roteiro"
+git remote add origin https://github.com/<usuario>/t35-war-room.git
+git push -u origin main
+```
+
+> Pasta dentro do OneDrive: o OneDrive pode sincronizar a pasta `.git` no meio de uma operação e corromper o repositório. Se possível, mantenha o clone fora do OneDrive, ou pause a sincronização durante `commit` e `push`.
+
+## Referências normativas usadas
+
+- LGPD, art. 48; Resolução CD/ANPD nº 15/2024 (comunicação de incidente em até 3 dias úteis).
+- Resolução CMN nº 4.893/2021 (bancos) e Resolução BCB nº 85/2021 (instituições de pagamento).
+- Os demais prazos das fichas são metas fictícias do playbook.
