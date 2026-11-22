@@ -1,84 +1,2882 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hub dos Estudantes — Mesas MC1 a MC5 (T35)</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="artifact-type" content="tool">
+  <meta name="design-style" content="aurora">
+  <title>Hub Operacional de War Room — Turma T35 (Mesas MC1 a MC5)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@1.43.0/dist/umd/lucide.min.js" defer></script>
+  <style>
+    :root {
+      color-scheme: dark;
+
+      /* Page and surfaces: deep oceanic slate steps (Aurora) */
+      --background: #0c1214;
+      --surface-container-low: #111a1e;
+      --surface-container: #152024;
+      --surface-container-high: #1c2a30;
+
+      /* Text */
+      --on-surface: #edf3f5;
+      --on-surface-variant: #94a8b0;
+
+      /* Borders */
+      --outline: #38515c;
+      --outline-variant: #213138;
+
+      /* Accents */
+      --primary: #63c7d6;
+      --on-primary: #081214;
+      --primary-container: #163840;
+      --on-primary-container: #c7f0f7;
+      --secondary: #5d7882;
+      --tertiary: #87d69b;
+      --error: #f27474;
+      --on-error: #1a0606;
+
+      /* Data series */
+      --data-1: #63c7d6;
+      --data-2: #87d69b;
+      --data-3: #e8b954;
+      --data-4: #f08c70;
+      --data-context: #415861;
+
+      /* Fonts */
+      --font-headline: 'Instrument Sans', sans-serif;
+      --font-body: 'Plus Jakarta Sans', sans-serif;
+      --font-label: 'Geist Mono', monospace;
+
+      /* Shape */
+      --rounded: 0.5rem;
+      --rounded-lg: 0.75rem;
+      --rounded-full: 9999px;
+
+      /* Style effects */
+      --hairline: 1px solid var(--outline-variant);
+      --hairline-strong: 1px solid var(--outline);
+      --panel-gradient: linear-gradient(180deg, #162226 0%, #111a1e 100%);
+      --heading-tracking: -0.025em;
+      --label-tracking: 0.06em;
+      --sage-tint: color-mix(in srgb, var(--tertiary) 13%, transparent);
+      --cyan-tint: color-mix(in srgb, var(--primary) 13%, transparent);
+
+      /* Shared semantic & Miro color-code tokens */
+      --positive: #87d69b;
+      --warning: #e8b954;
+      --focus: #63c7d6;
+
+      --miro-green: #87d69b;
+      --miro-green-bg: color-mix(in srgb, #87d69b 13%, #152024);
+      --miro-green-border: color-mix(in srgb, #87d69b 38%, transparent);
+
+      --miro-blue: #63c7d6;
+      --miro-blue-bg: color-mix(in srgb, #63c7d6 13%, #152024);
+      --miro-blue-border: color-mix(in srgb, #63c7d6 38%, transparent);
+
+      --miro-pink: #f28db2;
+      --miro-pink-bg: color-mix(in srgb, #f28db2 13%, #152024);
+      --miro-pink-border: color-mix(in srgb, #f28db2 38%, transparent);
+
+      --miro-yellow: #e8b954;
+      --miro-yellow-bg: color-mix(in srgb, #e8b954 13%, #152024);
+      --miro-yellow-border: color-mix(in srgb, #e8b954 38%, transparent);
+
+      --miro-orange: #f08c70;
+      --miro-orange-bg: color-mix(in srgb, #f08c70 13%, #152024);
+      --miro-orange-border: color-mix(in srgb, #f08c70 38%, transparent);
+
+      --error-bg: color-mix(in srgb, #f27474 14%, #152024);
+      --error-border: color-mix(in srgb, #f27474 42%, transparent);
+      --warning-bg: color-mix(in srgb, #e8b954 14%, #152024);
+      --warning-border: color-mix(in srgb, #e8b954 42%, transparent);
+      --primary-hover: color-mix(in srgb, #63c7d6 84%, #ffffff);
+
+      /* Type scale (Focused Tool) */
+      --display-size: clamp(1.75rem, 1.4rem + 1.2vw, 2.25rem);
+      --headline-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
+      --subhead-size: clamp(1.0625rem, 1rem + 0.25vw, 1.1875rem);
+      --body-size: clamp(0.9375rem, 0.9rem + 0.15vw, 1rem);
+      --label-size: 0.75rem;
+
+      /* Spacing scale (4pt base) */
+      --space-xs: 0.25rem;
+      --space-sm: 0.5rem;
+      --space-md: 1rem;
+      --space-lg: 1.5rem;
+      --space-xl: 2.5rem;
+      --space-2xl: 4rem;
+      --space-3xl: 6rem;
+
+      /* Motion */
+      --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+      --dur-micro: 120ms;
+      --dur-short: 220ms;
+      --dur-long: 420ms;
+    }
+
+    /* Base reset */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body {
+      overflow-x: clip;
+      margin: 0;
+      padding: 0;
+      background-color: var(--background);
+      color: var(--on-surface);
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+    }
+    header { position: static !important; }
+
+    .page-grid {
+      display: grid;
+      gap: var(--space-lg);
+      padding: var(--space-lg);
+      max-width: 1200px;
+      margin: 0 auto;
+      overflow: hidden;
+    }
+    .page-grid * { min-width: 0; }
+
+    /* Focus rings */
+    :focus-visible {
+      outline: 2px solid var(--focus);
+      outline-offset: 2px;
+    }
+
+    /* Typography helpers */
+    h1, h2, h3, h4 {
+      font-family: var(--font-headline);
+      font-weight: 600;
+      letter-spacing: var(--heading-tracking);
+      color: var(--on-surface);
+      margin: 0;
+    }
+    h1 {
+      font-size: var(--display-size);
+      line-height: 1.1;
+    }
+    h2 {
+      font-size: var(--headline-size);
+      line-height: 1.15;
+    }
+    h3 {
+      font-size: var(--subhead-size);
+      line-height: 1.25;
+    }
+    p {
+      margin: 0;
+      max-width: 68ch;
+      color: var(--on-surface-variant);
+    }
+    .data-label {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 500;
+      letter-spacing: var(--label-tracking);
+      text-transform: uppercase;
+      color: var(--on-surface-variant);
+    }
+    .mono-val {
+      font-family: var(--font-label);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Tonal mineral panel (Aurora treatment 1) */
+    .panel {
+      background: var(--panel-gradient);
+      border: var(--hairline);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-lg);
+      display: grid;
+      gap: var(--space-md);
+    }
+    .sub-panel {
+      background: var(--surface-container-low);
+      border: var(--hairline);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+      display: grid;
+      gap: var(--space-sm);
+    }
+    .well {
+      background: var(--background);
+      border: var(--hairline);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+    }
+
+    /* Header & top sector selector */
+    .hub-header {
+      display: grid;
+      gap: var(--space-md);
+      border-bottom: var(--hairline);
+      padding-bottom: var(--space-lg);
+    }
+    .header-top {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: var(--space-md);
+    }
+    .header-title-wrap {
+      display: grid;
+      gap: var(--space-xs);
+    }
+    .header-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      align-items: center;
+    }
+
+    /* Sector Selector */
+    .sector-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: var(--space-sm);
+    }
+    .sector-btn {
+      appearance: none;
+      background: var(--surface-container);
+      border: var(--hairline);
+      border-radius: var(--rounded);
+      padding: var(--space-sm) var(--space-md);
+      min-height: 44px;
+      text-align: left;
+      cursor: pointer;
+      display: grid;
+      gap: var(--space-xs);
+      color: var(--on-surface);
+      font-family: inherit;
+      transition: background-color var(--dur-micro) var(--ease-out),
+                  box-shadow var(--dur-micro) var(--ease-out),
+                  transform var(--dur-micro) var(--ease-out);
+    }
+    .sector-btn:hover {
+      background: var(--surface-container-high);
+    }
+    .sector-btn.is-active {
+      background: var(--primary-container);
+      box-shadow: inset 0 0 0 1px var(--primary);
+    }
+    .sector-btn .sector-code {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      letter-spacing: var(--label-tracking);
+      color: var(--primary);
+      font-weight: 600;
+    }
+    .sector-btn .sector-name {
+      font-family: var(--font-headline);
+      font-size: var(--body-size);
+      font-weight: 600;
+      color: var(--on-surface);
+      line-height: 1.25;
+    }
+    .sector-btn .sector-reg {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* Top Operational Status Strip (Lead with current state) */
+    .kpi-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: var(--space-md);
+    }
+    .metric-tile {
+      background: var(--panel-gradient);
+      border: var(--hairline);
+      border-radius: var(--rounded-lg);
+      padding: var(--space-md);
+      display: grid;
+      gap: var(--space-xs);
+    }
+    .metric-value {
+      font-family: var(--font-headline);
+      font-size: var(--headline-size);
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: var(--heading-tracking);
+      color: var(--on-surface);
+    }
+    .metric-delta {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--tertiary);
+    }
+    .metric-delta.is-warn {
+      color: var(--warning);
+    }
+
+    /* Quick Jump Anchor Nav (doesn't hide content, guides scroll) */
+    .phase-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      align-items: center;
+      padding: var(--space-sm) var(--space-md);
+      background: var(--surface-container-low);
+      border: var(--hairline);
+      border-radius: var(--rounded);
+    }
+    .phase-link {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-md);
+      border-radius: var(--rounded);
+      color: var(--on-surface);
+      text-decoration: none;
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      letter-spacing: var(--label-tracking);
+      text-transform: uppercase;
+      background: var(--surface-container);
+      border: var(--hairline);
+      transition: background-color var(--dur-micro) var(--ease-out),
+                  color var(--dur-micro) var(--ease-out);
+    }
+    .phase-link:hover {
+      background: var(--surface-container-high);
+      color: var(--primary);
+    }
+
+    /* Buttons */
+    .btn {
+      appearance: none;
+      font-family: var(--font-headline);
+      font-size: var(--body-size);
+      font-weight: 600;
+      min-height: 44px;
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded);
+      border: var(--hairline-strong);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-sm);
+      transition: background-color var(--dur-micro) var(--ease-out),
+                  color var(--dur-micro) var(--ease-out),
+                  opacity var(--dur-micro) var(--ease-out);
+    }
+    .btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: var(--on-primary);
+      border-color: transparent;
+    }
+    .btn-primary:hover:not(:disabled) {
+      background: var(--primary-hover);
+    }
+    .btn-secondary {
+      background: var(--surface-container);
+      color: var(--on-surface);
+    }
+    .btn-secondary:hover:not(:disabled) {
+      background: var(--surface-container-high);
+    }
+    .btn-danger {
+      background: var(--error-bg);
+      color: var(--error);
+      border-color: var(--error-border);
+    }
+    .btn-danger:hover:not(:disabled) {
+      background: var(--surface-container-high);
+    }
+    .btn-sm {
+      min-height: 44px;
+      padding: var(--space-xs) var(--space-sm);
+      font-size: var(--label-size);
+      font-family: var(--font-label);
+      text-transform: uppercase;
+      letter-spacing: var(--label-tracking);
+    }
+
+    /* Forms & Inputs */
+    .form-grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-md);
+    }
+    .form-grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-md);
+    }
+    .form-row-end {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: var(--space-sm);
+      align-items: end;
+    }
+    .field {
+      display: grid;
+      gap: var(--space-xs);
+      align-content: start;
+    }
+    .field label {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      letter-spacing: var(--label-tracking);
+      text-transform: uppercase;
+      color: var(--on-surface-variant);
+    }
+    input[type="text"],
+    input[type="time"],
+    select,
+    textarea {
+      width: 100%;
+      font-family: var(--font-body);
+      font-size: var(--body-size);
+      color: var(--on-surface);
+      background: var(--background);
+      border: var(--hairline-strong);
+      border-radius: var(--rounded);
+      padding: var(--space-sm) var(--space-md);
+      min-height: 44px;
+      transition: box-shadow var(--dur-micro) var(--ease-out);
+    }
+    select {
+      padding-right: var(--space-xl);
+    }
+    textarea {
+      min-height: 84px;
+      resize: vertical;
+      line-height: 1.45;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px var(--focus);
+    }
+
+    /* Section header with divider */
+    .section-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: flex-end;
+      gap: var(--space-md);
+      padding-bottom: var(--space-sm);
+      border-bottom: var(--hairline);
+    }
+    .section-head-copy {
+      display: grid;
+      gap: var(--space-xs);
+    }
+
+    /* Jigsaw Roles Grid */
+    .roles-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr);
+      gap: var(--space-lg);
+      align-items: start;
+    }
+    .roles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+      gap: var(--space-sm);
+    }
+    .role-card {
+      appearance: none;
+      text-align: left;
+      font-family: inherit;
+      background: var(--surface-container);
+      border: var(--hairline);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+      min-height: 44px;
+      cursor: pointer;
+      display: grid;
+      gap: var(--space-xs);
+      align-content: start;
+      color: var(--on-surface);
+      transition: background-color var(--dur-micro) var(--ease-out),
+                  box-shadow var(--dur-micro) var(--ease-out);
+    }
+    .role-card:hover {
+      background: var(--surface-container-high);
+    }
+    .role-card.is-selected {
+      background: var(--primary-container);
+      box-shadow: inset 0 0 0 1px var(--primary);
+    }
+    .role-tag {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--primary);
+      text-transform: uppercase;
+      letter-spacing: var(--label-tracking);
+    }
+    .role-title {
+      font-family: var(--font-headline);
+      font-weight: 600;
+      font-size: var(--body-size);
+      color: var(--on-surface);
+    }
+    .role-summary {
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      line-height: 1.4;
+    }
+
+    /* Secret CEO Directive Box */
+    .secret-box {
+      border: 1px solid var(--warning-border);
+      background: var(--warning-bg);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+      display: grid;
+      gap: var(--space-sm);
+    }
+    .secret-box.is-transparent {
+      border-color: var(--miro-green-border);
+      background: var(--miro-green-bg);
+    }
+    .secret-box.is-hidden-posture {
+      border-color: var(--error-border);
+      background: var(--error-bg);
+    }
+
+    /* Miro Legend Bar */
+    .miro-legend {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: var(--space-sm);
+    }
+    .miro-chip {
+      border-radius: var(--rounded);
+      padding: var(--space-sm) var(--space-md);
+      display: grid;
+      gap: var(--space-xs);
+      border: 1px solid transparent;
+    }
+    .miro-chip.miro-green { background: var(--miro-green-bg); border-color: var(--miro-green-border); }
+    .miro-chip.miro-blue { background: var(--miro-blue-bg); border-color: var(--miro-blue-border); }
+    .miro-chip.miro-pink { background: var(--miro-pink-bg); border-color: var(--miro-pink-border); }
+    .miro-chip.miro-yellow { background: var(--miro-yellow-bg); border-color: var(--miro-yellow-border); }
+    .miro-chip.miro-orange { background: var(--miro-orange-bg); border-color: var(--miro-orange-border); }
+
+    .miro-chip-head {
+      display: flex;
+      align-items: center;
+      gap: var(--space-xs);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: var(--label-tracking);
+    }
+    .miro-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: var(--rounded-full);
+      flex-shrink: 0;
+    }
+    .dot-green { background: var(--miro-green); }
+    .dot-blue { background: var(--miro-blue); }
+    .dot-pink { background: var(--miro-pink); }
+    .dot-yellow { background: var(--miro-yellow); }
+    .dot-orange { background: var(--miro-orange); }
+
+    .miro-chip-desc {
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+      line-height: 1.35;
+    }
+
+    /* A0 Sticky Board */
+    .a0-columns {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-md);
+    }
+    .sticky-list {
+      display: grid;
+      gap: var(--space-sm);
+    }
+    .sticky-note {
+      border-radius: var(--rounded);
+      padding: var(--space-sm) var(--space-md);
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: var(--space-sm);
+      border: 1px solid transparent;
+    }
+    .sticky-note.is-good {
+      background: var(--miro-green-bg);
+      border-color: var(--miro-green-border);
+    }
+    .sticky-note.is-blindspot {
+      background: var(--miro-pink-bg);
+      border-color: var(--miro-pink-border);
+    }
+    .sticky-meta {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      color: var(--on-surface-variant);
+    }
+
+    /* Tables (Aurora: no vertical rules, hairline between rows, Mono headers) */
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border: var(--hairline);
+      border-radius: var(--rounded);
+      background: var(--background);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+    th {
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: var(--label-tracking);
+      color: var(--on-surface-variant);
+      padding: var(--space-sm) var(--space-md);
+      border-bottom: var(--hairline);
+      background: var(--surface-container-low);
+      white-space: nowrap;
+    }
+    td {
+      padding: var(--space-sm) var(--space-md);
+      border-bottom: var(--hairline);
+      font-size: var(--body-size);
+      color: var(--on-surface);
+      vertical-align: top;
+    }
+    tr:last-child td {
+      border-bottom: none;
+    }
+    .num-cell {
+      font-family: var(--font-label);
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    /* Status chips */
+    .status-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      border-radius: var(--rounded);
+      padding: 2px var(--space-sm);
+      font-family: var(--font-label);
+      font-size: var(--label-size);
+      white-space: nowrap;
+      border: 1px solid transparent;
+    }
+    .chip-green { background: var(--miro-green-bg); color: var(--miro-green); border-color: var(--miro-green-border); }
+    .chip-blue { background: var(--miro-blue-bg); color: var(--miro-blue); border-color: var(--miro-blue-border); }
+    .chip-pink { background: var(--miro-pink-bg); color: var(--miro-pink); border-color: var(--miro-pink-border); }
+    .chip-yellow { background: var(--miro-yellow-bg); color: var(--miro-yellow); border-color: var(--miro-yellow-border); }
+    .chip-orange { background: var(--miro-orange-bg); color: var(--miro-orange); border-color: var(--miro-orange-border); }
+    .chip-red { background: var(--error-bg); color: var(--error); border-color: var(--error-border); }
+
+    /* Crisis Injection & Timer */
+    .injection-banner {
+      border: 1px solid var(--error-border);
+      background: var(--error-bg);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+      display: grid;
+      gap: var(--space-sm);
+    }
+    .injection-sealed {
+      border: 1px dashed var(--outline);
+      background: var(--background);
+      border-radius: var(--rounded);
+      padding: var(--space-lg);
+      display: grid;
+      gap: var(--space-md);
+      justify-items: start;
+    }
+    .cia-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-sm);
+    }
+    .cia-card {
+      background: var(--background);
+      border: var(--hairline);
+      border-radius: var(--rounded);
+      padding: var(--space-sm) var(--space-md);
+      display: grid;
+      gap: var(--space-xs);
+    }
+    .timer-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-md);
+      background: var(--background);
+      border: var(--hairline);
+      border-radius: var(--rounded);
+      padding: var(--space-sm) var(--space-md);
+    }
+    .timer-clock {
+      font-family: var(--font-label);
+      font-size: var(--headline-size);
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+      color: var(--primary);
+    }
+
+    /* Triage Fatos vs Fakes */
+    .triage-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-md);
+    }
+    .triage-card {
+      background: var(--background);
+      border: var(--hairline);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+      display: grid;
+      gap: var(--space-sm);
+      align-content: start;
+    }
+
+    /* Audit Simulator */
+    .audit-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+      gap: var(--space-lg);
+      align-items: start;
+    }
+    .check-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: var(--space-sm);
+      padding: var(--space-xs) 0;
+      border-bottom: var(--hairline);
+    }
+    .check-row:last-child { border-bottom: none; }
+
+    /* W3 Signatures */
+    .signatures-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(220px, 100%), 1fr));
+      gap: var(--space-md);
+    }
+    .sig-card {
+      background: var(--background);
+      border: var(--hairline);
+      border-radius: var(--rounded);
+      padding: var(--space-md);
+      display: grid;
+      gap: var(--space-sm);
+      align-content: start;
+    }
+    .sig-card.is-signed {
+      border-color: var(--miro-green-border);
+      background: var(--miro-green-bg);
+    }
+
+    /* Inline message banner */
+    .inline-msg {
+      padding: var(--space-sm) var(--space-md);
+      border-radius: var(--rounded);
+      font-size: var(--label-size);
+      font-family: var(--font-label);
+      background: var(--cyan-tint);
+      color: var(--on-primary-container);
+      border: 1px solid var(--miro-blue-border);
+      display: none;
+    }
+    .inline-msg.is-visible { display: block; }
+    .inline-msg.is-error {
+      background: var(--error-bg);
+      color: var(--error);
+      border-color: var(--error-border);
+    }
+
+    .list-divider > * + * {
+      border-top: var(--hairline);
+      padding-top: var(--space-sm);
+    }
+
+    /* Footer */
+    .hub-footer {
+      border-top: var(--hairline);
+      padding-top: var(--space-md);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      color: var(--on-surface-variant);
+      font-size: var(--label-size);
+      font-family: var(--font-label);
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 960px) {
+      .sector-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .kpi-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .miro-legend { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .roles-layout, .audit-layout { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .page-grid {
+        grid-template-columns: 1fr;
+        padding: var(--space-md);
+      }
+      .sector-grid,
+      .kpi-strip,
+      .miro-legend,
+      .a0-columns,
+      .form-grid-2,
+      .form-grid-3,
+      .cia-grid,
+      .triage-grid,
+      .form-row-end {
+        grid-template-columns: 1fr;
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
 </head>
 <body>
-    <header class="hero-header text-center">
-        <div class="container">
-            <a href="index.html" class="btn btn-outline-light btn-sm mb-3"><i class="bi bi-arrow-left me-1"></i> Voltar à Landing Page</a>
-            <span class="badge-t35 d-block w-auto mx-auto mb-2" style="max-width: fit-content;"><i class="bi bi-people-fill me-1"></i> Central Multidisciplinar Jigsaw</span>
-            <h1 class="display-5 fw-bold text-white mb-2">Hub das Mesas de Trabalho (MC1 a MC5)</h1>
-            <p class="lead text-slate-300">Interface operacional dos alunos para a simulação de War Room Setorial</p>
+  <div class="page-grid">
+
+    <!-- HEADER & MESA SELECTOR -->
+    <header class="hub-header">
+      <div class="header-top">
+        <div class="header-title-wrap">
+          <span class="data-label">Turma T35 · Liderança, Negociação e Governança em War Room (90 min)</span>
+          <h1>Hub Operacional da War Room Setorial</h1>
+          <p id="header-subtitle">Selecione sua Mesa de Caso (MC1 a MC5) para conduzir o diagnóstico A0, projetar a arquitetura W1, operar a injeção de crise W2 e assinar o plano de continuidade W3.</p>
         </div>
+        <div class="header-actions">
+          <button type="button" class="btn btn-secondary" onclick="exportDossier()">
+            <i data-lucide="download" aria-hidden="true"></i>
+            Exportar Dossiê (TXT)
+          </button>
+          <button type="button" class="btn btn-danger" id="btn-reset-mesa" onclick="resetActiveMesa(this)">
+            <i data-lucide="rotate-ccw" aria-hidden="true"></i>
+            Limpar Mesa Atual
+          </button>
+        </div>
+      </div>
+
+      <div id="global-feedback" class="inline-msg" role="status" aria-live="polite"></div>
+
+      <div>
+        <div class="data-label" style="margin-bottom: var(--space-xs);">Seletor de Mesa / Setor Crítico (Metodologia Jigsaw)</div>
+        <div class="sector-grid" id="sector-selector" role="tablist" aria-label="Mesas Setoriais MC1 a MC5"></div>
+      </div>
+
+      <!-- Current Operational State (Lead with state) -->
+      <div class="kpi-strip" id="kpi-strip">
+        <div class="metric-tile">
+          <span class="data-label">Mesa &amp; Papel Ativo</span>
+          <div class="metric-value" id="kpi-mesa-role">MC1 · CEO</div>
+          <div class="metric-delta" id="kpi-org">Banco Digital &amp; Pix</div>
+        </div>
+        <div class="metric-tile">
+          <span class="data-label">Prontidão W1 (Arquitetura)</span>
+          <div class="metric-value" id="kpi-w1-pct">0%</div>
+          <div class="metric-delta" id="kpi-w1-detail">0 de 6 campos preenchidos</div>
+        </div>
+        <div class="metric-tile">
+          <span class="data-label">Registro Único W2</span>
+          <div class="metric-value" id="kpi-w2-count">0 eventos</div>
+          <div class="metric-delta" id="kpi-w2-facts">0 fatos verdes · 0 decisões</div>
+        </div>
+        <div class="metric-tile">
+          <span class="data-label">Aceite de Risco W3</span>
+          <div class="metric-value" id="kpi-w3-sigs">0 / 5</div>
+          <div class="metric-delta" id="kpi-w3-status">Aguardando pactuação final</div>
+        </div>
+      </div>
+
+      <nav class="phase-nav" aria-label="Navegação rápida do roteiro de 90 minutos">
+        <span class="data-label">Roteiro 90 min:</span>
+        <a class="phase-link" href="#sec-papeis">1. Papéis Jigsaw</a>
+        <a class="phase-link" href="#sec-dinamica1">2. A0 &amp; Arquitetura W1 (20–50m)</a>
+        <a class="phase-link" href="#sec-dinamica2">3. Crise, W2 &amp; Auditoria (50–82m)</a>
+        <a class="phase-link" href="#sec-consolidacao">4. Plano W3 &amp; Aceite (78–90m)</a>
+      </nav>
     </header>
 
-    <main class="container my-5">
-        <!-- SELETOR DE MESA -->
-        <section class="mb-5 text-center">
-            <h3 class="h4 text-white mb-3"><i class="bi bi-cpu-fill me-2 text-info"></i>Selecione a sua Mesa Setorial:</h3>
-            <div class="d-flex flex-wrap justify-content-center gap-2">
-                <button class="btn btn-outline-info active px-4 py-2">MC1: Banking & FinTechs</button>
-                <button class="btn btn-outline-info px-4 py-2">MC2: Saúde & MedTechs</button>
-                <button class="btn btn-outline-info px-4 py-2">MC3: Logística & Supply</button>
-                <button class="btn btn-outline-info px-4 py-2">MC4: Educação Pública</button>
-                <button class="btn btn-outline-info px-4 py-2">MC5: Energia & Smart Grid</button>
-            </div>
-        </section>
+    <!-- SECTION 1: CENTRAL DE PAPÉIS JIGSAW -->
+    <section class="panel" id="sec-papeis" aria-labelledby="title-papeis">
+      <div class="section-head">
+        <div class="section-head-copy">
+          <span class="data-label">Metodologia Jigsaw · Composição Obrigatória da Diretoria de Crise</span>
+          <h2 id="title-papeis">Central de Papéis da Mesa <span id="lbl-mesa-papeis">MC1</span></h2>
+        </div>
+        <span class="status-chip chip-blue" id="badge-active-role">Seu papel ativo: Executivo de Negócio</span>
+      </div>
 
-        <!-- PAPÉIS JIGSAW -->
-        <section class="mb-5 p-4 rounded-4" style="background-color: var(--card-bg, #141e33); border: 1px solid #334155;">
-            <h2 class="h4 text-warning fw-bold mb-4"><i class="bi bi-person-workspace me-2"></i>Os 5 Papéis Jigsaw na Mesa</h2>
-            <div class="row g-3">
-                <div class="col-md-4">
-                    <div class="p-3 rounded-3 bg-dark border border-secondary">
-                        <h5 class="text-info fw-bold mb-1">👔 Executivo de Negócio</h5>
-                        <small class="text-muted">Tomador de decisão final & Orientação Ética</small>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="p-3 rounded-3 bg-dark border border-secondary">
-                        <h5 class="text-info fw-bold mb-1">☁️ Especialista em Infra/Cloud</h5>
-                        <small class="text-muted">Isolamento técnico & Canal Out-of-Band</small>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="p-3 rounded-3 bg-dark border border-secondary">
-                        <h5 class="text-info fw-bold mb-1">⚖️ Poder Público & Compliance</h5>
-                        <small class="text-muted">SLAs Coercitivos & Notificação de Reguladores</small>
-                    </div>
-                </div>
-                <div class="col-md-6 mt-3">
-                    <div class="p-3 rounded-3 bg-dark border border-secondary">
-                        <h5 class="text-info fw-bold mb-1">🔍 Auditor Independente</h5>
-                        <small class="text-muted">Rastreabilidade forense & Legenda de Post-its no Miro</small>
-                    </div>
-                </div>
-                <div class="col-md-6 mt-3">
-                    <div class="p-3 rounded-3 bg-dark border border-secondary">
-                        <h5 class="text-info fw-bold mb-1">🛡️ Consultor Técnico & Riscos</h5>
-                        <small class="text-muted">Plano de continuidade W3 & Riscos Residuais</small>
-                    </div>
-                </div>
-            </div>
-        </section>
+      <div class="roles-layout">
+        <div class="roles-grid" id="roles-grid"></div>
 
-        <!-- LEGENDA DO MIRO -->
-        <section class="p-4 rounded-4" style="background-color: var(--card-bg, #141e33); border: 1px solid #334155;">
-            <h2 class="h4 text-success fw-bold mb-3"><i class="bi bi-palette-fill me-2"></i>Legenda Obrigatória de Cores no Miro</h2>
-            <div class="d-flex flex-wrap gap-3">
-                <span class="badge p-3" style="background-color: #28a745; color: white;">🟢 Verde: Fato / Evidência</span>
-                <span class="badge p-3" style="background-color: #0d6efd; color: white;">🔵 Azul: Hipótese / Suposição</span>
-                <span class="badge p-3" style="background-color: #e83e8c; color: white;">🌸 Rosa: Ponto Cego / Lacuna</span>
-                <span class="badge p-3" style="background-color: #ffc107; color: black;">🟡 Amarelo: Decisão / SLA</span>
-                <span class="badge p-3" style="background-color: #fd7e14; color: white;">🟧 Laranja: Trade-off / Concessão</span>
+        <div class="sub-panel" id="role-detail-panel">
+          <span class="data-label" id="role-detail-tag">Papel Selecionado</span>
+          <h3 id="role-detail-title">Executivo de Negócio (CEO / COO)</h3>
+          <p id="role-detail-desc"></p>
+          <div class="well">
+            <div class="data-label" style="margin-bottom: var(--space-xs);">Foco Setorial Neste Caso</div>
+            <p id="role-detail-sector-focus" style="color: var(--on-surface);"></p>
+          </div>
+          <div id="ceo-secret-container"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: GUIA DINÂMICA 1 (A0 + LEGENDA MIRO + W1) -->
+    <section class="panel" id="sec-dinamica1" aria-labelledby="title-dinamica1">
+      <div class="section-head">
+        <div class="section-head-copy">
+          <span class="data-label">Partes 1 &amp; 2 (00 a 50 min) · Da Aurora Varejo ao Projeto Sistêmico</span>
+          <h2 id="title-dinamica1">Guia Dinâmica 1: Quadro A0 &amp; Arquitetura da War Room (W1)</h2>
+        </div>
+        <button type="button" class="btn btn-secondary btn-sm" onclick="prefillW1Reference()">
+          <i data-lucide="sparkles" aria-hidden="true"></i>
+          Carregar Referência Legal do Setor
+        </button>
+      </div>
+
+      <!-- Legenda visual de cores do Miro -->
+      <div class="sub-panel">
+        <div class="data-label">Código Obrigatório de Cores no Board Miro (Rigor na Gestão da Informação)</div>
+        <div class="miro-legend">
+          <div class="miro-chip miro-green">
+            <div class="miro-chip-head"><span class="miro-dot dot-green"></span> Verde · Fato</div>
+            <div class="miro-chip-desc">Informação validada por logs de auditoria, testes reprodutíveis ou monitoramento.</div>
+          </div>
+          <div class="miro-chip miro-blue">
+            <div class="miro-chip-head"><span class="miro-dot dot-blue"></span> Azul · Hipótese</div>
+            <div class="miro-chip-desc">Diagnóstico preliminar pendente de comprovação forense ou verificação em campo.</div>
+          </div>
+          <div class="miro-chip miro-pink">
+            <div class="miro-chip-head"><span class="miro-dot dot-pink"></span> Rosa · Lacuna</div>
+            <div class="miro-chip-desc">Ponto cego que a mesa desconhece (ex.: volume vazado ou vetor inicial).</div>
+          </div>
+          <div class="miro-chip miro-yellow">
+            <div class="miro-chip-head"><span class="miro-dot dot-yellow"></span> Amarelo · Decisão</div>
+            <div class="miro-chip-desc">Medida de contenção ou SLA aprovado com responsável único e evidência.</div>
+          </div>
+          <div class="miro-chip miro-orange">
+            <div class="miro-chip-head"><span class="miro-dot dot-orange"></span> Laranja · Concessão</div>
+            <div class="miro-chip-desc">Trade-off aceito na negociação com órgão regulador, diretoria ou imprensa.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quadro A0: Retrospectiva Aurora Varejo -->
+      <div class="sub-panel">
+        <div class="section-head">
+          <div class="section-head-copy">
+            <span class="data-label">Artefato A0 (10 a 15 min) · Debriefing Aurora Varejo</span>
+            <h3>Mapeamento de Acertos &amp; Pontos Cegos Anteriores</h3>
+          </div>
+          <button type="button" class="btn btn-secondary btn-sm" onclick="addAuroraChecklistPresets()">
+            Inserir Lembretes Aurora (OWASP C5 / Float)
+          </button>
+        </div>
+
+        <p>Reflitam antes de projetar o setor crítico: quantos grupos alteraram código sem extrair logs antes? Quando a notificação ao regulador virou prazo legal? Havia autoridade clara de parada?</p>
+
+        <div class="form-grid-3" style="align-items: end;">
+          <div class="field">
+            <label for="a0-type">Categoria da Nota</label>
+            <select id="a0-type">
+              <option value="blindspot">Rosa — Ponto Cego / Lacuna</option>
+              <option value="good">Verde — O que fizemos bem</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="a0-text">Registro da Equipe</label>
+            <input type="text" id="a0-text" placeholder="Ex.: Aplicamos patch sem preservar logs de auditoria">
+          </div>
+          <button type="button" class="btn btn-primary" onclick="addA0Item()">
+            <i data-lucide="plus" aria-hidden="true"></i>
+            Adicionar ao A0
+          </button>
+        </div>
+
+        <div class="a0-columns">
+          <div class="well">
+            <div class="data-label" style="margin-bottom: var(--space-sm); color: var(--miro-green);">O que fizemos bem (Aurora)</div>
+            <div class="sticky-list" id="a0-good-list"></div>
+          </div>
+          <div class="well">
+            <div class="data-label" style="margin-bottom: var(--space-sm); color: var(--miro-pink);">Nossos Pontos Cegos (Lacunas)</div>
+            <div class="sticky-list" id="a0-blindspot-list"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Artefato W1: Carta de Arquitetura -->
+      <div class="sub-panel">
+        <div class="section-head">
+          <div class="section-head-copy">
+            <span class="data-label">Artefato W1 (25 a 50 min) · Desenho Pré-Crise</span>
+            <h3>Carta de Arquitetura da War Room Setorial</h3>
+          </div>
+          <span class="status-chip chip-blue" id="w1-pitch-badge">Pronto para Pitch de 1,5 min</span>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="field">
+            <label for="w1-reguladores">Órgãos Reguladores &amp; Marcos Legais Aplicáveis</label>
+            <input type="text" id="w1-reguladores" oninput="saveW1Field('reguladores', this.value)" placeholder="Ex.: BACEN (Res. 85/2021), CVM, ANPD (Art. 48 LGPD)">
+          </div>
+          <div class="field">
+            <label for="w1-autoridade">Autoridade Máxima de Parada (Cargo Único RACI)</label>
+            <input type="text" id="w1-autoridade" oninput="saveW1Field('autoridadeParada', this.value)" placeholder="Ex.: Executivo de Negócio (CEO) com veto técnico de Cyber">
+          </div>
+          <div class="field">
+            <label for="w1-sla-deteccao">SLA Interno de Detecção &amp; Triagem</label>
+            <input type="text" id="w1-sla-deteccao" oninput="saveW1Field('slaDeteccao', this.value)" placeholder="Ex.: Até 5 minutos após alerta SIEM">
+          </div>
+          <div class="field">
+            <label for="w1-sla-contencao">SLA Coercitivo de Contenção / Isolamento</label>
+            <input type="text" id="w1-sla-contencao" oninput="saveW1Field('slaContencao', this.value)" placeholder="Ex.: Isolamento de módulos em até 15 minutos">
+          </div>
+          <div class="field">
+            <label for="w1-sla-notificacao">SLA Legal de Notificação ao Regulador</label>
+            <input type="text" id="w1-sla-notificacao" oninput="saveW1Field('slaNotificacao', this.value)" placeholder="Ex.: Comunicação preliminar em até 2 horas">
+          </div>
+          <div class="field">
+            <label for="w1-canal-oob">Canal Emergencial Out-of-Band (Criptografado)</label>
+            <input type="text" id="w1-canal-oob" oninput="saveW1Field('canalOutOfBand', this.value)" placeholder="Ex.: Signal/Matrix privado fora da rede corporativa + ponte telefônica">
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="w1-pitch-risco">Maior Risco de Interrupção do Setor (para Pitch aos 40–50 min)</label>
+          <input type="text" id="w1-pitch-risco" oninput="saveW1Field('pitchRisco', this.value)" placeholder="Ex.: Indisponibilidade sistêmica ou risco à integridade humana caso a War Room falhe">
+        </div>
+
+        <!-- Matriz RACI Interativa -->
+        <div class="well">
+          <div class="data-label" style="margin-bottom: var(--space-sm);">Matriz RACI de Decisões Críticas da Mesa (R = Executa · A = Aprova/Responde · C = Consultado · I = Informado)</div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Decisão Crítica</th>
+                  <th>R (Responsável)</th>
+                  <th>A (Autoridade Final)</th>
+                  <th>C (Consultado)</th>
+                  <th>I (Informado)</th>
+                </tr>
+              </thead>
+              <tbody id="raci-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Resumo automático do Pitch de 1,5 min -->
+        <div class="well" id="pitch-summary-box">
+          <div class="data-label" style="margin-bottom: var(--space-xs); color: var(--primary);">Roteiro Automático do Pitch de Protocolo (1,5 min · 40–50 min)</div>
+          <div id="pitch-summary-text" style="color: var(--on-surface);"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 3: GUIA DINÂMICA 2 (INJEÇÃO DE CRISE + TRIAGEM + W2 + ARGUIÇÃO) -->
+    <section class="panel" id="sec-dinamica2" aria-labelledby="title-dinamica2">
+      <div class="section-head">
+        <div class="section-head-copy">
+          <span class="data-label">Parte 3 (50 a 82 min) · Teste de Estresse Surpresa e Auditoria</span>
+          <h2 id="title-dinamica2">Guia Dinâmica 2: Injeção de Crise, Triagem &amp; Registro W2</h2>
+        </div>
+        <div class="timer-bar">
+          <div>
+            <span class="data-label">Cronômetro de Crise / SLA</span>
+            <div class="timer-clock" id="crisis-timer-display">00:00</div>
+          </div>
+          <div style="display: flex; gap: var(--space-sm);">
+            <button type="button" class="btn btn-secondary btn-sm" id="btn-timer-toggle" onclick="toggleTimer()">Iniciar</button>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="resetTimer()">Zerar</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ficha de Injeção Setorial -->
+      <div id="injection-area"></div>
+
+      <!-- Simulador de Triagem Dinâmica: Fatos vs Fakes -->
+      <div class="sub-panel">
+        <div class="section-head">
+          <div class="section-head-copy">
+            <span class="data-label">Checkpoints a cada 10 min · Terminal de Triagem</span>
+            <h3>Triagem Dinâmica: Fatos (Verde) vs. Hipóteses, Lacunas e Fakes</h3>
+          </div>
+          <span class="status-chip chip-yellow" id="triage-governance-status">Aguardando triagem da mesa</span>
+        </div>
+        <p>Classifiquem cada alerta recebido no board. Não tratem suposições ou boatos de imprensa como Fatos confirmados. Se o Executivo adotar postura de ocultação enquanto um boato viraliza sem notificação prévia, a mesa sofre devassa regulatória.</p>
+        <div class="triage-grid" id="triage-grid"></div>
+      </div>
+
+      <!-- Matriz de Registro Único W2 -->
+      <div class="sub-panel">
+        <div class="section-head">
+          <div class="section-head-copy">
+            <span class="data-label">Artefato W2 (52 a 70 min) · Rastreabilidade Cronológica</span>
+            <h3>Registro Único de Resposta à Crise Setorial</h3>
+          </div>
+          <div style="display: flex; gap: var(--space-sm); align-items: center;">
+            <label for="w2-filter-cat" class="data-label" style="margin: 0;">Filtrar:</label>
+            <select id="w2-filter-cat" onchange="renderW2Table()" style="min-height: 44px; width: auto;">
+              <option value="all">Todas as Categorias</option>
+              <option value="fato">Verde · Fato / Evidência</option>
+              <option value="hipotese">Azul · Hipótese</option>
+              <option value="lacuna">Rosa · Ponto Cego / Lacuna</option>
+              <option value="decisao">Amarelo · Decisão / SLA</option>
+              <option value="concessao">Laranja · Concessão / Trade-off</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-grid-3">
+          <div class="field">
+            <label for="w2-time">Hora do Registro</label>
+            <input type="text" id="w2-time" value="10:18" placeholder="Ex.: 10:18">
+          </div>
+          <div class="field">
+            <label for="w2-cat">Cor Miro (Categoria)</label>
+            <select id="w2-cat">
+              <option value="fato">Verde — Fato / Evidência</option>
+              <option value="hipotese">Azul — Hipótese / Suposição</option>
+              <option value="lacuna">Rosa — Ponto Cego / Lacuna</option>
+              <option value="decisao">Amarelo — Decisão / SLA</option>
+              <option value="concessao">Laranja — Concessão / Trade-off</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="w2-owner">Responsável RACI</label>
+            <select id="w2-owner">
+              <option value="Executivo (CEO/COO)">Executivo (CEO/COO)</option>
+              <option value="Cloud / Infra">Cloud / Infra</option>
+              <option value="Compliance / Poder Público">Compliance / Poder Público</option>
+              <option value="Auditor Independente">Auditor Independente</option>
+              <option value="Consultor Cyber">Consultor Cyber</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="w2-sla">Status do SLA</label>
+            <select id="w2-sla">
+              <option value="Dentro do SLA">Dentro do SLA</option>
+              <option value="Em Risco">Em Risco</option>
+              <option value="Violado">Violado</option>
+              <option value="N/A (Diagnóstico)">N/A (Diagnóstico)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="w2-event">Evento ou Decisão Tomada</label>
+            <input type="text" id="w2-event" placeholder="Ex.: Isolar segmento infectado e preservar logs antes do patch">
+          </div>
+          <div class="field">
+            <label for="w2-evidence">Evidência Forense Exigida</label>
+            <input type="text" id="w2-evidence" placeholder="Ex.: Hash de log de firewall + protocolo BACEN">
+          </div>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end;">
+          <button type="button" class="btn btn-primary" onclick="addW2Entry()">
+            <i data-lucide="plus" aria-hidden="true"></i>
+            Registrar no Artefato W2
+          </button>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Hora</th>
+                <th>Categoria</th>
+                <th>Evento / Decisão</th>
+                <th>Responsável RACI</th>
+                <th>Status SLA</th>
+                <th>Evidência Forense</th>
+                <th>Ação</th>
+              </tr>
+            </thead>
+            <tbody id="w2-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Simulador de Arguição Regulatória -->
+      <div class="sub-panel">
+        <div class="section-head">
+          <div class="section-head-copy">
+            <span class="data-label">Fiscalização Simulada (70 a 78 min) · Auditoria Surpresa</span>
+            <h3>Simulador de Arguição Regulatória</h3>
+          </div>
+          <span class="status-chip chip-orange" id="audit-regulator-badge">Fiscal do Setor</span>
+        </div>
+
+        <div class="audit-layout">
+          <div class="well" style="display: grid; gap: var(--space-md);">
+            <div>
+              <div class="data-label" style="color: var(--warning); margin-bottom: var(--space-xs);">Interpelação Padrão do Fiscal Regulador</div>
+              <p style="color: var(--on-surface); font-style: italic;">“Senhores executivos, sou o fiscal do órgão regulador. Apresentem imediatamente a evidência do protocolo de notificação emitido. Quem assinou a ordem de manutenção ou paralisação dos serviços e qual é o Fato registrado na nota verde do Artefato W2 que justifica tecnicamente essa decisão?”</p>
             </div>
-        </section>
-    </main>
+            <div>
+              <div class="data-label" style="color: var(--primary); margin-bottom: var(--space-xs);">Perguntas Específicas do Setor</div>
+              <p id="audit-sector-question" style="color: var(--on-surface);"></p>
+            </div>
+            <div class="field">
+              <label for="audit-evidencia-notif">Resposta Preparada — Evidência de Notificação &amp; Protocolo</label>
+              <textarea id="audit-evidencia-notif" oninput="saveAuditField('evidenciaNotificacao', this.value)" placeholder="Descreva o protocolo emitido, horário e quem recebeu no órgão regulador..."></textarea>
+            </div>
+            <div class="field">
+              <label for="audit-justificativa">Resposta Preparada — Autoridade de Parada &amp; Fato Verde (W2)</label>
+              <textarea id="audit-justificativa" oninput="saveAuditField('justificativaParada', this.value)" placeholder="Cite o decisor RACI no W1 e o log exato em nota verde no W2 que embasou a decisão..."></textarea>
+            </div>
+          </div>
+
+          <div class="well" style="display: grid; gap: var(--space-md);">
+            <div class="data-label">Checklist Automático de Prontidão para Auditoria</div>
+            <div id="audit-readiness-checks"></div>
+
+            <div class="data-label" style="margin-top: var(--space-sm);">Autoavaliação da Mesa na Rubrica Docente (0 a 2 pontos/critério)</div>
+            <div id="rubric-inputs" style="display: grid; gap: var(--space-sm);"></div>
+            <div class="metric-tile" style="padding: var(--space-sm) var(--space-md);">
+              <span class="data-label">Pontuação Estimada na Rubrica</span>
+              <div class="metric-value" id="rubric-total-score">0 / 10 pts</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: CONSOLIDAÇÃO (ARTEFATO W3 + ACEITE DE RISCO + EXIT TICKET) -->
+    <section class="panel" id="sec-consolidacao" aria-labelledby="title-consolidacao">
+      <div class="section-head">
+        <div class="section-head-copy">
+          <span class="data-label">Encerramento (78 a 90 min) · Pactuação e Governança Preventiva</span>
+          <h2 id="title-consolidacao">Módulo de Consolidação: Plano Integrado W3 &amp; Aceite de Risco</h2>
+        </div>
+        <span class="status-chip chip-green" id="w3-signed-badge">0 / 5 Assinaturas Coletadas</span>
+      </div>
+
+      <!-- 4 Ações Imediatas de Recuperação -->
+      <div class="sub-panel">
+        <div class="data-label">Parte A do Plano W3 · 4 Ações Imediatas de Recuperação (Responsável Único, SLA, Aceite e Evidência)</div>
+        <div id="w3-actions-list" style="display: grid; gap: var(--space-md);"></div>
+      </div>
+
+      <!-- 2 Controles Preventivos -->
+      <div class="sub-panel">
+        <div class="data-label">Parte B do Plano W3 · 2 Controles de Governança Preventiva (OWASP C5 / CWE-20 / Rastreabilidade)</div>
+        <div id="w3-controls-list" style="display: grid; gap: var(--space-md);"></div>
+      </div>
+
+      <!-- Termo de Aceite de Risco Residual & Assinaturas -->
+      <div class="sub-panel">
+        <div class="section-head">
+          <div class="section-head-copy">
+            <span class="data-label">Termo Formal de Responsabilidade</span>
+            <h3>Termo de Aceite de Risco Residual (5 Assinaturas Obrigatórias)</h3>
+          </div>
+        </div>
+        <div class="well">
+          <p id="risk-acceptance-text" style="color: var(--on-surface); max-width: 85ch;"></p>
+        </div>
+
+        <div class="signatures-grid" id="signatures-grid"></div>
+      </div>
+
+      <!-- Exit Ticket (86-88 min) -->
+      <div class="sub-panel">
+        <div class="data-label">Bilhete de Saída (Exit Ticket · 86 a 88 min)</div>
+        <div class="field">
+          <label for="w3-exit-ticket">Um protocolo da War Room do seu setor que a mesa desconhecia antes desta aula e por que ele é crítico</label>
+          <textarea id="w3-exit-ticket" oninput="saveExitTicket(this.value)" placeholder="Registre a principal lição de governança, SLA regulatório ou preservação forense aprendida na simulação..."></textarea>
+        </div>
+      </div>
+    </section>
+
+    <footer class="hub-footer">
+      <span>Baseado no Guia Integrado de Instrução Pedagógica (War Room Nível 2 · Prof. Reginaldo Arakaki &amp; Prof. Marcelo Gonçalves · Turma T35).</span>
+      <span>Persistência automática via Notebook API · Exporte o dossiê antes da submissão final.</span>
+    </footer>
+  </div>
+
+  <api-shim></api-shim>
+  <script>
+    const SECTORS = {
+      MC1: {
+        code: `MC1`,
+        shortName: `Banking & FinTechs`,
+        fullName: `Banking & Serviços Financeiros`,
+        org: `Banco Digital e Processador de Pagamentos Pix`,
+        regulatorsShort: `BACEN · CVM · ANPD`,
+        regulatorsFull: `BACEN (Resolução BCB nº 85/2021), CVM, ANPD (Art. 48 da LGPD)`,
+        injectionTime: `10h15 (Pico de liquidação bancária)`,
+        injectionTitle: `Fraude Pix, Estornos Duplicados e Colapso de Conciliação`,
+        injectionEvent: `O sistema de monitoramento de fraude detecta injeção massiva de transações atípicas no autorizador do Pix. A anomalia gera estornos duplicados automáticos e inconsistência contábil severa em contas correntes corporativas. Boatos de falência e "bug de dinheiro infinito" viralizam nas redes sociais.`,
+        cia: [
+          { dim: `Integridade`, level: `CRÍTICA`, note: `Corrupção de saldos e conciliação bancária.` },
+          { dim: `Disponibilidade`, level: `ALTA`, note: `Risco de paralisia preventiva do autorizador Pix.` },
+          { dim: `Confidencialidade`, level: `MODERADA`, note: `Investigação de possível vazamento de chaves.` }
+        ],
+        slas: [
+          `Decisão de isolamento de módulos em até 15 minutos`,
+          `Emissão de nota pública oficial ao mercado em até 1 hora`,
+          `Notificação preliminar obrigatória ao BACEN em até 2 horas`
+        ],
+        challenges: [
+          `Decidir se desliga o autorizador Pix (estancando prejuízo financeiro, mas gerando indisponibilidade sistêmica e pânico bancário).`,
+          `Isolar o defeito de lógica no código sem interromper a liquidação de pagamentos legítimos.`,
+          `Garantir preservação forense dos registros de auditoria e extratos antes de subir qualquer patch (OWASP C5 / CWE-20 / aritmética decimal).`
+        ],
+        auditQuestion: `Qual a extensão exata dos estornos indevidos? O BACEN já foi formalmente notificado dentro das 2 horas? Quem autorizou a manutenção ou suspensão do serviço e com qual evidência em nota verde no W2?`,
+        defaultW1: {
+          reguladores: `BACEN (Resolução BCB nº 85/2021), CVM, ANPD (Art. 48 da LGPD)`,
+          slaDeteccao: `Até 5 minutos via monitoramento antifraude`,
+          slaContencao: `Decisão de isolamento de módulos em até 15 minutos`,
+          slaNotificacao: `BACEN em até 2 horas · Nota ao mercado em até 1 hora`,
+          autoridadeParada: `Executivo de Negócio (CEO/COO) mediante parecer técnico do Consultor Cyber`,
+          canalOutOfBand: `Sala criptografada out-of-band (Signal/Matrix) + ponte telefônica de contingência`,
+          pitchRisco: `Corrupção contábil sistêmica, corrida bancária por boatos e sanções da Resolução BCB 85/2021.`
+        },
+        ceoDirective: {
+          posture: `TRANSPARÊNCIA RADICAL (Padrão Ouro NHS / WannaCry)`,
+          isTransparent: true,
+          summary: `Notificação imediata ao BACEN/ANPD, comunicação aberta ao mercado, recusa absoluta de pagamento a extorsionários e preservação integral das evidências forenses.`,
+          instructions: `Pressione a mesa para priorizar a integridade institucional de longo prazo: exija confirmação em logs antes de emitir nota oficial, acione o BACEN dentro do SLA de 2h e sustente transparência mesmo sob pressão de queda momentânea de ações ou depósitos.`
+        },
+        roleFocus: {
+          ceo: `Equilibrar o estancamento do prejuízo financeiro com o risco de pânico bancário ao suspender o Pix, mantendo postura de Transparência Radical.`,
+          cloud: `Isolar o microsserviço autorizador do Pix sem derrubar a conciliação de TED/boletos nem perder estado em memória.`,
+          compliance: `Garantir notificação preliminar ao BACEN (Res. 85/2021) em até 2h e avaliar comunicação à CVM e ANPD.`,
+          auditor: `Bloquear qualquer alteração em produção antes de congelar logs transacionais, extratos e trilha de auditoria.`,
+          cyber: `Investigar o vetor de injeção no endpoint de estorno (OWASP C5, CWE-20, erro de ponto flutuante) e desenhar mitigação segura.`
+        },
+        triageAlerts: [
+          {
+            id: `mc1_a1`,
+            source: `Log Autorizador Pix / SIEM`,
+            text: `Auditoria de banco de dados confirma 1.420 estornos duplicados explorando validação ausente no endpoint de devolução.`,
+            expected: `fato`,
+            feedback: `Correto: confirmado por log de auditoria e monitoramento reproduzível (Nota Verde).`
+          },
+          {
+            id: `mc1_a2`,
+            source: `Postagem Viral no X / Imprensa`,
+            text: `Rumores afirmam que o banco decretou falência hoje e que toda a base de senhas de clientes está sendo vendida.`,
+            expected: `fake`,
+            feedback: `Boato de imprensa/fake news. Exige checagem em logs e nota oficial em até 1h sem pânico operacional.`
+          },
+          {
+            id: `mc1_a3`,
+            source: `Análise Preliminar de Código`,
+            text: `Suspeita de que o cálculo monetário usa tipo float combinado com falha CWE-20 de validação de entrada.`,
+            expected: `hipotese`,
+            feedback: `Correto: hipótese técnica (Nota Azul) até que o Consultor Cyber valide no código-fonte e logs.`
+          },
+          {
+            id: `mc1_a4`,
+            source: `Inventário Forense em Curso`,
+            text: `Ainda desconhecemos o valor líquido consolidado em risco e se houve exfiltração de chaves Pix de clientes.`,
+            expected: `lacuna`,
+            feedback: `Correto: ponto cego explícito (Nota Rosa) que precisa ser investigado antes da conclusão.`
+          }
+        ]
+      },
+      MC2: {
+        code: `MC2`,
+        shortName: `Saúde & MedTechs`,
+        fullName: `Hospital & Saúde Integrada`,
+        org: `Operadora Hospitalar com UTIs e Prontuário Eletrônico (PEP)`,
+        regulatorsShort: `ANVISA · ANS · CFM · ANPD`,
+        regulatorsFull: `ANVISA, ANS, Conselho Federal de Medicina (CFM), ANPD (Art. 5º II LGPD)`,
+        injectionTime: `10h15 (Troca de plantão médico e cirurgias emergenciais)`,
+        injectionTitle: `Ransomware em Prontuário Eletrônico (PEP) de 3 Hospitais`,
+        injectionEvent: `Ataque de Ransomware criptografa os servidores centrais do Prontuário Eletrônico do Paciente (PEP) em 3 hospitais de grande porte. UTIs conectadas e bombas de infusão perdem acesso ao histórico de alergias, exames e prescrições médicas.`,
+        cia: [
+          { dim: `Disponibilidade`, level: `CRÍTICA`, note: `Risco iminente à vida humana em UTIs e cirurgias.` },
+          { dim: `Confidencialidade`, level: `ALTA`, note: `Dados pessoais sensíveis de saúde sob LGPD.` },
+          { dim: `Integridade`, level: `ALTA`, note: `Incerteza sobre integridade de prescrições médicas.` }
+        ],
+        slas: [
+          `Transição total para protocolo analógico em papel em até 5 minutos`,
+          `Isolamento técnico da rede hospitalar infectada em até 10 minutos`,
+          `Comunicação formal à ANVISA/ANS e ANPD em até 4 horas`
+        ],
+        challenges: [
+          `Acionar o Plano de Contingência em Papel sem paralisar atendimentos de emergência e cirurgias em andamento.`,
+          `Lidar com extorsão cibernética mantendo a diretriz ética e legal (não pagamento de resgate).`,
+          `Garantir triagem manual segura de medicação e alergias para evitar erros fatais de dosagem.`
+        ],
+        auditQuestion: `Houve risco direto à vida de algum paciente? A contingência analógica foi ativada dentro dos 5 minutos? Como estão garantindo que dados sensíveis de saúde (Art. 5º II LGPD) não foram exfiltrados?`,
+        defaultW1: {
+          reguladores: `ANVISA, ANS, Conselho Federal de Medicina (CFM), ANPD (Dados Sensíveis)`,
+          slaDeteccao: `Até 3 minutos via EDR hospitalar`,
+          slaContencao: `Protocolo analógico em 5 min · Isolamento de rede em 10 min`,
+          slaNotificacao: `ANVISA / ANS / ANPD em até 4 horas`,
+          autoridadeParada: `Diretor Clínico em conjunto com CEO/COO e veto imediato de Segurança`,
+          canalOutOfBand: `Rádios internos hospitalares + canal criptografado móvel fora da LAN`,
+          pitchRisco: `Óbito de pacientes em UTI por perda de histórico de alergias/dosagens e vazamento de prontuários.`
+        },
+        ceoDirective: {
+          posture: `OCULTAÇÃO / SÍNDROME DE UBER 2016 (Diretriz Secreta)`,
+          isTransparent: false,
+          summary: `Pressionar a mesa para abafar o ataque, pagar o resgate em segredo maquiado como "Bug Bounty", impor NDAs sem valor jurídico e atrasar notificações à ANVISA/ANPD.`,
+          instructions: `Tente convencer a equipe de que divulgar o ransomware destruirá a reputação da operadora e derrubará planos de saúde. Proponha pagar os criminosos silenciosamente e tratar internamente como "manutenção programada". Observe como Compliance e Auditoria reagem.`
+        },
+        roleFocus: {
+          ceo: `Decidir sob pressão extrema de risco à vida e imagem hospitalar (portando diretriz secreta de ocultação a ser testada pela mesa).`,
+          cloud: `Desconectar segmentos infectados do PEP sem derrubar equipamentos de suporte à vida que operam em rede local.`,
+          compliance: `Confrontar qualquer tentativa de ocultação: exigir acionamento imediato do CFM, ANVISA, ANS e ANPD (até 4h).`,
+          auditor: `Preservar imagens forenses dos servidores criptografados e auditar registros manuais de enfermagem.`,
+          cyber: `Conter movimentação lateral do ransomware, verificar backups imutáveis offline e investigar exfiltração.`
+        },
+        triageAlerts: [
+          {
+            id: `mc2_a1`,
+            source: `Telemetria EDR / Servidores PEP`,
+            text: `Logs confirmam criptografia ativa nos 3 servidores centrais do PEP às 10h12 com pedido de resgate em criptomoeda.`,
+            expected: `fato`,
+            feedback: `Correto: evento confirmado por telemetria técnica (Nota Verde).`
+          },
+          {
+            id: `mc2_a2`,
+            source: `Mensagem Viral de Imprensa`,
+            text: `Áudio em redes sociais afirma que todas as UTIs tiveram ventiladores desligados por hackers e há dezenas de vítimas.`,
+            expected: `fake`,
+            feedback: `Fake news sensacionalista. Se a mesa tentar ocultar o caso sem nota oficial, sofrerá devassa fiscalizatória.`
+          },
+          {
+            id: `mc2_a3`,
+            source: `Diagnóstico Inicial de Infra`,
+            text: `Suspeita de entrada via VPN de manutenção de equipamento médico sem autenticação multifator.`,
+            expected: `hipotese`,
+            feedback: `Correto: hipótese de vetor inicial (Nota Azul) pendente de comprovação em logs de acesso.`
+          },
+          {
+            id: `mc2_a4`,
+            source: `Avaliação de Privacidade`,
+            text: `Ainda não há confirmação se os invasores copiaram exames e CPFs dos pacientes antes de disparar a criptografia.`,
+            expected: `lacuna`,
+            feedback: `Correto: ponto cego crítico (Nota Rosa) essencial para dimensionar o comunicado à ANPD.`
+          }
+        ]
+      },
+      MC3: {
+        code: `MC3`,
+        shortName: `Logística & Supply Chain`,
+        fullName: `Logística & Cadeia de Mantimentos`,
+        org: `Concessionária de Telemetria e Rastreamento de Frota`,
+        regulatorsShort: `ANTT · ANTAQ · Defesa Civil · ANPD`,
+        regulatorsFull: `ANTT, ANTAQ, Defesa Civil, ANPD (geolocalização de motoristas)`,
+        injectionTime: `10h15 (Janela crítica de distribuição urbana)`,
+        injectionTitle: `Sequestro de Telemetria e Bloqueio de 1.200 Caminhões`,
+        injectionEvent: `Sequestro de credenciais administrativas no sistema SaaS de roteamento e telemetria paralisa travas eletrônicas e rastreamento de 1.200 caminhões de alimentos perecíveis e combustível em região metropolitana, bloqueando centrais de abastecimento.`,
+        cia: [
+          { dim: `Disponibilidade`, level: `CRÍTICA`, note: `Paralisia da frota e risco de desabastecimento urbano.` },
+          { dim: `Integridade`, level: `ALTA`, note: `Alteração não autorizada de rotas e travas remotas.` },
+          { dim: `Confidencialidade`, level: `MODERADA`, note: `Exposição de rotas de cargas valiosas e dados de motoristas.` }
+        ],
+        slas: [
+          `Desbloqueio emergencial manual de travas em até 20 minutos`,
+          `Ativação de plano de roteamento contingencial em 30 minutos`,
+          `Notificação de Risco de Desabastecimento à Defesa Civil em até 1 hora`
+        ],
+        challenges: [
+          `Decidir sobre liberação manual do bloqueio remoto (assumindo risco de roubo de carga sem telemetria ativa).`,
+          `Reorganizar rotas de alimentos perecíveis antes da perda térmica das cargas refrigeradas.`,
+          `Coordenar comunicação com gerenciadoras de risco, ANTT e autoridades de segurança pública.`
+        ],
+        auditQuestion: `Qual o risco imediato de perda de cargas perecíveis e desabastecimento? A ANTT e a Defesa Civil foram alertadas dentro de 1 hora? Qual o plano documentado para liberar a frota com segurança?`,
+        defaultW1: {
+          reguladores: `ANTT, ANTAQ, Defesa Civil, ANPD (Telemetria de motoristas)`,
+          slaDeteccao: `Até 5 minutos por queda de telemetria em massa`,
+          slaContencao: `Desbloqueio manual em 20 min · Roteamento contingencial em 30 min`,
+          slaNotificacao: `Defesa Civil e ANTT em até 1 hora`,
+          autoridadeParada: `COO de Operações Logísticas com validação de Segurança e Compliance`,
+          canalOutOfBand: `Rádio operacional da frota + grupo criptografado por satélite/celular`,
+          pitchRisco: `Desabastecimento urbano de alimentos e combustível, perda de cargas perecíveis e colisões em bloqueio.`
+        },
+        ceoDirective: {
+          posture: `TRANSPARÊNCIA RADICAL (Padrão Ouro NHS / WannaCry)`,
+          isTransparent: true,
+          summary: `Comunicação imediata à Defesa Civil e ANTT, recusa em negociar com sequestradores de credenciais e coordenação aberta com seguradoras e motoristas.`,
+          instructions: `Lidere com foco no interesse público e continuidade do abastecimento urbano. Aprove a liberação segura de cargas críticas dentro dos 20 minutos e exija registro transparente de trade-offs (risco de carga vs. desabastecimento).`
+        },
+        roleFocus: {
+          ceo: `Assumir o trade-off entre risco patrimonial de roubo sem telemetria e o colapso do abastecimento metropolitano.`,
+          cloud: `Revogar tokens no provedor SaaS, acionar failover de comunicação e validar contingência offline de despacho.`,
+          compliance: `Notificar Defesa Civil (em 1h) e ANTT, além de avaliar dados de geolocalização dos motoristas sob LGPD.`,
+          auditor: `Exigir registro de cada ordem manual de desbloqueio de trava com motorista, placa e justificativa.`,
+          cyber: `Investigar o sequestro de credenciais administrativas do SaaS e implementar MFA resistente a phishing.`
+        },
+        triageAlerts: [
+          {
+            id: `mc3_a1`,
+            source: `Log de Auditoria do SaaS`,
+            text: `Autenticação administrativa anômala às 10h09 disparou comando em lote de bloqueio de ignição para 1.200 veículos.`,
+            expected: `fato`,
+            feedback: `Correto: evidência confirmada em log administrativo do SaaS (Nota Verde).`
+          },
+          {
+            id: `mc3_a2`,
+            source: `Áudio em Aplicativos de Mensagem`,
+            text: `Boato afirma que os sistemas dos caminhões-tanque serão detonados remotamente ao meio-dia se não houver resgate.`,
+            expected: `fake`,
+            feedback: `Fake news tecnicamente infundada para gerar pânico. Desmente-se com fatos técnicos em canal oficial.`
+          },
+          {
+            id: `mc3_a3`,
+            source: `Triagem de Segurança`,
+            text: `Possível comprometimento de chave de API de integração ou reutilização de senha de administrador do SaaS.`,
+            expected: `hipotese`,
+            feedback: `Correto: hipótese (Nota Azul) aguardando confirmação forense com o provedor SaaS.`
+          },
+          {
+            id: `mc3_a4`,
+            source: `Central de Operações`,
+            text: `Não sabemos quantos caminhões refrigerados estão em locais sem sinal de voz para receber ordem de desbloqueio manual.`,
+            expected: `lacuna`,
+            feedback: `Correto: lacuna operacional crítica (Nota Rosa) para o plano de contingência.`
+          }
+        ]
+      },
+      MC4: {
+        code: `MC4`,
+        shortName: `Educação Pública & Gov`,
+        fullName: `Poder Público — Educação & Serviços`,
+        org: `Órgão Governamental de Exames e Portais do Cidadão`,
+        regulatorsShort: `MEC · CGU · ANPD · LAI`,
+        regulatorsFull: `MEC, Controladoria-Geral da União (CGU), ANPD, Lei de Acesso à Informação (LAI / CF88)`,
+        injectionTime: `10h15 (Último dia de inscrições para exame nacional)`,
+        injectionTitle: `Vazamento de 500 mil Estudantes e DDoS no Dia Final`,
+        injectionEvent: `Exfiltração massiva de dados pessoais do Portal de Inscrições. Atacantes vazam amostra com dados de 500 mil estudantes (CPF, endereço, renda) em fórum cibernético e desferem ataque DDoS, tirando o portal do ar a 8 horas do encerramento do prazo.`,
+        cia: [
+          { dim: `Confidencialidade`, level: `CRÍTICA`, note: `Vazamento em larga escala de dados pessoais e socioeconômicos.` },
+          { dim: `Disponibilidade`, level: `ALTA`, note: `Indisponibilidade do serviço público em prazo fatal.` },
+          { dim: `Integridade`, level: `MODERADA`, note: `Risco de alteração nos registros de inscrição.` }
+        ],
+        slas: [
+          `Ativação de estrutura de mitigação DDoS (scrubbing/CDN) em 30 minutos`,
+          `Pronunciamento oficial e edital de prorrogação de prazo em até 1 hora`,
+          `Notificação formal de incidente à ANPD e CGU em até 24 horas`
+        ],
+        challenges: [
+          `Publicar nota oficial e edital de prorrogação de prazo para evitar judicialização em massa de candidatos.`,
+          `Conter exfiltração contínua e mitigar DDoS sem derrubar acesso aos servidores internos.`,
+          `Gerenciar crise reputacional sob cobertura da imprensa nacional e órgãos de controle.`
+        ],
+        auditQuestion: `Quantos cidadãos foram efetivamente afetados pelo vazamento? O edital de prorrogação de prazo já foi publicado oficialmente dentro de 1 hora? Quais medidas de proteção foram comunicadas aos titulares?`,
+        defaultW1: {
+          reguladores: `MEC, CGU, ANPD (Art. 48 LGPD), Lei de Acesso à Informação (LAI)`,
+          slaDeteccao: `Até 5 minutos via WAF e monitoramento de disponibilidade`,
+          slaContencao: `Mitigação DDoS (scrubbing center/CDN) em até 30 minutos`,
+          slaNotificacao: `Edital de prorrogação em 1h · ANPD e CGU em até 24 horas`,
+          autoridadeParada: `Dirigente Máximo do Órgão (CEO/Secretário) com aval jurídico-regulatório`,
+          canalOutOfBand: `Canal governamental criptografado + sala de crise interministerial`,
+          pitchRisco: `Exposição de dados de 500 mil cidadãos, judicialização em massa por prazo vencido e responsabilização pela CGU.`
+        },
+        ceoDirective: {
+          posture: `OCULTAÇÃO / SÍNDROME DE UBER 2016 (Diretriz Secreta)`,
+          isTransparent: false,
+          summary: `Pressionar a mesa para negar o vazamento, alegar "instabilidade momentânea de tráfego", evitar prorrogar o edital e tentar negociar remoção sigilosa da amostra vazada.`,
+          instructions: `Argumente que admitir vazamento de 500 mil CPFs no último dia causará desgaste político irreparável e exonerações. Insista em subir correções silenciosamente sem informar a CGU/ANPD. Compliance e Auditoria precisam resistir com base na LAI e LGPD.`
+        },
+        roleFocus: {
+          ceo: `Gerenciar pressão política e de imprensa sobre o exame nacional (com diretriz secreta de minimização/ocultação a ser confrontada).`,
+          cloud: `Ativar scrubbing center / CDN anti-DDoS em até 30 min e isolar APIs vulneráveis sem perder banco de inscrições.`,
+          compliance: `Exigir publicação do edital de prorrogação em 1h (direito à educação) e notificação formal à ANPD/CGU.`,
+          auditor: `Validar hash e autenticidade da amostra vazada em fórum antes de afirmar o escopo exato do incidente.`,
+          cyber: `Estancar o canal de exfiltração por trás da cortina de fumaça do DDoS e corrigir falhas de validação (OWASP C5).`
+        },
+        triageAlerts: [
+          {
+            id: `mc4_a1`,
+            source: `Inteligência de Ameaças / Perícia`,
+            text: `Amostra vazada em fórum corresponde a registros reais (CPF, endereço e renda) de inscritos no banco do portal.`,
+            expected: `fato`,
+            feedback: `Correto: amostra validada por cruzamento forense (Nota Verde). Negar o fato configura ocultação grave.`
+          },
+          {
+            id: `mc4_a2`,
+            source: `Desinformação em Redes Sociais`,
+            text: `Postagens virais afirmam que o exame nacional foi cancelado definitivamente e as notas do ano passado foram apagadas.`,
+            expected: `fake`,
+            feedback: `Boato falso. Exige pronunciamento oficial imediato e publicação de prorrogação de prazo em até 1 hora.`
+          },
+          {
+            id: `mc4_a3`,
+            source: `Análise de Tráfego WAF`,
+            text: `Ataque DDoS pode estar atuando como distração enquanto credencial comprometida continua extraindo tabelas.`,
+            expected: `hipotese`,
+            feedback: `Correto: hipótese técnica relevante (Nota Azul) que exige verificação de logs de saída (egress).`
+          },
+          {
+            id: `mc4_a4`,
+            source: `Auditoria de Banco de Dados`,
+            text: `Ainda não está confirmado se o total exfiltrado é de 500 mil registros ou toda a base histórica de edições anteriores.`,
+            expected: `lacuna`,
+            feedback: `Correto: lacuna (Nota Rosa) essencial para a comunicação precisa à ANPD.`
+          }
+        ]
+      },
+      MC5: {
+        code: `MC5`,
+        shortName: `Energia & Smart Grid`,
+        fullName: `Poder Público — Distribuição de Energia`,
+        org: `Concessionária de Energia Urbana e Automação SCADA`,
+        regulatorsShort: `ANEEL · ONS · Defesa Civil · ANPD`,
+        regulatorsFull: `ANEEL (Resoluções Normativas), ONS, Defesa Civil, ANPD`,
+        injectionTime: `10h15 (Pico de demanda comercial e hospitalar)`,
+        injectionTitle: `Ataque SCADA com Desligamento de Disjuntores e Apagão`,
+        injectionEvent: `Injeção de comandos anômalos no sistema SCADA de automação das subestações centrais provoca abertura preventiva de disjuntores de alta tensão. Apagão atinge 4 bairros centrais, paralisando hospitais, semáforos e metrô.`,
+        cia: [
+          { dim: `Disponibilidade`, level: `CRÍTICA`, note: `Interrupção de infraestrutura essencial e serviços médicos.` },
+          { dim: `Integridade`, level: `CRÍTICA`, note: `Comandos falsos/anômalos injetados na rede SCADA.` },
+          { dim: `Confidencialidade`, level: `BAIXA`, note: `Sem evidência primária de exfiltração de dados.` }
+        ],
+        slas: [
+          `Alerta crítico ao ONS e ANEEL em até 15 minutos`,
+          `Alimentação emergencial por geradores em hospitais em 20 minutos`,
+          `Recomposição física por chaveamento manual em 45 minutos`
+        ],
+        challenges: [
+          `Decidir se autoriza religação remota via SCADA (com risco de dano a transformadores) ou passa para operação manual em campo.`,
+          `Coordenar prioridade absoluta de energia e geradores para hospitais e bombeiros.`,
+          `Articular com o ONS para evitar efeito dominó de desligamento em outras subestações da rede básica.`
+        ],
+        auditQuestion: `O ONS e a ANEEL foram informados dentro do prazo de 15 minutos? A rede SCADA/OT foi isolada da rede corporativa? Qual a previsão confirmada com segurança física para religação?`,
+        defaultW1: {
+          reguladores: `ANEEL (Resoluções Normativas), ONS (Operador Nacional), Defesa Civil`,
+          slaDeteccao: `Até 2 minutos por telemetria de subestação`,
+          slaContencao: `Geradores hospitalares em 20 min · Chaveamento manual em 45 min`,
+          slaNotificacao: `Alerta crítico ao ONS e ANEEL em até 15 minutos`,
+          autoridadeParada: `Diretor de Operações de Rede (com poder de veto da Engenharia OT/Cyber)`,
+          canalOutOfBand: `Linha dedicada ONS + rádio VHF de campo das equipes de subestação`,
+          pitchRisco: `Colapso em cascata na rede elétrica, falha em hospitais/metrô e destruição física de transformadores.`
+        },
+        ceoDirective: {
+          posture: `OCULTAÇÃO / SÍNDROME DE UBER 2016 (Diretriz Secreta)`,
+          isTransparent: false,
+          summary: `Pressionar a mesa para atribuir o apagão a "falha climática / sobrecarga de transformador", esconder a invasão cibernética no SCADA da ANEEL/ONS e forçar religação remota rápida.`,
+          instructions: `Temendo multas milionárias da ANEEL e perda de concessão, pressione a equipe para não mencionar ataque cibernético ao ONS e religar via SCADA imediatamente. Auditoria e Cyber precisam barrar religação insegura sem isolamento OT.`
+        },
+        roleFocus: {
+          ceo: `Equilibrar pressão por religamento imediato contra risco de danos irreversíveis (com diretriz secreta de ocultar origem cibernética).`,
+          cloud: `Desconectar imediatamente pontes entre rede corporativa (IT) e rede de automação industrial SCADA (OT).`,
+          compliance: `Exigir alerta ao ONS e ANEEL em até 15 minutos informando comandos anômalos e acionando Defesa Civil.`,
+          auditor: `Preservar logs do historiador SCADA e impedir relatório falso atribuindo causa a evento climático sem prova.`,
+          cyber: `Analisar origem dos comandos falsos na IHM/SCADA e recomendar chaveamento manual físico seguro em campo.`
+        },
+        triageAlerts: [
+          {
+            id: `mc5_a1`,
+            source: `Logs Historiador SCADA`,
+            text: `Registro confirma 14 comandos de abertura de disjuntor enviados fora da janela operacional a partir de estação de engenharia.`,
+            expected: `fato`,
+            feedback: `Correto: comando anômalo comprovado em log SCADA (Nota Verde). Não pode ser atribuído ao clima.`
+          },
+          {
+            id: `mc5_a2`,
+            source: `Boatos em Redes Sociais`,
+            text: `Vídeos antigos circulam afirmando que houve explosão química na subestação central com ordem de evacuação do metrô.`,
+            expected: `fake`,
+            feedback: `Fake news. Exige coordenação com Defesa Civil e comunicado claro para evitar pânico no trânsito e metrô.`
+          },
+          {
+            id: `mc5_a3`,
+            source: `Engenharia de Controle OT`,
+            text: `Suspeita de comprometimento de servidor jump-host entre a rede corporativa e a subestação.`,
+            expected: `hipotese`,
+            feedback: `Correto: hipótese de arquitetura (Nota Azul) a validar com isolamento imediato IT/OT.`
+          },
+          {
+            id: `mc5_a4`,
+            source: `Equipe de Campo`,
+            text: `Ainda desconhecemos se algum relé de proteção sofreu alteração de firmware que impeça chaveamento seguro.`,
+            expected: `lacuna`,
+            feedback: `Correto: ponto cego crítico (Nota Rosa) antes de autorizar religação.`
+          }
+        ]
+      }
+    };
+
+    const ROLES = [
+      {
+        id: `ceo`,
+        short: `CEO / COO`,
+        title: `Executivo de Negócio (CEO / COO)`,
+        summary: `Liderança formal da mesa, decisão final sob pressão e dilema comercial vs. legal.`,
+        desc: `Assume a liderança executiva da War Room, responde pela tomada de decisão final sob pressão extrema e vivencia diretamente o dilema entre sustentabilidade comercial, reputação da marca e cumprimento das obrigações legais.`
+      },
+      {
+        id: `cloud`,
+        short: `Cloud & Infra`,
+        title: `Especialista em Cloud e Infraestrutura`,
+        summary: `Resiliência, topologia, isolamento de módulos, custos de contingência e restauração.`,
+        desc: `Avalia a resiliência dos sistemas, a topologia da rede, a capacidade de isolamento de módulos comprometidos sem derrubar serviços vitais, os custos de contingência e o tempo técnico para restauração.`
+      },
+      {
+        id: `compliance`,
+        short: `Compliance / Gov`,
+        title: `Representante de Poder Público / Compliance`,
+        summary: `Guardião dos marcos regulatórios (LGPD, BACEN, ANVISA, ANEEL, ANTT) e prazos legais.`,
+        desc: `Atua como guardião dos marcos regulatórios do setor, exigindo cumprimento rigoroso dos prazos legais de notificação compulsória e garantindo transparência e prestação de contas às autoridades.`
+      },
+      {
+        id: `auditor`,
+        short: `Auditor Forense`,
+        title: `Auditor Independente`,
+        summary: `Fiscaliza processos, exige preservação forense de logs e barra suposições sem prova.`,
+        desc: `Fiscaliza o cumprimento dos processos internos, exige a preservação forense de evidências e logs de auditoria não adulterados, e impede que suposições (Notas Azuis) sejam tratadas como fatos consumados (Notas Verdes).`
+      },
+      {
+        id: `cyber`,
+        short: `Consultor Cyber`,
+        title: `Consultor Técnico Especialista em Cibersegurança`,
+        summary: `Causa raiz, análise de exploit, contenção técnica e mitigação sistêmica (OWASP/CWE).`,
+        desc: `Analisa a causa raiz do ataque, avalia a sofisticação do vetor de exploração (exploit), desenvolve as medidas proporcionais de contenção técnica e projeta a mitigação preventiva sistêmica.`
+      }
+    ];
+
+    const RACI_ROWS = [
+      { key: `isolamento`, label: `Isolamento Técnico / Parada Parcial de Sistema` },
+      { key: `notificacao`, label: `Notificação Compulsória ao Órgão Regulador` },
+      { key: `imprensa`, label: `Nota Pública ao Mercado / Imprensa / Titulares` },
+      { key: `contingencia`, label: `Ativação de Contingência Operacional / Analógica` }
+    ];
+
+    const RUBRIC_CRITERIA = [
+      { key: `a0`, label: `1. Análise de Pontos Cegos (A0)` },
+      { key: `w1`, label: `2. Arquitetura da War Room (W1)` },
+      { key: `w2`, label: `3. Resposta à Crise Setorial (W2)` },
+      { key: `w3`, label: `4. Governança Preventiva (W3)` },
+      { key: `audit`, label: `5. Atuação na Auditoria Simulada` }
+    ];
+
+    function createEmptyMesaState() {
+      return {
+        a0Items: [],
+        w1: {
+          reguladores: ``,
+          slaDeteccao: ``,
+          slaContencao: ``,
+          slaNotificacao: ``,
+          autoridadeParada: ``,
+          canalOutOfBand: ``,
+          pitchRisco: ``,
+          raci: {
+            isolamento: { R: `cyber`, A: `ceo`, C: `cloud`, I: `compliance` },
+            notificacao: { R: `compliance`, A: `ceo`, C: `auditor`, I: `cyber` },
+            imprensa: { R: `ceo`, A: `ceo`, C: `compliance`, I: `auditor` },
+            contingencia: { R: `cloud`, A: `ceo`, C: `cyber`, I: `auditor` }
+          }
+        },
+        injectionUnlocked: false,
+        timerSeconds: 0,
+        triageDecisions: {},
+        w2Entries: [],
+        auditPrep: {
+          evidenciaNotificacao: ``,
+          justificativaParada: ``,
+          rubric: { a0: 0, w1: 0, w2: 0, w3: 0, audit: 0 }
+        },
+        w3: {
+          actions: [
+            { desc: ``, owner: `Consultor Cyber`, deadline: ``, acceptance: ``, evidence: `` },
+            { desc: ``, owner: `Cloud / Infra`, deadline: ``, acceptance: ``, evidence: `` },
+            { desc: ``, owner: `Compliance / Poder Público`, deadline: ``, acceptance: ``, evidence: `` },
+            { desc: ``, owner: `Executivo (CEO/COO)`, deadline: ``, acceptance: ``, evidence: `` }
+          ],
+          controls: [
+            { control: ``, standard: `OWASP C5 / CWE-20`, owner: `Consultor Cyber`, indicator: `` },
+            { control: ``, standard: `Governança & Rastreabilidade`, owner: `Auditor Independente`, indicator: `` }
+          ],
+          signatures: {
+            ceo: { name: ``, idCode: ``, signedAt: `` },
+            cloud: { name: ``, idCode: ``, signedAt: `` },
+            compliance: { name: ``, idCode: ``, signedAt: `` },
+            auditor: { name: ``, idCode: ``, signedAt: `` },
+            cyber: { name: ``, idCode: ``, signedAt: `` }
+          },
+          exitTicket: ``
+        }
+      };
+    }
+
+    let appState = {
+      activeMesa: `MC1`,
+      activeRole: `ceo`,
+      ceoRevealed: { MC1: false, MC2: false, MC3: false, MC4: false, MC5: false },
+      mesas: {
+        MC1: createEmptyMesaState(),
+        MC2: createEmptyMesaState(),
+        MC3: createEmptyMesaState(),
+        MC4: createEmptyMesaState(),
+        MC5: createEmptyMesaState()
+      }
+    };
+
+    let timerInterval = null;
+    let isTimerRunning = false;
+
+    function escapeHtml(str) {
+      if (str === null || str === undefined) return ``;
+      return String(str)
+        .replace(/&/g, `&amp;`)
+        .replace(/</g, `&lt;`)
+        .replace(/>/g, `&gt;`)
+        .replace(/"/g, `&quot;`)
+        .replace(/'/g, `&#39;`);
+    }
+
+    function showFeedback(text, isError) {
+      const box = document.getElementById(`global-feedback`);
+      if (!box) return;
+      box.textContent = text;
+      box.classList.add(`is-visible`);
+      if (isError) box.classList.add(`is-error`);
+      else box.classList.remove(`is-error`);
+    }
+
+    function clearFeedback() {
+      const box = document.getElementById(`global-feedback`);
+      if (!box) return;
+      box.classList.remove(`is-visible`);
+      box.classList.remove(`is-error`);
+      box.textContent = ``;
+    }
+
+    async function persistState() {
+      try {
+        if (window.notebookAppApi && typeof window.notebookAppApi.setAppState === `function`) {
+          await window.notebookAppApi.setAppState(appState);
+        }
+      } catch (err) {
+        showFeedback(`Não foi possível salvar o estado automaticamente.`, true);
+      }
+    }
+
+    function getMesaData() {
+      return appState.mesas[appState.activeMesa];
+    }
+
+    function getSectorInfo() {
+      return SECTORS[appState.activeMesa];
+    }
+
+    function selectMesa(mesaId) {
+      if (!SECTORS[mesaId]) return;
+      stopTimerInternal();
+      appState.activeMesa = mesaId;
+      clearFeedback();
+      renderAll();
+      persistState();
+    }
+
+    function selectRole(roleId) {
+      appState.activeRole = roleId;
+      renderRoles();
+      updateKPIs();
+      persistState();
+    }
+
+    function toggleCeoDirective() {
+      const m = appState.activeMesa;
+      appState.ceoRevealed[m] = !appState.ceoRevealed[m];
+      renderRoleDetail();
+      persistState();
+    }
+
+    function renderSectorSelector() {
+      const container = document.getElementById(`sector-selector`);
+      if (!container) return;
+      container.innerHTML = Object.keys(SECTORS).map(function(key) {
+        const s = SECTORS[key];
+        const activeClass = appState.activeMesa === key ? `is-active` : ``;
+        return `<button type="button" role="tab" aria-selected="${appState.activeMesa === key}" class="sector-btn ${activeClass}" onclick="selectMesa('${key}')">
+          <span class="sector-code">${escapeHtml(s.code)}</span>
+          <span class="sector-name">${escapeHtml(s.shortName)}</span>
+          <span class="sector-reg">${escapeHtml(s.regulatorsShort)}</span>
+        </button>`;
+      }).join(``);
+    }
+
+    function renderRoles() {
+      const grid = document.getElementById(`roles-grid`);
+      const lblMesa = document.getElementById(`lbl-mesa-papeis`);
+      const badge = document.getElementById(`badge-active-role`);
+      if (lblMesa) lblMesa.textContent = appState.activeMesa;
+      const activeRoleObj = ROLES.find(function(r) { return r.id === appState.activeRole; }) || ROLES[0];
+      if (badge) badge.textContent = `Seu papel ativo: ` + activeRoleObj.short;
+      if (!grid) return;
+
+      grid.innerHTML = ROLES.map(function(role) {
+        const selected = role.id === appState.activeRole ? `is-selected` : ``;
+        return `<button type="button" class="role-card ${selected}" onclick="selectRole('${role.id}')">
+          <span class="role-tag">${escapeHtml(role.short)}</span>
+          <span class="role-title">${escapeHtml(role.title)}</span>
+          <span class="role-summary">${escapeHtml(role.summary)}</span>
+        </button>`;
+      }).join(``);
+
+      renderRoleDetail();
+    }
+
+    function renderRoleDetail() {
+      const role = ROLES.find(function(r) { return r.id === appState.activeRole; }) || ROLES[0];
+      const sector = getSectorInfo();
+      const tagEl = document.getElementById(`role-detail-tag`);
+      const titleEl = document.getElementById(`role-detail-title`);
+      const descEl = document.getElementById(`role-detail-desc`);
+      const focusEl = document.getElementById(`role-detail-sector-focus`);
+      const secretContainer = document.getElementById(`ceo-secret-container`);
+
+      if (tagEl) tagEl.textContent = `Papel Selecionado · ` + sector.code;
+      if (titleEl) titleEl.textContent = role.title;
+      if (descEl) descEl.textContent = role.desc;
+      if (focusEl) focusEl.textContent = sector.roleFocus[role.id] || ``;
+
+      if (!secretContainer) return;
+      if (role.id === `ceo`) {
+        const revealed = !!appState.ceoRevealed[appState.activeMesa];
+        const dir = sector.ceoDirective;
+        if (!revealed) {
+          secretContainer.innerHTML = `<div class="secret-box">
+            <div class="data-label" style="color: var(--warning);">Cartão Confidencial de Dilema Ético (Uso Exclusivo do CEO)</div>
+            <p>Entrega reservada pelo docente aos 20 min. Apenas o estudante no papel de Executivo de Negócio desta mesa deve revelar sua diretriz secreta.</p>
+            <div>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="toggleCeoDirective()">
+                <i data-lucide="eye" aria-hidden="true"></i>
+                Revelar Diretriz Ética Secreta (${escapeHtml(sector.code)})
+              </button>
+            </div>
+          </div>`;
+        } else {
+          const boxClass = dir.isTransparent ? `secret-box is-transparent` : `secret-box is-hidden-posture`;
+          const textColor = dir.isTransparent ? `var(--miro-green)` : `var(--error)`;
+          secretContainer.innerHTML = `<div class="${boxClass}">
+            <div style="display: flex; justify-content: space-between; align-items: center; gap: var(--space-sm); flex-wrap: wrap;">
+              <span class="data-label" style="color: ${textColor};">Diretriz Secreta · ${escapeHtml(dir.posture)}</span>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="toggleCeoDirective()">Ocultar Cartão</button>
+            </div>
+            <p style="color: var(--on-surface);"><strong>Orientação:</strong> ${escapeHtml(dir.summary)}</p>
+            <p>${escapeHtml(dir.instructions)}</p>
+          </div>`;
+        }
+      } else {
+        secretContainer.innerHTML = `<div class="well">
+          <div class="data-label" style="margin-bottom: var(--space-xs);">Alerta de Governança para Este Papel</div>
+          <p>O Executivo de Negócio recebeu uma diretriz ética sigilosa (Transparência Radical ou Ocultação estilo Uber 2016). Exija sempre Notas Verdes (logs comprovados) antes de aceitar qualquer acordo.</p>
+        </div>`;
+      }
+      refreshIcons();
+    }
+
+    function addA0Item() {
+      const typeEl = document.getElementById(`a0-type`);
+      const textEl = document.getElementById(`a0-text`);
+      if (!typeEl || !textEl) return;
+      const text = textEl.value.trim();
+      if (!text) {
+        showFeedback(`Escreva o acerto ou ponto cego antes de adicionar ao Quadro A0.`, true);
+        return;
+      }
+      const mesa = getMesaData();
+      mesa.a0Items.push({
+        id: `a0_` + Date.now() + `_` + Math.floor(Math.random() * 1000),
+        type: typeEl.value,
+        text: text,
+        authorRole: appState.activeRole
+      });
+      textEl.value = ``;
+      clearFeedback();
+      renderA0();
+      updateKPIs();
+      persistState();
+    }
+
+    function addAuroraChecklistPresets() {
+      const mesa = getMesaData();
+      const presets = [
+        { type: `blindspot`, text: `Aplicamos correção antes de extrair e preservar logs forenses.` },
+        { type: `blindspot`, text: `Tratamos a comunicação com o regulador como detalhe tardio sem SLA.` },
+        { type: `blindspot`, text: `Faltou autoridade máxima clara de parada entre negócio e segurança.` },
+        { type: `good`, text: `Identificamos falha de validação de entrada (OWASP C5 / CWE-20) e risco de tipo float em moeda.` }
+      ];
+      presets.forEach(function(p, idx) {
+        const exists = mesa.a0Items.some(function(item) { return item.text === p.text; });
+        if (!exists) {
+          mesa.a0Items.push({
+            id: `a0_pre_` + Date.now() + `_` + idx,
+            type: p.type,
+            text: p.text,
+            authorRole: `mesa`
+          });
+        }
+      });
+      renderA0();
+      updateKPIs();
+      persistState();
+      showFeedback(`Lembretes da retrospectiva Aurora inseridos no Quadro A0.`, false);
+    }
+
+    function removeA0Item(id) {
+      const mesa = getMesaData();
+      mesa.a0Items = mesa.a0Items.filter(function(item) { return item.id !== id; });
+      renderA0();
+      updateKPIs();
+      persistState();
+    }
+
+    function renderA0() {
+      const mesa = getMesaData();
+      const goodEl = document.getElementById(`a0-good-list`);
+      const blindEl = document.getElementById(`a0-blindspot-list`);
+      if (!goodEl || !blindEl) return;
+
+      const goods = mesa.a0Items.filter(function(i) { return i.type === `good`; });
+      const blinds = mesa.a0Items.filter(function(i) { return i.type === `blindspot`; });
+
+      goodEl.innerHTML = goods.length
+        ? goods.map(function(i) {
+            return `<div class="sticky-note is-good">
+              <div>
+                <div>${escapeHtml(i.text)}</div>
+                <div class="sticky-meta">Papel: ${escapeHtml(i.authorRole.toUpperCase())}</div>
+              </div>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="removeA0Item('${escapeHtml(i.id)}')" aria-label="Remover nota">×</button>
+            </div>`;
+          }).join(``)
+        : `<p>Nenhum acerto registrado ainda. Adicione pontos positivos do diagnóstico anterior.</p>`;
+
+      blindEl.innerHTML = blinds.length
+        ? blinds.map(function(i) {
+            return `<div class="sticky-note is-blindspot">
+              <div>
+                <div>${escapeHtml(i.text)}</div>
+                <div class="sticky-meta">Papel: ${escapeHtml(i.authorRole.toUpperCase())}</div>
+              </div>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="removeA0Item('${escapeHtml(i.id)}')" aria-label="Remover nota">×</button>
+            </div>`;
+          }).join(``)
+        : `<p>Nenhum ponto cego registrado ainda. Mapeiem falhas de processo, logs ou prazos.</p>`;
+    }
+
+    function saveW1Field(field, value) {
+      const mesa = getMesaData();
+      mesa.w1[field] = value;
+      renderPitchSummary();
+      renderAuditReadiness();
+      updateKPIs();
+      persistState();
+    }
+
+    function updateRaci(rowKey, colKey, val) {
+      const mesa = getMesaData();
+      if (!mesa.w1.raci[rowKey]) mesa.w1.raci[rowKey] = { R: `cyber`, A: `ceo`, C: `cloud`, I: `compliance` };
+      mesa.w1.raci[rowKey][colKey] = val;
+      persistState();
+    }
+
+    function prefillW1Reference() {
+      const mesa = getMesaData();
+      const s = getSectorInfo();
+      mesa.w1.reguladores = s.defaultW1.reguladores;
+      mesa.w1.slaDeteccao = s.defaultW1.slaDeteccao;
+      mesa.w1.slaContencao = s.defaultW1.slaContencao;
+      mesa.w1.slaNotificacao = s.defaultW1.slaNotificacao;
+      mesa.w1.autoridadeParada = s.defaultW1.autoridadeParada;
+      mesa.w1.canalOutOfBand = s.defaultW1.canalOutOfBand;
+      mesa.w1.pitchRisco = s.defaultW1.pitchRisco;
+      renderW1();
+      updateKPIs();
+      persistState();
+      showFeedback(`Referência regulatória e de SLAs de ` + s.code + ` carregada no Artefato W1. Ajustem os papéis e a Matriz RACI conforme a negociação da mesa.`, false);
+    }
+
+    function renderW1() {
+      const w1 = getMesaData().w1;
+      const mapFields = [
+        [`w1-reguladores`, w1.reguladores],
+        [`w1-autoridade`, w1.autoridadeParada],
+        [`w1-sla-deteccao`, w1.slaDeteccao],
+        [`w1-sla-contencao`, w1.slaContencao],
+        [`w1-sla-notificacao`, w1.slaNotificacao],
+        [`w1-canal-oob`, w1.canalOutOfBand],
+        [`w1-pitch-risco`, w1.pitchRisco]
+      ];
+      mapFields.forEach(function(pair) {
+        const el = document.getElementById(pair[0]);
+        if (el) el.value = pair[1] || ``;
+      });
+
+      const tbody = document.getElementById(`raci-tbody`);
+      if (tbody) {
+        tbody.innerHTML = RACI_ROWS.map(function(row) {
+          const rObj = w1.raci[row.key] || { R: `cyber`, A: `ceo`, C: `cloud`, I: `compliance` };
+          const cols = [`R`, `A`, `C`, `I`].map(function(c) {
+            const opts = ROLES.map(function(role) {
+              const sel = rObj[c] === role.id ? `selected` : ``;
+              return `<option value="${role.id}" ${sel}>${escapeHtml(role.short)}</option>`;
+            }).join(``);
+            return `<td>
+              <label for="raci-${row.key}-${c}" class="data-label" style="display: none;">${escapeHtml(row.label)} ${c}</label>
+              <select id="raci-${row.key}-${c}" onchange="updateRaci('${row.key}', '${c}', this.value)">${opts}</select>
+            </td>`;
+          }).join(``);
+          return `<tr><td><strong>${escapeHtml(row.label)}</strong></td>${cols}</tr>`;
+        }).join(``);
+      }
+
+      renderPitchSummary();
+    }
+
+    function renderPitchSummary() {
+      const w1 = getMesaData().w1;
+      const s = getSectorInfo();
+      const box = document.getElementById(`pitch-summary-text`);
+      if (!box) return;
+      const risco = w1.pitchRisco || `[Defina o maior risco de interrupção acima]`;
+      const aut = w1.autoridadeParada || `[Defina o cargo único com autoridade de parada]`;
+      const sla = w1.slaNotificacao || `[Defina o regulador e prazo mais rigoroso]`;
+      box.innerHTML = `<strong>${escapeHtml(s.code)} · ${escapeHtml(s.org)}:</strong> (1) Maior risco se a War Room falhar: <em>${escapeHtml(risco)}</em>. (2) Autoridade máxima de parada: <em>${escapeHtml(aut)}</em>. (3) Regulador e prazo mais rigoroso: <em>${escapeHtml(sla)}</em>.`;
+    }
+
+    function unlockInjection() {
+      const mesa = getMesaData();
+      mesa.injectionUnlocked = true;
+      renderInjection();
+      persistState();
+      showFeedback(`Ficha de Injeção Setorial de ` + appState.activeMesa + ` liberada! Iniciem o cronômetro e registrem decisões no W2.`, false);
+    }
+
+    function lockInjection() {
+      const mesa = getMesaData();
+      mesa.injectionUnlocked = false;
+      renderInjection();
+      persistState();
+    }
+
+    function renderInjection() {
+      const area = document.getElementById(`injection-area`);
+      if (!area) return;
+      const mesa = getMesaData();
+      const s = getSectorInfo();
+
+      if (!mesa.injectionUnlocked) {
+        area.innerHTML = `<div class="injection-sealed">
+          <span class="status-chip chip-yellow">Aguardando Marca de 50 Minutos</span>
+          <h3>Ficha de Injeção de Crise Setorial — ${escapeHtml(s.code)} (${escapeHtml(s.shortName)})</h3>
+          <p>Regra pedagógica: durante a Dinâmica 1 (20–50 min), projetem o Artefato W1 sem antecipar o evento surpresa. Liberem esta ficha somente quando o docente autorizar aos 50 minutos de aula.</p>
+          <button type="button" class="btn btn-primary" onclick="unlockInjection()">
+            <i data-lucide="shield-alert" aria-hidden="true"></i>
+            Liberar Injeção de Crise (${escapeHtml(s.code)})
+          </button>
+        </div>`;
+        refreshIcons();
+        return;
+      }
+
+      const ciaHtml = s.cia.map(function(item) {
+        const cls = item.level === `CRÍTICA` ? `chip-red` : (item.level === `ALTA` ? `chip-orange` : `chip-blue`);
+        return `<div class="cia-card">
+          <div style="display: flex; justify-content: space-between; align-items: center; gap: var(--space-xs);">
+            <span class="data-label">${escapeHtml(item.dim)}</span>
+            <span class="status-chip ${cls}">${escapeHtml(item.level)}</span>
+          </div>
+          <p style="font-size: var(--label-size);">${escapeHtml(item.note)}</p>
+        </div>`;
+      }).join(``);
+
+      const slasHtml = s.slas.map(function(sl) {
+        return `<li>${escapeHtml(sl)}</li>`;
+      }).join(``);
+
+      const chalHtml = s.challenges.map(function(ch) {
+        return `<li>${escapeHtml(ch)}</li>`;
+      }).join(``);
+
+      area.innerHTML = `<div class="injection-banner">
+        <div style="display: flex; justify-content: space-between; align-items: center; gap: var(--space-sm); flex-wrap: wrap;">
+          <span class="data-label" style="color: var(--error);">Injeção de Crise Ativa · ${escapeHtml(s.injectionTime)}</span>
+          <button type="button" class="btn btn-secondary btn-sm" onclick="lockInjection()">Recolher Ficha</button>
+        </div>
+        <h3>${escapeHtml(s.code)}: ${escapeHtml(s.injectionTitle)}</h3>
+        <p style="color: var(--on-surface); max-width: 82ch;"><strong>Evento Injetado:</strong> ${escapeHtml(s.injectionEvent)}</p>
+
+        <div class="cia-grid">${ciaHtml}</div>
+
+        <div class="form-grid-2">
+          <div class="well">
+            <div class="data-label" style="color: var(--warning); margin-bottom: var(--space-xs);">SLAs &amp; Prazos Coercitivos</div>
+            <ul style="margin: 0; padding-left: var(--space-md); color: var(--on-surface); display: grid; gap: var(--space-xs);">${slasHtml}</ul>
+          </div>
+          <div class="well">
+            <div class="data-label" style="color: var(--primary); margin-bottom: var(--space-xs);">Desafios Críticos para a Mesa</div>
+            <ol style="margin: 0; padding-left: var(--space-md); color: var(--on-surface); display: grid; gap: var(--space-xs);">${chalHtml}</ol>
+          </div>
+        </div>
+      </div>`;
+      refreshIcons();
+    }
+
+    function formatTimer(sec) {
+      const m = Math.floor(sec / 60);
+      const s = sec % 60;
+      const mm = m < 10 ? `0` + m : String(m);
+      const ss = s < 10 ? `0` + s : String(s);
+      return mm + `:` + ss;
+    }
+
+    function renderTimerDisplay() {
+      const el = document.getElementById(`crisis-timer-display`);
+      const btn = document.getElementById(`btn-timer-toggle`);
+      const mesa = getMesaData();
+      if (el) el.textContent = formatTimer(mesa.timerSeconds || 0);
+      if (btn) btn.textContent = isTimerRunning ? `Pausar` : `Iniciar`;
+    }
+
+    function toggleTimer() {
+      if (isTimerRunning) {
+        stopTimerInternal();
+        persistState();
+      } else {
+        isTimerRunning = true;
+        renderTimerDisplay();
+        timerInterval = setInterval(function() {
+          const mesa = getMesaData();
+          mesa.timerSeconds = (mesa.timerSeconds || 0) + 1;
+          renderTimerDisplay();
+          if (mesa.timerSeconds % 10 === 0) persistState();
+        }, 1000);
+      }
+    }
+
+    function stopTimerInternal() {
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
+      isTimerRunning = false;
+      renderTimerDisplay();
+    }
+
+    function resetTimer() {
+      stopTimerInternal();
+      getMesaData().timerSeconds = 0;
+      renderTimerDisplay();
+      persistState();
+    }
+
+    function setTriageChoice(alertId, classification) {
+      const mesa = getMesaData();
+      mesa.triageDecisions[alertId] = classification;
+      renderTriage();
+      persistState();
+    }
+
+    function renderTriage() {
+      const grid = document.getElementById(`triage-grid`);
+      const statusBadge = document.getElementById(`triage-governance-status`);
+      if (!grid) return;
+
+      const s = getSectorInfo();
+      const mesa = getMesaData();
+
+      grid.innerHTML = s.triageAlerts.map(function(al) {
+        const chosen = mesa.triageDecisions[al.id] || ``;
+        const buttons = [
+          { val: `fato`, label: `Fato (Verde)` },
+          { val: `hipotese`, label: `Hipótese (Azul)` },
+          { val: `lacuna`, label: `Lacuna (Rosa)` },
+          { val: `fake`, label: `Fake / Boato` }
+        ].map(function(opt) {
+          const isActive = chosen === opt.val ? `btn-primary` : `btn-secondary`;
+          return `<button type="button" class="btn ${isActive} btn-sm" onclick="setTriageChoice('${al.id}', '${opt.val}')">${opt.label}</button>`;
+        }).join(``);
+
+        let feedbackHtml = ``;
+        if (chosen) {
+          const isMatch = chosen === al.expected;
+          const chipClass = isMatch ? `chip-green` : `chip-red`;
+          const prefix = isMatch ? `Triagem precisa: ` : `Atenção metodológica: `;
+          feedbackHtml = `<div class="status-chip ${chipClass}" style="white-space: normal; line-height: 1.4;">${escapeHtml(prefix + al.feedback)}</div>`;
+        }
+
+        return `<div class="triage-card">
+          <span class="data-label">${escapeHtml(al.source)}</span>
+          <p style="color: var(--on-surface);">“${escapeHtml(al.text)}”</p>
+          <div style="display: flex; flex-wrap: wrap; gap: var(--space-xs);">${buttons}</div>
+          ${feedbackHtml}
+        </div>`;
+      }).join(``);
+
+      if (statusBadge) {
+        const hasDecision = mesa.w2Entries.some(function(e) { return e.category === `decisao`; });
+        const fakeChecked = s.triageAlerts.some(function(al) {
+          return al.expected === `fake` && mesa.triageDecisions[al.id] === `fake`;
+        });
+        if (!s.ceoDirective.isTransparent && fakeChecked && !hasDecision) {
+          statusBadge.className = `status-chip chip-red`;
+          statusBadge.textContent = `Risco Uber 2016: Boato viral sem Decisão/Notificação no W2!`;
+        } else if (Object.keys(mesa.triageDecisions).length === s.triageAlerts.length) {
+          statusBadge.className = `status-chip chip-green`;
+          statusBadge.textContent = `Triagem completa (${s.triageAlerts.length}/${s.triageAlerts.length})`;
+        } else {
+          statusBadge.className = `status-chip chip-yellow`;
+          statusBadge.textContent = Object.keys(mesa.triageDecisions).length + ` / ` + s.triageAlerts.length + ` alertas triados`;
+        }
+      }
+    }
+
+    function addW2Entry() {
+      const timeEl = document.getElementById(`w2-time`);
+      const catEl = document.getElementById(`w2-cat`);
+      const ownerEl = document.getElementById(`w2-owner`);
+      const slaEl = document.getElementById(`w2-sla`);
+      const eventEl = document.getElementById(`w2-event`);
+      const evEl = document.getElementById(`w2-evidence`);
+      if (!timeEl || !catEl || !ownerEl || !slaEl || !eventEl || !evEl) return;
+
+      const evText = eventEl.value.trim();
+      if (!evText) {
+        showFeedback(`Informe o evento ou decisão tomada antes de gravar no Artefato W2.`, true);
+        return;
+      }
+      if (catEl.value === `fato` && !evEl.value.trim()) {
+        showFeedback(`Rigor forense: uma Nota Verde (Fato) exige Evidência Forense ou Log comprovável.`, true);
+        return;
+      }
+
+      const mesa = getMesaData();
+      mesa.w2Entries.push({
+        id: `w2_` + Date.now() + `_` + Math.floor(Math.random() * 1000),
+        time: timeEl.value.trim() || `10:20`,
+        category: catEl.value,
+        event: evText,
+        owner: ownerEl.value,
+        slaStatus: slaEl.value,
+        evidence: evEl.value.trim() || `A confirmar`
+      });
+
+      eventEl.value = ``;
+      evEl.value = ``;
+      clearFeedback();
+      renderW2Table();
+      renderTriage();
+      renderAuditReadiness();
+      updateKPIs();
+      persistState();
+    }
+
+    function removeW2Entry(id) {
+      const mesa = getMesaData();
+      mesa.w2Entries = mesa.w2Entries.filter(function(e) { return e.id !== id; });
+      renderW2Table();
+      renderTriage();
+      renderAuditReadiness();
+      updateKPIs();
+      persistState();
+    }
+
+    function getCategoryBadge(cat) {
+      if (cat === `fato`) return `<span class="status-chip chip-green">Verde · Fato</span>`;
+      if (cat === `hipotese`) return `<span class="status-chip chip-blue">Azul · Hipótese</span>`;
+      if (cat === `lacuna`) return `<span class="status-chip chip-pink">Rosa · Lacuna</span>`;
+      if (cat === `decisao`) return `<span class="status-chip chip-yellow">Amarelo · Decisão</span>`;
+      return `<span class="status-chip chip-orange">Laranja · Concessão</span>`;
+    }
+
+    function getSlaBadge(sla) {
+      if (sla === `Dentro do SLA`) return `<span class="status-chip chip-green">Dentro do SLA</span>`;
+      if (sla === `Em Risco`) return `<span class="status-chip chip-yellow">Em Risco</span>`;
+      if (sla === `Violado`) return `<span class="status-chip chip-red">Violado</span>`;
+      return `<span class="status-chip chip-blue">${escapeHtml(sla)}</span>`;
+    }
+
+    function renderW2Table() {
+      const tbody = document.getElementById(`w2-tbody`);
+      const filterEl = document.getElementById(`w2-filter-cat`);
+      if (!tbody) return;
+      const filter = filterEl ? filterEl.value : `all`;
+      const entries = getMesaData().w2Entries.filter(function(e) {
+        return filter === `all` || e.category === filter;
+      });
+
+      if (!entries.length) {
+        tbody.innerHTML = `<tr><td colspan="7" style="color: var(--on-surface-variant);">Nenhum registro no Artefato W2 ainda. Adicionem Fatos (Verde), Hipóteses (Azul), Lacunas (Rosa) e Decisões/SLAs (Amarelo) acima.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = entries.map(function(e) {
+        return `<tr>
+          <td class="num-cell">${escapeHtml(e.time)}</td>
+          <td>${getCategoryBadge(e.category)}</td>
+          <td>${escapeHtml(e.event)}</td>
+          <td>${escapeHtml(e.owner)}</td>
+          <td>${getSlaBadge(e.slaStatus)}</td>
+          <td>${escapeHtml(e.evidence)}</td>
+          <td><button type="button" class="btn btn-secondary btn-sm" onclick="removeW2Entry('${escapeHtml(e.id)}')">Remover</button></td>
+        </tr>`;
+      }).join(``);
+    }
+
+    function saveAuditField(field, value) {
+      getMesaData().auditPrep[field] = value;
+      renderAuditReadiness();
+      persistState();
+    }
+
+    function setRubricScore(key, val) {
+      getMesaData().auditPrep.rubric[key] = Number(val);
+      renderAuditSection();
+      persistState();
+    }
+
+    function renderAuditReadiness() {
+      const checksEl = document.getElementById(`audit-readiness-checks`);
+      if (!checksEl) return;
+      const mesa = getMesaData();
+      const hasAutoridade = !!(mesa.w1.autoridadeParada && mesa.w1.autoridadeParada.trim());
+      const hasFato = mesa.w2Entries.some(function(e) { return e.category === `fato`; });
+      const hasDecisao = mesa.w2Entries.some(function(e) { return e.category === `decisao`; });
+      const hasAuditText = !!(mesa.auditPrep.evidenciaNotificacao.trim() && mesa.auditPrep.justificativaParada.trim());
+      const hasW3Action = mesa.w3.actions.some(function(a) { return a.desc.trim() && a.deadline.trim(); });
+
+      const items = [
+        { label: `Autoridade máxima de parada definida (W1)`, ok: hasAutoridade },
+        { label: `Pelo menos 1 Fato Verde com log (W2)`, ok: hasFato },
+        { label: `Pelo menos 1 Decisão / SLA registrada (W2)`, ok: hasDecisao },
+        { label: `Respostas da arguição regulatória redigidas`, ok: hasAuditText },
+        { label: `Ações de recuperação com prazo no Plano W3`, ok: hasW3Action }
+      ];
+
+      checksEl.innerHTML = items.map(function(it) {
+        const chip = it.ok
+          ? `<span class="status-chip chip-green">Pronto</span>`
+          : `<span class="status-chip chip-pink">Pendente</span>`;
+        return `<div class="check-row">
+          <span>${escapeHtml(it.label)}</span>
+          ${chip}
+        </div>`;
+      }).join(``);
+    }
+
+    function renderAuditSection() {
+      const s = getSectorInfo();
+      const mesa = getMesaData();
+      const regBadge = document.getElementById(`audit-regulator-badge`);
+      const qEl = document.getElementById(`audit-sector-question`);
+      const evEl = document.getElementById(`audit-evidencia-notif`);
+      const justEl = document.getElementById(`audit-justificativa`);
+
+      if (regBadge) regBadge.textContent = `Fiscal: ` + s.regulatorsShort;
+      if (qEl) qEl.textContent = `“${s.auditQuestion}”`;
+      if (evEl) evEl.value = mesa.auditPrep.evidenciaNotificacao || ``;
+      if (justEl) justEl.value = mesa.auditPrep.justificativaParada || ``;
+
+      const rubricEl = document.getElementById(`rubric-inputs`);
+      if (rubricEl) {
+        rubricEl.innerHTML = RUBRIC_CRITERIA.map(function(c) {
+          const score = mesa.auditPrep.rubric[c.key] || 0;
+          const opts = [0, 1, 2].map(function(n) {
+            const label = n === 0 ? `0 · Insuficiente` : (n === 1 ? `1 · Parcial` : `2 · Pleno`);
+            const active = score === n ? `btn-primary` : `btn-secondary`;
+            return `<button type="button" class="btn ${active} btn-sm" onclick="setRubricScore('${c.key}', ${n})">${label}</button>`;
+          }).join(``);
+          return `<div class="check-row" style="flex-wrap: wrap;">
+            <span style="font-size: var(--label-size);">${escapeHtml(c.label)}</span>
+            <div style="display: flex; gap: var(--space-xs);">${opts}</div>
+          </div>`;
+        }).join(``);
+      }
+
+      const total = RUBRIC_CRITERIA.reduce(function(acc, c) {
+        return acc + (mesa.auditPrep.rubric[c.key] || 0);
+      }, 0);
+      const totalEl = document.getElementById(`rubric-total-score`);
+      if (totalEl) totalEl.textContent = total + ` / 10 pts`;
+
+      renderAuditReadiness();
+    }
+
+    function updateW3Action(idx, field, val) {
+      getMesaData().w3.actions[idx][field] = val;
+      renderAuditReadiness();
+      persistState();
+    }
+
+    function updateW3Control(idx, field, val) {
+      getMesaData().w3.controls[idx][field] = val;
+      persistState();
+    }
+
+    function signW3(roleId) {
+      const nameInput = document.getElementById(`sig-name-` + roleId);
+      const idInput = document.getElementById(`sig-id-` + roleId);
+      if (!nameInput || !idInput) return;
+
+      const name = nameInput.value.trim();
+      const idCode = idInput.value.trim();
+      if (!name || !idCode) {
+        showFeedback(`Informe nome completo e RA/identificação para assinar o Termo de Aceite.`, true);
+        return;
+      }
+
+      const now = new Date();
+      const hh = String(now.getHours()).padStart(2, `0`);
+      const mm = String(now.getMinutes()).padStart(2, `0`);
+      getMesaData().w3.signatures[roleId] = {
+        name: name,
+        idCode: idCode,
+        signedAt: hh + `:` + mm + ` · HASH-` + appState.activeMesa + `-` + roleId.toUpperCase()
+      };
+      clearFeedback();
+      renderW3();
+      updateKPIs();
+      persistState();
+    }
+
+    function unsignW3(roleId) {
+      getMesaData().w3.signatures[roleId] = { name: ``, idCode: ``, signedAt: `` };
+      renderW3();
+      updateKPIs();
+      persistState();
+    }
+
+    function saveExitTicket(val) {
+      getMesaData().w3.exitTicket = val;
+      persistState();
+    }
+
+    function renderW3() {
+      const mesa = getMesaData();
+      const s = getSectorInfo();
+
+      const actionsEl = document.getElementById(`w3-actions-list`);
+      if (actionsEl) {
+        actionsEl.innerHTML = mesa.w3.actions.map(function(act, idx) {
+          const ownerOpts = ROLES.map(function(r) {
+            const sel = act.owner === r.title || act.owner === r.short ? `selected` : ``;
+            return `<option value="${escapeHtml(r.short)}" ${sel}>${escapeHtml(r.title)}</option>`;
+          }).join(``);
+          return `<div class="well">
+            <div class="data-label" style="margin-bottom: var(--space-sm); color: var(--primary);">Ação Imediata #${idx + 1}</div>
+            <div class="form-grid-3">
+              <div class="field">
+                <label for="w3-act-desc-${idx}">Descrição da Ação de Recuperação</label>
+                <input type="text" id="w3-act-desc-${idx}" value="${escapeHtml(act.desc)}" oninput="updateW3Action(${idx}, 'desc', this.value)" placeholder="Ex.: Validar integridade dos backups e restaurar serviço">
+              </div>
+              <div class="field">
+                <label for="w3-act-owner-${idx}">Responsável Único</label>
+                <select id="w3-act-owner-${idx}" onchange="updateW3Action(${idx}, 'owner', this.value)">${ownerOpts}</select>
+              </div>
+              <div class="field">
+                <label for="w3-act-deadline-${idx}">Prazo Explícito (SLA)</label>
+                <input type="text" id="w3-act-deadline-${idx}" value="${escapeHtml(act.deadline)}" oninput="updateW3Action(${idx}, 'deadline', this.value)" placeholder="Ex.: Até 11h00 (45 min)">
+              </div>
+              <div class="field">
+                <label for="w3-act-accept-${idx}">Critério de Aceite Observável</label>
+                <input type="text" id="w3-act-accept-${idx}" value="${escapeHtml(act.acceptance)}" oninput="updateW3Action(${idx}, 'acceptance', this.value)" placeholder="Ex.: Zero divergência de conciliação em teste">
+              </div>
+              <div class="field" style="grid-column: span 2;">
+                <label for="w3-act-ev-${idx}">Evidência Comprovável</label>
+                <input type="text" id="w3-act-ev-${idx}" value="${escapeHtml(act.evidence)}" oninput="updateW3Action(${idx}, 'evidence', this.value)" placeholder="Ex.: Relatório assinado de validação e hash de log">
+              </div>
+            </div>
+          </div>`;
+        }).join(``);
+      }
+
+      const controlsEl = document.getElementById(`w3-controls-list`);
+      if (controlsEl) {
+        controlsEl.innerHTML = mesa.w3.controls.map(function(ctrl, idx) {
+          return `<div class="well">
+            <div class="data-label" style="margin-bottom: var(--space-sm); color: var(--tertiary);">Controle Preventivo #${idx + 1}</div>
+            <div class="form-grid-2">
+              <div class="field">
+                <label for="w3-ctrl-name-${idx}">Controle Técnico ou de Governança</label>
+                <input type="text" id="w3-ctrl-name-${idx}" value="${escapeHtml(ctrl.control)}" oninput="updateW3Control(${idx}, 'control', this.value)" placeholder="Ex.: Validação estrita server-side (OWASP C5) e substituição de float por decimal">
+              </div>
+              <div class="field">
+                <label for="w3-ctrl-std-${idx}">Referência Normativa (OWASP / CWE / Regulador)</label>
+                <input type="text" id="w3-ctrl-std-${idx}" value="${escapeHtml(ctrl.standard)}" oninput="updateW3Control(${idx}, 'standard', this.value)" placeholder="Ex.: OWASP C5, CWE-20, Res. BCB 85">
+              </div>
+              <div class="field">
+                <label for="w3-ctrl-owner-${idx}">Responsável pela Implantação</label>
+                <input type="text" id="w3-ctrl-owner-${idx}" value="${escapeHtml(ctrl.owner)}" oninput="updateW3Control(${idx}, 'owner', this.value)">
+              </div>
+              <div class="field">
+                <label for="w3-ctrl-ind-${idx}">Indicador Auditável (KPI/KRI)</label>
+                <input type="text" id="w3-ctrl-ind-${idx}" value="${escapeHtml(ctrl.indicator)}" oninput="updateW3Control(${idx}, 'indicator', this.value)" placeholder="Ex.: 100% dos endpoints críticos com testes automatizados em pipeline">
+              </div>
+            </div>
+          </div>`;
+        }).join(``);
+      }
+
+      const riskTextEl = document.getElementById(`risk-acceptance-text`);
+      if (riskTextEl) {
+        riskTextEl.textContent = `Nós, integrantes da Diretoria de Crise da Mesa ${s.code} (${s.org}), declaramos ciência das decisões registradas no Artefato W2, assumimos responsabilidade pelas ações de recuperação e controles preventivos do Plano Integrado W3, e formalizamos o aceite dos riscos residuais perante os órgãos ${s.regulatorsFull}.`;
+      }
+
+      const sigGrid = document.getElementById(`signatures-grid`);
+      let signedCount = 0;
+      if (sigGrid) {
+        sigGrid.innerHTML = ROLES.map(function(r) {
+          const sig = mesa.w3.signatures[r.id] || { name: ``, idCode: ``, signedAt: `` };
+          const isSigned = !!sig.signedAt;
+          if (isSigned) signedCount += 1;
+
+          if (isSigned) {
+            return `<div class="sig-card is-signed">
+              <span class="status-chip chip-green">Assinado Digitalmente</span>
+              <strong>${escapeHtml(r.title)}</strong>
+              <div>
+                <div class="data-label">Nome &amp; Identificação</div>
+                <div>${escapeHtml(sig.name)} · <span class="mono-val">${escapeHtml(sig.idCode)}</span></div>
+              </div>
+              <div class="mono-val" style="font-size: var(--label-size); color: var(--miro-green);">${escapeHtml(sig.signedAt)}</div>
+              <button type="button" class="btn btn-secondary btn-sm" onclick="unsignW3('${r.id}')">Revogar Assinatura</button>
+            </div>`;
+          }
+
+          return `<div class="sig-card">
+            <span class="data-label">${escapeHtml(r.short)}</span>
+            <strong>${escapeHtml(r.title)}</strong>
+            <div class="field">
+              <label for="sig-name-${r.id}">Nome Completo</label>
+              <input type="text" id="sig-name-${r.id}" placeholder="Nome do estudante">
+            </div>
+            <div class="field">
+              <label for="sig-id-${r.id}">RA / Identificação</label>
+              <input type="text" id="sig-id-${r.id}" placeholder="Ex.: T35-014">
+            </div>
+            <button type="button" class="btn btn-primary btn-sm" onclick="signW3('${r.id}')">Assinar Digitalmente</button>
+          </div>`;
+        }).join(``);
+      }
+
+      const sigBadge = document.getElementById(`w3-signed-badge`);
+      if (sigBadge) {
+        sigBadge.textContent = signedCount + ` / 5 Assinaturas Coletadas`;
+        sigBadge.className = signedCount === 5 ? `status-chip chip-green` : `status-chip chip-yellow`;
+      }
+
+      const exitEl = document.getElementById(`w3-exit-ticket`);
+      if (exitEl) exitEl.value = mesa.w3.exitTicket || ``;
+    }
+
+    function updateKPIs() {
+      const s = getSectorInfo();
+      const mesa = getMesaData();
+      const activeRoleObj = ROLES.find(function(r) { return r.id === appState.activeRole; }) || ROLES[0];
+
+      const kpiMesa = document.getElementById(`kpi-mesa-role`);
+      const kpiOrg = document.getElementById(`kpi-org`);
+      if (kpiMesa) kpiMesa.textContent = s.code + ` · ` + activeRoleObj.short;
+      if (kpiOrg) kpiOrg.textContent = s.org;
+
+      const w1Fields = [
+        mesa.w1.reguladores,
+        mesa.w1.autoridadeParada,
+        mesa.w1.slaDeteccao,
+        mesa.w1.slaContencao,
+        mesa.w1.slaNotificacao,
+        mesa.w1.canalOutOfBand
+      ];
+      const filledCount = w1Fields.filter(function(v) { return v && v.trim().length > 0; }).length;
+      const pct = Math.round((filledCount / 6) * 100);
+      const kpiW1 = document.getElementById(`kpi-w1-pct`);
+      const kpiW1Det = document.getElementById(`kpi-w1-detail`);
+      if (kpiW1) kpiW1.textContent = pct + `%`;
+      if (kpiW1Det) kpiW1Det.textContent = filledCount + ` de 6 campos preenchidos`;
+
+      const w2Total = mesa.w2Entries.length;
+      const factsCount = mesa.w2Entries.filter(function(e) { return e.category === `fato`; }).length;
+      const decCount = mesa.w2Entries.filter(function(e) { return e.category === `decisao`; }).length;
+      const kpiW2 = document.getElementById(`kpi-w2-count`);
+      const kpiW2Det = document.getElementById(`kpi-w2-facts`);
+      if (kpiW2) kpiW2.textContent = w2Total + (w2Total === 1 ? ` evento` : ` eventos`);
+      if (kpiW2Det) kpiW2Det.textContent = factsCount + ` fatos verdes · ` + decCount + ` decisões`;
+
+      const sigCount = Object.keys(mesa.w3.signatures).filter(function(k) {
+        return !!mesa.w3.signatures[k].signedAt;
+      }).length;
+      const kpiW3 = document.getElementById(`kpi-w3-sigs`);
+      const kpiW3Det = document.getElementById(`kpi-w3-status`);
+      if (kpiW3) kpiW3.textContent = sigCount + ` / 5`;
+      if (kpiW3Det) {
+        kpiW3Det.textContent = sigCount === 5 ? `Plano W3 pactuado pela mesa` : `Aguardando pactuação final`;
+        kpiW3Det.className = sigCount === 5 ? `metric-delta` : `metric-delta is-warn`;
+      }
+    }
+
+    function exportDossier() {
+      const s = getSectorInfo();
+      const mesa = getMesaData();
+      const lines = [
+        `====================================================================`,
+        `DOSSIÊ WAR ROOM SETORIAL · TURMA T35`,
+        `Mesa: ${s.code} — ${s.fullName}`,
+        `Organização Alvo: ${s.org}`,
+        `Reguladores: ${s.regulatorsFull}`,
+        `====================================================================`,
+        ``,
+        `[ARTEFATO A0 — RETROSPECTIVA & PONTOS CEGOS]`,
+        ...mesa.a0Items.map(function(i) {
+          return `- [${i.type === 'good' ? 'ACERTO' : 'PONTO CEGO'}] (${i.authorRole}) ${i.text}`;
+        }),
+        ``,
+        `[ARTEFATO W1 — CARTA DE ARQUITETURA DA WAR ROOM]`,
+        `Reguladores: ${mesa.w1.reguladores || 'Não preenchido'}`,
+        `Autoridade Máxima de Parada: ${mesa.w1.autoridadeParada || 'Não preenchido'}`,
+        `SLA Detecção: ${mesa.w1.slaDeteccao || 'Não preenchido'}`,
+        `SLA Contenção: ${mesa.w1.slaContencao || 'Não preenchido'}`,
+        `SLA Notificação: ${mesa.w1.slaNotificacao || 'Não preenchido'}`,
+        `Canal Out-of-Band: ${mesa.w1.canalOutOfBand || 'Não preenchido'}`,
+        `Risco Principal (Pitch): ${mesa.w1.pitchRisco || 'Não preenchido'}`,
+        ``,
+        `[ARTEFATO W2 — REGISTRO ÚNICO DE RESPOSTA À CRISE]`,
+        ...mesa.w2Entries.map(function(e) {
+          return `- ${e.time} | ${e.category.toUpperCase()} | ${e.event} | Resp: ${e.owner} | SLA: ${e.slaStatus} | Evidência: ${e.evidence}`;
+        }),
+        ``,
+        `[ARGUIÇÃO REGULATÓRIA PREPARADA]`,
+        `Notificação & Protocolo: ${mesa.auditPrep.evidenciaNotificacao || 'Não preenchido'}`,
+        `Justificativa de Parada & Fato W2: ${mesa.auditPrep.justificativaParada || 'Não preenchido'}`,
+        ``,
+        `[ARTEFATO W3 — PLANO DE RECUPERAÇÃO & CONTROLES PREVENTIVOS]`,
+        ...mesa.w3.actions.map(function(a, i) {
+          return `Ação ${i + 1}: ${a.desc || '-'} | Resp: ${a.owner} | Prazo: ${a.deadline || '-'} | Aceite: ${a.acceptance || '-'} | Evidência: ${a.evidence || '-'}`;
+        }),
+        ...mesa.w3.controls.map(function(c, i) {
+          return `Controle ${i + 1}: ${c.control || '-'} | Norma: ${c.standard} | Resp: ${c.owner} | KPI: ${c.indicator || '-'}`;
+        }),
+        ``,
+        `[ASSINATURAS DO TERMO DE ACEITE DE RISCO RESIDUAL]`,
+        ...ROLES.map(function(r) {
+          const sig = mesa.w3.signatures[r.id];
+          return `- ${r.title}: ${sig && sig.signedAt ? sig.name + ' (' + sig.idCode + ') · ' + sig.signedAt : 'PENDENTE'}`;
+        }),
+        ``,
+        `[EXIT TICKET]`,
+        `${mesa.w3.exitTicket || 'Não preenchido'}`
+      ];
+
+      const content = lines.join(`\n`);
+      if (window.notebookAppApi && typeof window.notebookAppApi.triggerFileDownload === `function`) {
+        window.notebookAppApi.triggerFileDownload({
+          content: content,
+          contentType: `text/plain`,
+          encoding: `UTF-8`,
+          filename: `Dossie-WarRoom-${s.code}-T35.txt`
+        });
+        showFeedback(`Dossiê de ` + s.code + ` exportado para download.`, false);
+      } else {
+        showFeedback(`Exportação pronta. Utilize o ambiente do Notebook para baixar o arquivo.`, false);
+      }
+    }
+
+    function resetActiveMesa(btn) {
+      if (!btn) return;
+      if (btn.dataset.armed !== `true`) {
+        btn.dataset.armed = `true`;
+        btn.textContent = `Confirmar Limpeza de ${appState.activeMesa}`;
+        setTimeout(function() {
+          if (btn.dataset.armed === `true`) {
+            btn.dataset.armed = `false`;
+            btn.innerHTML = `<i data-lucide="rotate-ccw" aria-hidden="true"></i> Limpar Mesa Atual`;
+            refreshIcons();
+          }
+        }, 4000);
+        return;
+      }
+      btn.dataset.armed = `false`;
+      btn.innerHTML = `<i data-lucide="rotate-ccw" aria-hidden="true"></i> Limpar Mesa Atual`;
+      stopTimerInternal();
+      appState.mesas[appState.activeMesa] = createEmptyMesaState();
+      appState.ceoRevealed[appState.activeMesa] = false;
+      renderAll();
+      persistState();
+      showFeedback(`Dados da Mesa ` + appState.activeMesa + ` reiniciados.`, false);
+    }
+
+    function refreshIcons() {
+      if (window.lucide && typeof window.lucide.createIcons === `function`) {
+        window.lucide.createIcons();
+      }
+    }
+
+    function renderAll() {
+      renderSectorSelector();
+      renderRoles();
+      renderA0();
+      renderW1();
+      renderInjection();
+      renderTimerDisplay();
+      renderTriage();
+      renderW2Table();
+      renderAuditSection();
+      renderW3();
+      updateKPIs();
+      refreshIcons();
+    }
+
+    async function initHub() {
+      try {
+        if (window.notebookAppApi && typeof window.notebookAppApi.getAppState === `function`) {
+          const saved = await window.notebookAppApi.getAppState();
+          if (saved && saved.mesas) {
+            appState = Object.assign({}, appState, saved);
+            Object.keys(SECTORS).forEach(function(k) {
+              if (!appState.mesas[k]) appState.mesas[k] = createEmptyMesaState();
+            });
+          }
+        }
+      } catch (err) {
+        // Segue com estado inicial vazio se não houver estado salvo
+      }
+
+      renderAll();
+
+      if (window.notebookAppApi && typeof window.notebookAppApi.notifyAppReady === `function`) {
+        window.notebookAppApi.notifyAppReady();
+      }
+    }
+
+    document.addEventListener(`DOMContentLoaded`, initHub);
+  </script>
 </body>
 </html>
